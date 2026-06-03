@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>购买卡密 - 暮风藏情</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Microsoft YaHei", sans-serif; }
+        body {
+            background: linear-gradient(160deg, #ffe8f0, #ffd8e5);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .card {
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 8px 30px rgba(255,120,150,0.2);
+            text-align: center;
+        }
+        h2 { color: #d64c6e; margin-bottom: 10px; }
+        .price { font-size: 32px; color: #ff6b8b; font-weight: bold; margin: 15px 0; }
+        .input-group { margin: 20px 0; text-align: left; }
+        .input-group label { display: block; margin-bottom: 8px; color: #a05872; }
+        .input-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #ffc2d4;
+            border-radius: 12px;
+            font-size: 15px;
+            background: #fffdfb;
+            outline: none;
+        }
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #ff6b8b, #ff8da8);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .qrcode-box { margin: 20px 0; display: none; }
+        .qrcode-box img { max-width: 200px; border-radius: 12px; }
+        .tip { color: #a05872; font-size: 14px; margin-top: 10px; }
+        .result-box {
+            background: #f0fdf4;
+            border: 1px solid #86efac;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+        .card-key {
+            font-size: 22px;
+            font-weight: bold;
+            color: #166534;
+            letter-spacing: 2px;
+            word-break: break-all;
+            margin: 10px 0;
+        }
+        .copy-btn {
+            padding: 8px 20px;
+            background: #52b788;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .error { color: #ef5350; font-size: 14px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>💳 购买告白卡密</h2>
+        <p style="color: #a05872;">一次购买，一次告白，永久匿名</p>
+        <div class="price">¥1.00</div>
+        <div class="input-group">
+            <label>手机号（选填）</label>
+            <input type="text" id="phoneInput" placeholder="用于支付通知" maxlength="11">
+        </div>
+        <button class="btn" id="payBtn">立即支付</button>
+        <div class="error" id="errorMsg"></div>
+        <div class="qrcode-box" id="qrcodeBox">
+            <p style="margin-bottom: 10px;">📱 扫码支付</p>
+            <img id="qrcodeImg" src="" alt="支付二维码">
+            <div class="tip" id="statusTip">等待支付中...</div>
+        </div>
+        <div class="result-box" id="resultBox">
+            <p>✅ 支付成功！您的卡密：</p>
+            <div class="card-key" id="cardDisplay"></div>
+            <button class="copy-btn" id="copyBtn">📋 一键复制卡密</button>
+            <p class="tip" style="margin-top:10px;">请复制卡密，在告白页面“激活服务”处使用</p>
+        </div>
+    </div>
+    <script>
+        const phoneInput = document.getElementById('phoneInput');
+        const payBtn = document.getElementById('payBtn');
+        const errorMsg = document.getElementById('errorMsg');
+        const qrcodeBox = document.getElementById('qrcodeBox');
+        const qrcodeImg = document.getElementById('qrcodeImg');
+        const statusTip = document.getElementById('statusTip');
+        const resultBox = document.getElementById('resultBox');
+        const cardDisplay = document.getElementById('cardDisplay');
+        const copyBtn = document.getElementById('copyBtn');
+        let orderId = null;
+        let pollingTimer = null;
+
+        payBtn.addEventListener('click', async () => {
+            errorMsg.innerText = '';
+            const phone = phoneInput.value.trim();
+            if (phone && !/^1[3-9]\d{9}$/.test(phone)) {
+                errorMsg.innerText = '手机号格式不正确';
+                return;
+            }
+            payBtn.disabled = true;
+            payBtn.innerText = '正在创建订单...';
+            try {
+                const res = await fetch('/api/create-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone: phone || '' })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || '订单创建失败');
+                orderId = data.orderId;
+                qrcodeImg.src = data.qrcode;
+                qrcodeBox.style.display = 'block';
+                resultBox.style.display = 'none';
+                payBtn.style.display = 'none';
+                startPolling(orderId);
+            } catch (e) {
+                errorMsg.innerText = e.message;
+                payBtn.disabled = false;
+                payBtn.innerText = '立即支付';
+            }
+        });
+
+        function startPolling(orderId) {
+            pollingTimer = setInterval(async () => {
+                try {
+                    const res = await fetch(`/api/get-order-status?orderId=${orderId}`);
+                    const data = await res.json();
+                    if (data.status === 'paid') {
+                        clearInterval(pollingTimer);
+                        qrcodeBox.style.display = 'none';
+                        resultBox.style.display = 'block';
+                        cardDisplay.innerText = data.card;
+                    } else if (data.status === 'failed') {
+                        clearInterval(pollingTimer);
+                        errorMsg.innerText = '支付失败或已过期';
+                        payBtn.style.display = 'block';
+                        payBtn.disabled = false;
+                        payBtn.innerText = '重新购买';
+                        qrcodeBox.style.display = 'none';
+                    } else {
+                        statusTip.innerText = '等待支付中...';
+                    }
+                } catch (e) { console.error(e); }
+            }, 3000);
+        }
+
+        copyBtn.addEventListener('click', () => {
+            const text = cardDisplay.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                copyBtn.innerText = '✅ 已复制';
+                setTimeout(() => copyBtn.innerText = '📋 一键复制卡密', 2000);
+            }).catch(() => {
+                const range = document.createRange();
+                range.selectNode(cardDisplay);
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+                document.execCommand('copy');
+                copyBtn.innerText = '✅ 已复制';
+                setTimeout(() => copyBtn.innerText = '📋 一键复制卡密', 2000);
+            });
+        });
+
+        window.addEventListener('beforeunload', () => {
+            if (pollingTimer) clearInterval(pollingTimer);
+        });
+    </script>
+</body>
+</html>
