@@ -13,10 +13,12 @@ module.exports = async (req, res) => {
 
   // 标记对方已加入
   await redis.hset(`session:${token}`, 'joined', 'true');
-  // 设置整个hash的过期时间（续期24小时，确保从加入时开始算）
   await redis.expire(`session:${token}`, 86400);
 
-  // 返回告白内容
+  // 返回 base、agree、refuse 三个字段
   const base = await redis.hget(`session:${token}`, 'base');
-  return res.status(200).json({ base });
+  const agree = await redis.hget(`session:${token}`, 'agree');
+  const refuse = await redis.hget(`session:${token}`, 'refuse');
+
+  return res.status(200).json({ base, agree, refuse });
 };

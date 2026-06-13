@@ -2,117 +2,137 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>暮风藏情 - 收到告白</title>
     <style>
-        /* 保留原有样式，新增聊天样式同上 */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Microsoft YaHei", system-ui, sans-serif; }
+        :root { --main-pink: #ff6b8b; --light-pink: #ffc2d4; --dark-pink: #d64c6e; --success-green: #52b788; --danger-red: #ef5350; --text-gray: #444; --text-light: #a05872; --bg-blur: rgba(255,255,255,0.72); }
+        body { background: linear-gradient(160deg, #ffe8f0, #ffd8e5, #ffc2d4); min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; padding: 25px 20px 160px; position: relative; overflow-x: hidden; }
+        .float-heart { position: fixed; color: #ff87a2; font-size: 20px; pointer-events: none; z-index: 1; animation: floatUp 6s linear infinite; opacity: 0.7; }
+        @keyframes floatUp { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 20% { opacity: 0.8; } 80% { opacity: 0.7; } 100% { transform: translateY(-20px) rotate(360deg); opacity: 0; } }
+        .petal { position: fixed; width: 12px; height: 12px; background: #ffc8d8; border-radius: 50%; opacity: 0.5; pointer-events: none; animation: petalFall 12s linear infinite; z-index: 1; }
+        @keyframes petalFall { 0% { transform: translateY(-10px) rotate(0deg); opacity: 0; } 10% { opacity: 0.6; } 90% { opacity: 0.5; } 100% { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
+        .receive-card { background: var(--bg-blur); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 40px 30px; border-radius: 24px; border: 2px solid rgba(255,150,180,0.4); box-shadow: 0 8px 30px rgba(255,120,150,0.25); width: 100%; max-width: 430px; position: relative; z-index: 10; }
+        .envelope-icon { text-align: center; font-size: 36px; color: var(--main-pink); margin-bottom: 10px; }
+        .title { background: linear-gradient(120deg, var(--dark-pink), var(--main-pink)); -webkit-background-clip: text; background-clip: text; color: transparent; text-align: center; font-size: 28px; letter-spacing: 4px; margin-bottom: 12px; font-weight: 600; }
+        .msg-box { background: #fffdfb; border-radius: 18px; padding: 22px; margin-bottom: 20px; border: 1px solid rgba(255,180,200,0.5); min-height: 120px; max-height: 300px; overflow-y: auto; line-height: 1.8; white-space: pre-line; }
+        .chat-container { margin-top: 20px; }
+        .chat-messages { border:1px solid #ffc2d4; border-radius:12px; padding:10px; height:200px; overflow-y:auto; background:#fff; margin-bottom:10px; }
+        .chat-messages .msg { margin-bottom:8px; padding:6px 10px; border-radius:8px; max-width:80%; clear:both; }
+        .msg.sender { background:#ff6b8b; color:#fff; float:right; }
+        .msg.receiver { background:#f0f0f0; float:left; }
+        .chat-input-row { display:flex; gap:10px; }
+        .chat-input-row input { flex:1; padding:12px; border:1px solid #ffc2d4; border-radius:12px; outline:none; }
+        .btn { background: linear-gradient(135deg, var(--main-pink), #ff8da8); color:#fff; border:none; border-radius:12px; padding:12px 20px; cursor:pointer; font-size:15px; }
+        .btn:active { transform:scale(0.96); }
+        .loading-text { text-align:center; color:#a05872; margin-top:30px; }
     </style>
 </head>
 <body>
-    <div class="receive-card">
-        <div class="page-box active" id="loadingPage">
-            <div class="envelope-icon">💌</div>
-            <h2 class="title">加载中...</h2>
-        </div>
-        <div class="page-box" id="contentPage">
-            <div class="envelope-icon">💌</div>
-            <h2 class="title">有人向你表白</h2>
-            <div class="msg-box">
-                <div class="msg-content" id="confessionText"></div>
-            </div>
-            <div class="chat-container" id="chatContainer">
-                <div class="chat-messages" id="chatMessages"></div>
-                <div class="chat-input-row">
-                    <input type="text" class="input-box" id="chatInput" placeholder="回复消息..." maxlength="500">
-                    <button class="btn" id="sendChatBtn" style="width:auto;">发送</button>
-                </div>
+<div class="petal" style="left:12%;animation-delay:0s;"></div>
+<div class="petal" style="left:60%;animation-delay:5s;"></div>
+
+<div class="receive-card">
+    <div id="loadingView" class="loading-text">
+        <div class="envelope-icon">💌</div>
+        <h2 class="title">加载中...</h2>
+    </div>
+
+    <div id="contentView" style="display:none;">
+        <div class="envelope-icon">💌</div>
+        <h2 class="title">有人向你表白</h2>
+        <div class="msg-box" id="confessionText"></div>
+
+        <div class="chat-container" id="chatContainer">
+            <div class="chat-messages" id="chatMessages"></div>
+            <div class="chat-input-row">
+                <input type="text" id="chatInput" placeholder="说点什么吧..." maxlength="500">
+                <button class="btn" id="sendBtn">发送</button>
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('token');
-        if (!token) {
-            document.querySelector('#loadingPage .title').innerText = '无效链接';
-            return;
-        }
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
 
-        let lastMessageCount = 0;
-        let pollingTimer = null;
+    if (!token) {
+        document.getElementById('loadingView').innerHTML = '<h3>无效链接</h3>';
+        throw new Error('无效链接');
+    }
 
-        // 初始化：获取会话信息，标记自己已加入
-        async function initSession() {
-            try {
-                // 标记加入并获取会话数据
-                const res = await fetch('/api/check-join', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ token })
-                });
-                const data = await res.json();
-                if (!res.ok) throw new Error(data.error || '会话无效或已过期');
-                // 显示告白内容
-                document.getElementById('confessionText').innerText = data.base || '对方没有留下文字，但心意已传达。';
-                document.getElementById('loadingPage').classList.remove('active');
-                document.getElementById('contentPage').classList.add('active');
-                // 开始轮询
-                startPolling();
-            } catch(e) {
-                document.querySelector('#loadingPage .title').innerText = '💔 ' + e.message;
-            }
-        }
+    let lastMessageCount = 0;
+    let pollingTimer = null;
 
-        function startPolling() {
-            pollingTimer = setInterval(async () => {
-                try {
-                    const res = await fetch(`/api/get-session?token=${token}`);
-                    const data = await res.json();
-                    if (data.messages && data.messages.length > lastMessageCount) {
-                        renderMessages(data.messages);
-                        lastMessageCount = data.messages.length;
-                        document.getElementById('chatContainer').style.display = 'block';
-                    }
-                } catch(e) {
-                    clearInterval(pollingTimer);
-                    alert('会话已失效');
-                }
-            }, 3000);
-        }
-
-        function renderMessages(messages) {
-            const container = document.getElementById('chatMessages');
-            container.innerHTML = '';
-            messages.forEach(msg => {
-                const div = document.createElement('div');
-                div.className = 'msg ' + (msg.role === 'sender' ? 'sender' : 'receiver');
-                div.innerText = msg.content;
-                container.appendChild(div);
+    async function init() {
+        try {
+            const res = await fetch('/api/check-join', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ token })
             });
-            container.scrollTop = container.scrollHeight;
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || '会话无效');
+            document.getElementById('confessionText').innerText = data.base || '对方没有留下文字，但心意已传达。';
+            document.getElementById('loadingView').style.display = 'none';
+            document.getElementById('contentView').style.display = 'block';
+            startPolling();
+        } catch (e) {
+            document.getElementById('loadingView').innerHTML = `<h3>💔 ${e.message}</h3>`;
         }
+    }
 
-        document.getElementById('sendChatBtn').addEventListener('click', async () => {
-            const input = document.getElementById('chatInput');
-            const content = input.value.trim();
-            if (!content) return;
+    function startPolling() {
+        pollingTimer = setInterval(async () => {
             try {
-                await fetch('/api/send-message', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ token, role: 'receiver', content })
-                });
-                input.value = '';
-                lastMessageCount = 0;
-            } catch(e) {
-                alert('发送失败');
+                const res = await fetch(`/api/get-session?token=${token}`);
+                const data = await res.json();
+                if (data.messages && data.messages.length > lastMessageCount) {
+                    renderMessages(data.messages);
+                    lastMessageCount = data.messages.length;
+                }
+            } catch (e) {
+                clearInterval(pollingTimer);
+                console.error('轮询失败');
             }
-        });
+        }, 3000);
+    }
 
-        window.addEventListener('beforeunload', () => {
-            if (pollingTimer) clearInterval(pollingTimer);
+    function renderMessages(messages) {
+        const container = document.getElementById('chatMessages');
+        container.innerHTML = '';
+        messages.forEach(msg => {
+            const div = document.createElement('div');
+            div.className = 'msg ' + (msg.role === 'sender' ? 'sender' : 'receiver');
+            div.innerText = msg.content;
+            container.appendChild(div);
         });
+        container.scrollTop = container.scrollHeight;
+    }
 
-        initSession();
-    </script>
+    document.getElementById('sendBtn').addEventListener('click', async () => {
+        const input = document.getElementById('chatInput');
+        const content = input.value.trim();
+        if (!content) return;
+        try {
+            await fetch('/api/send-message', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ token, role: 'receiver', content })
+            });
+            input.value = '';
+            lastMessageCount = 0;
+        } catch (e) {
+            alert('发送失败');
+        }
+    });
+
+    window.addEventListener('beforeunload', () => {
+        if (pollingTimer) clearInterval(pollingTimer);
+    });
+
+    init();
+</script>
 </body>
 </html>
