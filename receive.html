@@ -3,136 +3,763 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>暮风藏情 - 收到告白</title>
+    <title>鍖垮悕钘忔儏 - 鏀跺埌鍛婄櫧</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Microsoft YaHei", system-ui, sans-serif; }
-        :root { --main-pink: #ff6b8b; --light-pink: #ffc2d4; --dark-pink: #d64c6e; --success-green: #52b788; --danger-red: #ef5350; --text-gray: #444; --text-light: #a05872; --bg-blur: rgba(255,255,255,0.72); }
-        body { background: linear-gradient(160deg, #ffe8f0, #ffd8e5, #ffc2d4); min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; padding: 25px 20px 160px; position: relative; overflow-x: hidden; }
-        .float-heart { position: fixed; color: #ff87a2; font-size: 20px; pointer-events: none; z-index: 1; animation: floatUp 6s linear infinite; opacity: 0.7; }
-        @keyframes floatUp { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 20% { opacity: 0.8; } 80% { opacity: 0.7; } 100% { transform: translateY(-20px) rotate(360deg); opacity: 0; } }
-        .petal { position: fixed; width: 12px; height: 12px; background: #ffc8d8; border-radius: 50%; opacity: 0.5; pointer-events: none; animation: petalFall 12s linear infinite; z-index: 1; }
-        @keyframes petalFall { 0% { transform: translateY(-10px) rotate(0deg); opacity: 0; } 10% { opacity: 0.6; } 90% { opacity: 0.5; } 100% { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
-        .receive-card { background: var(--bg-blur); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 40px 30px; border-radius: 24px; border: 2px solid rgba(255,150,180,0.4); box-shadow: 0 8px 30px rgba(255,120,150,0.25); width: 100%; max-width: 430px; position: relative; z-index: 10; }
-        .envelope-icon { text-align: center; font-size: 36px; color: var(--main-pink); margin-bottom: 10px; }
-        .title { background: linear-gradient(120deg, var(--dark-pink), var(--main-pink)); -webkit-background-clip: text; background-clip: text; color: transparent; text-align: center; font-size: 28px; letter-spacing: 4px; margin-bottom: 12px; font-weight: 600; }
-        .msg-box { background: #fffdfb; border-radius: 18px; padding: 22px; margin-bottom: 20px; border: 1px solid rgba(255,180,200,0.5); min-height: 120px; max-height: 300px; overflow-y: auto; line-height: 1.8; white-space: pre-line; }
-        .chat-container { margin-top: 20px; }
-        .chat-messages { border:1px solid #ffc2d4; border-radius:12px; padding:10px; height:200px; overflow-y:auto; background:#fff; margin-bottom:10px; }
-        .chat-messages .msg { margin-bottom:8px; padding:6px 10px; border-radius:8px; max-width:80%; clear:both; }
-        .msg.sender { background:#ff6b8b; color:#fff; float:right; }
-        .msg.receiver { background:#f0f0f0; float:left; }
-        .chat-input-row { display:flex; gap:10px; }
-        .chat-input-row input { flex:1; padding:12px; border:1px solid #ffc2d4; border-radius:12px; outline:none; }
-        .btn { background: linear-gradient(135deg, var(--main-pink), #ff8da8); color:#fff; border:none; border-radius:12px; padding:12px 20px; cursor:pointer; font-size:15px; }
-        .btn:active { transform:scale(0.96); }
-        .loading-text { text-align:center; color:#a05872; margin-top:30px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", system-ui, sans-serif;
+        }
+
+        :root {
+            --main-pink: #ff6b8b;
+            --light-pink: #ffc2d4;
+            --dark-pink: #d64c6e;
+            --success-green: #52b788;
+            --danger-red: #ef5350;
+            --text-gray: #444;
+            --text-light: #a05872;
+            --bg-blur: rgba(255, 255, 255, 0.72);
+        }
+
+        body {
+            background: linear-gradient(160deg, #ffe8f0, #ffd8e5, #ffc2d4);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 25px 20px 160px;
+            position: relative;
+            overflow: visible;
+        }
+
+        /* 椋樻诞鐖卞績 */
+        .float-heart {
+            position: fixed;
+            color: #ff87a2;
+            font-size: 20px;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatUp 6s linear infinite;
+            opacity: 0.7;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.7; }
+            100% { transform: translateY(-20px) rotate(360deg); opacity: 0; }
+        }
+
+        .petal {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            background: #ffc8d8;
+            border-radius: 50%;
+            opacity: 0.5;
+            pointer-events: none;
+            animation: petalFall 12s linear infinite;
+            z-index: 1;
+        }
+        @keyframes petalFall {
+            0% { transform: translateY(-10px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .light-dot {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #ffb8cc;
+            pointer-events: none;
+            animation: twinkle 3s ease-in-out infinite;
+            z-index: 1;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 0.8; transform: scale(1.2); }
+        }
+
+        .receive-card {
+            background: var(--bg-blur);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 40px 30px;
+            border-radius: 24px;
+            border: 2px solid rgba(255, 150, 180, 0.4);
+            box-shadow: 0 8px 30px rgba(255, 120, 150, 0.25);
+            width: 100%;
+            max-width: 430px;
+            position: relative;
+            z-index: 10;
+            animation: cardFadeIn 1s ease-out forwards;
+        }
+        @keyframes cardFadeIn {
+            from { opacity: 0; transform: translateY(30px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .envelope-icon {
+            text-align: center;
+            font-size: 36px;
+            color: var(--main-pink);
+            margin-bottom: 10px;
+            animation: beat 1.5s ease-in-out infinite;
+        }
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .title {
+            background: linear-gradient(120deg, var(--dark-pink), var(--main-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: center;
+            font-size: 28px;
+            letter-spacing: 4px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .msg-box {
+            background: #fffdfb;
+            border-radius: 18px;
+            padding: 22px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 180, 200, 0.5);
+            min-height: 120px;
+            max-height: 300px;
+            overflow-y: auto;
+            line-height: 1.8;
+            white-space: pre-line;
+            box-shadow: 0 4px 16px rgba(255, 180, 200, 0.18);
+            transition: transform 0.3s ease;
+            background-image: linear-gradient(#ffd6e0 1px, transparent 1px);
+            background-size: 100% 30px;
+            background-position: 0 bottom;
+            padding-bottom: 40px;
+        }
+        .msg-box:hover {
+            transform: translateY(-3px);
+        }
+        .msg-box::-webkit-scrollbar {
+            width: 4px;
+        }
+        .msg-box::-webkit-scrollbar-thumb {
+            background: #ff6b8b;
+            border-radius: 2px;
+        }
+
+        .decision-btns {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            position: relative;
+            min-height: 60px;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .btn {
+            padding: 14px;
+            border: none;
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            flex: 1;
+        }
+        .btn:active {
+            transform: scale(0.96);
+        }
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+            transition: left 0.6s ease;
+        }
+        .btn:hover::after {
+            left: 100%;
+        }
+
+        .btn-agree {
+            background: linear-gradient(135deg, var(--main-pink), #ff8da8);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(255, 107, 139, 0.3);
+            position: relative;
+            z-index: 20;
+        }
+        .btn-agree.center-mode {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 45%;
+            max-width: 160px;
+            z-index: 20;
+        }
+
+        .btn-refuse {
+            background: #f0f0f0;
+            color: #888;
+            border: 1px solid #ddd !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 50;  /* 楂樹簬鍚屾剰鎸夐挳锛岄槻姝㈣瀹屽叏閬尅 */
+        }
+        .btn-refuse:hover {
+            background: #e8e8e8;
+        }
+
+        .reply-wrap {
+            margin-bottom: 20px;
+        }
+        .quote-select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid rgba(255, 180, 200, 0.6);
+            border-radius: 14px;
+            font-size: 14px;
+            color: var(--text-gray);
+            background: #fffdfb;
+            outline: none;
+            margin-bottom: 12px;
+        }
+        .reply-input {
+            width: 100%;
+            min-height: 120px;
+            max-height: 200px;
+            padding: 16px 18px;
+            border: 1px solid rgba(255, 180, 200, 0.6);
+            border-radius: 16px;
+            font-size: 15px;
+            background: #fffdfb;
+            outline: none;
+            resize: none;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+            line-height: 30px;
+            background-image: linear-gradient(#ffd6e0 1px, transparent 1px);
+            background-size: 100% 30px;
+            background-position: 0 bottom;
+            padding-bottom: 40px;
+        }
+        .reply-input::-webkit-scrollbar {
+            width: 4px;
+        }
+        .reply-input::-webkit-scrollbar-thumb {
+            background: #ff6b8b;
+            border-radius: 2px;
+        }
+        .reply-input:focus {
+            border-color: var(--main-pink);
+            box-shadow: 0 0 0 3px rgba(255, 107, 139, 0.25);
+        }
+        .word-info {
+            text-align: right;
+            font-size: 12px;
+            color: #888;
+            margin-top: 8px;
+        }
+        .word-info.warn {
+            color: var(--danger-red);
+        }
+
+        .btn-send-reply {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--main-pink), #ff8da8);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(255, 107, 139, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-send-reply:active {
+            transform: scale(0.96);
+        }
+        .btn-send-reply:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        .btn-send-reply::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+            transition: left 0.6s ease;
+        }
+        .btn-send-reply:hover::after {
+            left: 100%;
+        }
+
+        .chat-container {
+            margin-top: 20px;
+        }
+        .chat-messages {
+            border: 1px solid rgba(255, 180, 200, 0.5);
+            border-radius: 16px;
+            padding: 16px;
+            height: 220px;
+            overflow-y: auto;
+            background: #fffdfb;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 16px rgba(255, 180, 200, 0.15);
+        }
+        .chat-messages .msg {
+            margin-bottom: 10px;
+            padding: 8px 14px;
+            border-radius: 14px;
+            max-width: 80%;
+            clear: both;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        .msg.sender {
+            background: linear-gradient(135deg, #ff6b8b, #ff8da8);
+            color: #fff;
+            float: right;
+        }
+        .msg.receiver {
+            background: #f0f0f0;
+            float: left;
+            color: #444;
+        }
+        .chat-input-row {
+            display: flex;
+            gap: 10px;
+        }
+        .chat-input-row input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid rgba(255, 180, 200, 0.5);
+            border-radius: 14px;
+            outline: none;
+            font-size: 14px;
+            background: #fffdfb;
+            transition: all 0.3s ease;
+        }
+        .chat-input-row input:focus {
+            border-color: var(--main-pink);
+            box-shadow: 0 0 0 3px rgba(255, 107, 139, 0.25);
+        }
+        .btn-send {
+            background: linear-gradient(135deg, var(--main-pink), #ff8da8);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            padding: 12px 24px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-send:active {
+            transform: scale(0.96);
+        }
+        .btn-send::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+            transition: left 0.6s ease;
+        }
+        .btn-send:hover::after {
+            left: 100%;
+        }
+
+        .heart {
+            position: fixed;
+            pointer-events: none;
+            color: var(--main-pink);
+            font-size: 24px;
+            animation: heartFly 1.4s ease-out forwards;
+            z-index: 999;
+        }
+        @keyframes heartFly {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-140px) scale(1.6); }
+        }
+        .heart-break {
+            position: fixed;
+            pointer-events: none;
+            color: var(--danger-red);
+            font-size: 24px;
+            animation: heartBreak 1.2s ease-out forwards;
+            z-index: 999;
+        }
+        @keyframes heartBreak {
+            0% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+            50% { opacity: 0.8; transform: translateY(-60px) rotate(15deg) scale(1.2); }
+            100% { opacity: 0; transform: translateY(-120px) rotate(30deg) scale(0.6); }
+        }
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: rotate 0.8s linear infinite;
+        }
+        @keyframes rotate {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
-<div class="petal" style="left:12%;animation-delay:0s;"></div>
-<div class="petal" style="left:60%;animation-delay:5s;"></div>
+    <div class="petal" style="left:12%;animation-delay:0s;"></div>
+    <div class="petal" style="left:60%;animation-delay:5s;"></div>
+    <div class="light-dot" style="top:25%;left:18%;"></div>
+    <div class="light-dot" style="top:60%;right:12%;animation-delay:1.5s;"></div>
 
-<div class="receive-card">
-    <div id="loadingView" class="loading-text">
-        <div class="envelope-icon">💌</div>
-        <h2 class="title">加载中...</h2>
-    </div>
+    <div class="receive-card">
+        <div id="loadingView" style="text-align:center; color: #a05872; padding: 30px 0;">
+            <div class="envelope-icon">馃拰</div>
+            <h2 class="title">鍔犺浇涓?..</h2>
+            <p style="margin-top:12px; color:var(--text-light);">姝ｅ湪璇诲彇浣犵殑淇′欢...</p>
+        </div>
 
-    <div id="contentView" style="display:none;">
-        <div class="envelope-icon">💌</div>
-        <h2 class="title">有人向你表白</h2>
-        <div class="msg-box" id="confessionText"></div>
+        <div id="contentView" style="display:none;">
+            <div class="envelope-icon">馃拰</div>
+            <h2 class="title">鏈変汉鍚戜綘琛ㄧ櫧</h2>
+            <div class="msg-box" id="confessionText"></div>
 
-        <div class="chat-container" id="chatContainer">
-            <div class="chat-messages" id="chatMessages"></div>
-            <div class="chat-input-row">
-                <input type="text" id="chatInput" placeholder="说点什么吧..." maxlength="500">
-                <button class="btn" id="sendBtn">发送</button>
+            <div id="decisionArea">
+                <div class="decision-btns" id="btnGroup">
+                    <button class="btn btn-agree" id="agreeBtn">鉂わ笍 鎺ュ彈琛ㄧ櫧</button>
+                    <button class="btn btn-refuse" id="refuseBtn">馃挃 濠夋嫆</button>
+                </div>
+
+                <div class="reply-wrap" id="replyBox" style="display:none;">
+                    <select id="quoteSelect" class="quote-select">
+                        <option value="">鈥斺€?閫夋嫨涓€鍙ュ洖淇¤褰?鈥斺€?/option>
+                        <optgroup label="鉁?鍚屾剰蹇冩儏锛?0娆撅級">
+                            <option value="钀芥棩娌夋汉浜庢鑹茬殑娴凤紝鏅氶娌﹂櫡浜庤丹璇氱殑鐖便€傚綋鎴戠湅鍒拌繖浠藉績鎰忔椂锛屽唴蹇冩弧鏄鍠滀笌鎮稿姩锛屽師鏉ュ弻鍚戝璧寸殑鎰熻濡傛缇庡ソ銆傛极闀垮瞾鏈堥噷锛岃兘閬囪褰兼鏄毦寰楃殑缂樺垎锛屽線鍚庢垜鎰挎剰鍜屼綘涓€璧锋劅鍙楀洓瀛ｆ祦杞紝鍒嗕韩鐢熸椿閲屾墍鏈夌粏纰庣殑缇庡ソ锛屾妸姣忎竴娈靛钩鍑℃椂鍏夐兘杩囧緱娓╂煍鍙堟氮婕€?>1. 钀芥棩鏅氶</option>
+                            <option value="浣犱粠涓嶆槸鎴戞潈琛″埄寮婁箣鍚庡仛鍑虹殑閫夋嫨锛岃€屾槸鍒濊鏃舵€︾劧蹇冨姩锛屾繁鎬濈啛铏戝悗渚濇棫鎯宠鐝嶆儨鐨勪汉銆傝繖浠藉績鎰忔垜鍧︾劧鏀朵笅锛屽線鍚庣殑璺笇鏈涜兘涓庝綘骞惰偐鍚岃銆備笉鐢ㄧ籂缁撳墠璺浣曪紝鍙韬竟鏄綘锛岄闆ㄤ篃濂斤紝鏅村ぉ涔熺舰锛屾垜閮芥弧蹇冩鍠滐紝璁ょ湡瀵瑰緟杩欎唤鏉ヤ箣涓嶆槗鐨勬儏鎰€?>2. 鎬︾劧蹇冨姩</option>
+                            <option value="灞遍噹涓囬噷锛屾槦娌虫极婕紝涓栭棿椋庢櫙鍗冨崈涓囷紝鑰屼綘鏄垜钘忓湪蹇冨簳鏈€娓╂煍鐨勬氮婕€傚緢寮€蹇冭兘澶熸敹鍒颁綘鐨勫憡鐧斤紝涔熸伆濂芥垜瀵逛綘鏈夌潃鍚屾牱鐨勫績鎰忋€傚線鍚庣殑鏃ュ瓙锛屾効鎴戜滑褰兼闄即锛屽郊姝ゅ寘瀹癸紝涓€璧峰璧存洿杩滅殑杩滄柟锛岃娓╂煍涓庡亸鐖憋紝涓€鐩村仠鐣欏湪褰兼韬梺銆?>3. 灞遍噹娴极</option>
+                            <option value="寰€鍚庢湞澶曪紝涓夐鍥涘锛岀粏姘撮暱娴佺殑鏃ュ父鏄綘锛屾煷绫虫补鐩愮殑鐑熺伀涔熸槸浣犮€傛垜鎰挎剰鎺ュ彈杩欎唤鐪熸寶鐨勫枩娆紝浠庢鐢熸椿澶氫簡涓€浠芥湡寰呬笌鐢滆湝銆備笉蹇呰桨杞扮儓鐑堬紝鍙効宀佸瞾骞村勾鐩稿畧鐩镐即锛屾妸绠€鍗曠殑鏃ュ瓙杩囧緱娓╅Θ韪忓疄锛岃鐖辨剰鍦ㄦ湞澶曠浉澶勪腑鎱㈡參娌夋穩銆佹剤鍙戞祿鍘氥€?>4. 浣欑敓鏄綘</option>
+                            <option value="浠庡墠鎬昏寰椾汉鐢熸梾閫斿钩娣℃棤濂囷紝鐩村埌閬囪浣犳墠鏄庣櫧锛屽師鏉ュ揩涔愬彲浠ュ姝ょ畝鍗曘€備綘鐨勫嚭鐜扮収浜簡鎴戠殑鐢熸椿锛屼篃璁╁钩鍑＄殑鏃ュ瓙鍏呮弧鐢滃害銆傛垜寰堝紑蹇冨洖搴斾綘鐨勫績鎰忥紝甯屾湜鎴戜滑鑳界弽鎯滆繖浠界浉閬囷紝鍦ㄥ線鍚庢椂鍏夐噷浜掔浉娓╂殩锛屾妸鎵€鏈夌編濂戒笌娓╂煍锛屽敖鏁拌禒浜堝鏂广€?>5. 鐢滅殑寰堥暱</option>
+                            <option value="蹇冭剰澶╃敓鍋忓悜宸︿晶锛屽氨鍍忔垜瀵逛綘鐨勫亸鐖变粠鏉ラ兘鑷劧鑰岀劧锛屾鏃犵紭鐢便€傛敹鍒颁綘鐨勫憡鐧斤紝鎴戝績閲屾弧鏄鍠滐紝鍐冲畾鍧︾劧鎺ュ彈杩欎唤鍠滄銆傚線鍚庢垜浼氭槑鐩紶鑳嗗湴鍋忓悜浣狅紝璁ょ湡瀹堟姢杩欎唤鎰熸儏锛屼竴璧疯蛋杩囨湞鏈濇毊鏆紝璁╃埍鎰忚疮绌跨敓娲荤殑姣忎竴涓钀姐€?>6. 瀵逛綘鍋忓績</option>
+                            <option value="閬囪浣犵殑姣忎竴澶╅兘鏍煎娓╂煍锛屽摢鎬曞彧鏄繋闈㈠惞鏉ョ殑寰锛岄兘鍍忔槸灏嗕竴鏁翠釜鏄庡獨鐨勬槬澶╂嫢鍏ユ€€涓€傛垜鍗佸垎鐝嶆儨杩欎唤蹇冩剰锛屼篃鎰挎剰鍜屼綘鎼烘墜鍚岃銆傛効鎴戜滑甯︾潃杩欎唤鐑勘涓庢鍠滐紝鎱㈡參鐩稿銆佹參鎱簡瑙ｏ紝鍦ㄥ瞾鏈堥噷鐩稿畧锛岃缇庡ソ涓€鐩村欢缁笅鍘汇€?>7. 鎷ュ叆鏄ュぉ</option>
+                            <option value="骞虫棩閲屾€绘湁蹇欎笉瀹岀殑鐞愪簨锛屽彲鍙鎯冲埌浣狅紝灏卞繊涓嶄綇鍋滀笅鑴氭鎯冲鑱婂嚑鍙ャ€備綘鐨勫績鎰忔垜瀹屽叏鏀朵笅锛岃兘澶熻浣犲枩娆㈡槸涓€浠跺緢骞哥鐨勪簨銆傚線鍚庨棽鏆囦箣鏃舵垜浠彲浠ョ晠璋堝績浜嬶紝鍒嗕韩鍠滄€掑搥涔愶紝璁╁郊姝ゆ垚涓虹敓娲婚噷鏈€璐村績鐨勯櫔浼达紝娓╂殩婕暱宀佹湀銆?>8. 鍙兂鑱婁綘</option>
+                            <option value="鐖辨剰涓嶅繀鏃舵椂鎸傚湪鍢磋竟锛屽嵈浼氳棌鍦ㄦ棩甯哥殑涓€鐐逛竴婊撮噷锛屾€濆康涔熶細浼撮殢鏈濇毊宀佸瞾涓嶆伅銆傚浠婃垜鍥炲簲浣犵殑蹇冩剰锛屾弧蹇冩弧鐪肩殕鏄浣犵殑鏈熻涓庢俯鏌斻€傛効鎴戜滑甯︾潃鐪熻瘹涓庣湡蹇冪浉澶勶紝褰兼鐞嗚В銆佸郊姝や綋璋咃紝璁╄繖浠芥劅鎯呭畨绋抽暱涔咃紝涓嶈礋鐩搁亣锛屼笉璐熺湡蹇冦€?>9. 婊″績鏄綘</option>
+                            <option value="琚汉璁ょ湡鍠滄鐨勬劅瑙夋牸澶栨俯鏆栵紝浠夸經涓栭棿鎵€鏈夌殑娓╂煍涓庡杽鎰忥紝閮界悍绾疯惤鍦ㄤ簡鑷繁韬笂銆傛垜娆ｇ劧鎺ュ彈浣犵殑鍛婄櫧锛屾劅鎭╄繖鍦虹編濂界殑鐩搁亣銆傛湭鏉ョ殑璺紝甯屾湜鎴戜滑鎼烘墜鐩镐即锛岀敤蹇冨寰呭郊姝わ紝鍦ㄥ钩娣＄敓娲婚噷鍒堕€犳儕鍠滐紝鍦ㄦ极闀挎椂鍏夐噷瀹堟姢杩欎唤绾补鐨勭埍鎰忋€?>10. 娓╂煍钀芥垜</option>
+                        </optgroup>
+                        <optgroup label="鉂?鎷掔粷 & 璁ら敊浜猴紙10娆撅級">
+                            <option value="浠旂粏鐪嬭繃浣犵殑鐣欒█锛屾墠鍙戠幇鍘熸潵鏄竴鍦鸿浼氾紝寰堟姳姝夛紝浣犲苟涓嶆槸鎴戞兂瑕佸€捐瘔蹇冮噷鐨勯偅涓汉銆傝繖浠界湡鎸氱殑鎯呮劅鍗佸垎鐝嶈吹锛岃繕璇蜂綘濂藉ソ鐣欑粰鐪熸瀵圭殑浜恒€備篃绁濅綘鏃╂棩閬囪蹇冩剰鐩搁€氱殑浜猴紝鎷ユ湁涓€娈靛渾婊＄編濂界殑缂樺垎锛屼笉琚仐鎲炬墦鎵帮紝宀佸瞾骞冲畨椤洪亗銆?>11. 璁ら敊浜轰簡</option>
+                            <option value="浣犳槸涓€涓緢浼樼銆佸緢娓╂煍鐨勪汉锛屽€煎緱琚ソ濂藉亸鐖变笌鐝嶆儨銆傚彧鏄緢閬楁喚锛屾垜鐨勫績閲屾棭宸蹭綇杩涗簡鍒汉锛屽疄鍦ㄦ棤娉曞洖搴斾綘鐨勫績鎰忋€傚笇鏈涗綘涓嶈鍥犱负杩欐鐨勭粨鏋滄劅鍒板け钀斤紝鏀舵嬀濂藉績鎯呯户缁悜鍓嶏紝涓€瀹氫細鍦ㄥ墠璺亣瑙侀偅涓弧蹇冮兘鏄綘鐨勪汉銆?>12. 蹇冩湁鎵€灞?/option>
+                            <option value="鎰熻阿浣犲潶璇氳鍑哄唴蹇冪殑鎯虫硶锛屽彧鏄枱閰岃涔咃紝鎴戣寰楁垜浠洿閫傚悎浠ユ湅鍙嬬殑韬唤鐩稿銆傝繘涓€姝ヤ細鏄惧緱灏村艾锛岄€€涓€姝ュ張鑸嶄笉寰楄繖浠芥儏璋婏紝缁存寔鐜扮姸渚挎槸鏈€濂界殑閫夋嫨銆傛効鎴戜滑閮借兘瀹堜綇杩欎唤绠€鍗曠殑缇庡ソ锛屽悇鑷畨濂斤紝鍦ㄤ笉鍚岀殑杞ㄨ抗閲岄亣瑙佸睘浜庤嚜宸辩殑骞哥銆?>13. 閫傚悎鏈嬪弸</option>
+                            <option value="鍗佸垎鎰熻阿浣犳効鎰忔妸蹇冨簳鐨勫枩娆㈣缁欐垜鍚紝杩欎唤鍕囨皵涓庣湡璇氳鎴戝緢鎰熷姩銆備絾鐩墠鎴戞殏鏃舵病鏈夊紑鍚竴娈垫亱鎯呯殑鎯虫硶锛屼笉鎯宠€借浣犵殑鏃堕棿涓庣湡蹇冦€傚笇鏈涗綘鑳藉鐞嗚В锛屼篃鎰夸綘淇濇寔鐑勘锛屽璧村睘浜庤嚜宸辩殑缇庡ソ锛屾棭鏃ユ敹鑾峰弻鍚戠殑鍠滄銆?>14. 涓嶆兂鎭嬬埍</option>
+                            <option value="璁ょ湡鐪嬪畬浣犵殑鍛婄櫧锛屾€濋噺鍐嶄笁锛岃繕鏄喅瀹氬潶璇氱浉寰呫€傚緢鎶辨瓑锛屾垜瀵逛綘濮嬬粓娌℃湁蹇冨姩鐨勬劅瑙夛紝涓嶆効鍕夊己鑷繁锛屼篃涓嶆兂娆洪獥浣犵殑鐪熷績銆備綘寰堝ソ锛屽彧鏄垜浠苟涓嶅悎閫傦紝甯屾湜浣犳棭鏃ユ斁涓嬶紝缁х画鍚戝墠锛岄亣瑙侀偅涓兘璁╀綘婊″績娆㈠枩鐨勪汉銆?>15. 娌℃湁蹇冨姩</option>
+                            <option value="寰堥仐鎲炬病鑳藉洖搴斾綘鐨勫績鎰忥紝杩欏苟涓嶆槸鍥犱负浣犱笉澶熶紭绉€锛屽彧鏄汉涓庝汉涔嬮棿璁茬┒缂樺垎涓庡鍚堬紝鎴戜滑鎭板ソ涓嶆槸褰兼鍚堥€傜殑閭ｄ釜浜恒€傛劅璋綘鐨勯潚鐫愪笌鍧﹁瘹锛屾効浣犱笉蹇呯籂缁撹繃寰€锛屽甫鐫€鍠勬剰缁х画鍓嶈锛屽湪寰€鍚庣殑鏃ュ瓙閲岄亣瑙佺伒榄傚鍚堢殑鐩镐即涔嬩汉銆?>16. 鍒氬ソ涓嶅悎閫?/option>
+                            <option value="鎰熻阿浣犻紦璧峰媷姘旇〃杈惧績鎰忥紝鎴戜篃璁ょ湡鎬濊€冧簡寰堜箙銆傛垜鎴栬鍦ㄦ梺浜虹溂涓繕绠椾笉閿欙紝浣嗗苟涓嶆槸浣犲績涓墍鏈熷緟鐨勬ā鏍枫€傚疄鍦ㄦ姳姝夋棤娉曟帴鍙楄繖浠藉枩娆紝甯屾湜浣犺兘閬囪鐪熸濂戝悎銆佽兘涓庝綘鍚岄鍚岃鐨勪汉锛屾嫢鏈夋弧蹇冩鍠滅殑鐢熸椿銆?>17. 涓嶆槸閭ｇ濂?/option>
+                            <option value="浣犵湡璇氬張鐑儓锛屽€煎緱涓栭棿鏈€濂界殑鍋忕埍涓庨櫔浼达紝鑰屾垜娌″姙娉曠粰浣犲悓绛夌殑鍥炲簲锛屾墍浠ヤ笉鎰胯€借浣犲墠琛屻€傜湡蹇冪鎰夸綘鏀句笅杩欎唤鎵у康锛屽幓閬囪閭ｄ釜鎰挎剰涓轰綘濂旇荡銆佷篃鑳芥帴浣忎綘鎵€鏈夋俯鏌旂殑浜猴紝鎰夸綘鐨勬瘡浠藉枩娆紝閮借兘寰楀埌鍦嗘弧鍥炲簲銆?>18. 鍊煎緱鏇村ソ</option>
+                            <option value="璋㈣阿浣犱笉椤句竴鍒囧璧磋€屾潵鐨勫枩娆紝鍙垜缁堢┒涓嶆槸閭ｄ釜鍊煎緱浣犲鍔涘悜鍓嶇殑浜恒€備笉鎯宠浣犵户缁湪鎴戣韩涓婅€楄垂蹇冩€濅笌鎯呯华锛屾墍浠ュ潶鐒惰鍑烘兂娉曘€傛効浣犲強鏃惰浆韬紝鍘诲線灞炰簬鑷繁鐨勮繙鏂癸紝閬囪閭ｄ釜鎰挎剰鍜屼綘鍙屽悜濂旇荡銆佺浉瀹堜竴鐢熺殑浜恒€?>19. 涓嶅€煎緱鐙傚</option>
+                            <option value="鎵胯挋浣犵殑鍘氱埍涓庣湡蹇冿紝鎴戝績鎬€鎰熸縺銆傚彧鏄鍒绘垜鐨勫唴蹇冩殏鏃朵笉鎯虫帴绾虫柊鐨勬劅鎯咃紝蹇冮棬鏆備笖鍏抽棴銆傝繕鏈涗綘鑳藉璋呰В锛屼笉蹇呬负姝ゅ仠鐣欍€傚北姘翠竴绋嬶紝鏈夊垢鐩搁亣锛屾効鎴戜滑寰€鍚庡悇鑷畨濂斤紝鍓嶈矾鍏夋槑锛岄兘鑳藉緱鍋挎墍鎰匡紝鎷ユ姳灞炰簬鑷繁鐨勫垢绂忋€?>20. 蹇冨凡鎵撶儕</option>
+                        </optgroup>
+                    </select>
+                    <textarea class="reply-input" id="replyContent" placeholder="鍦ㄦ涔﹀啓鍥炰俊..." maxlength="480"></textarea>
+                    <div class="word-info" id="wordInfo">0 / 1000 (0%)</div>
+                    <button class="btn-send-reply" id="sendReplyBtn">馃拰 瀵勫嚭鍥炰俊</button>
+                </div>
+            </div>
+
+            <div class="chat-container" id="chatContainer" style="display:none;">
+                <div class="chat-messages" id="chatMessages"></div>
+                <div class="chat-input-row">
+                    <input type="text" id="chatInput" placeholder="璇寸偣浠€涔堝惂..." maxlength="500">
+                    <button class="btn-send" id="sendBtn">鍙戦€?/button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
-
-    if (!token) {
-        document.getElementById('loadingView').innerHTML = '<h3>无效链接</h3>';
-        throw new Error('无效链接');
-    }
-
-    let lastMessageCount = 0;
-    let pollingTimer = null;
-
-    async function init() {
-        try {
-            const res = await fetch('/api/check-join', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ token })
-            });
-            const data = await res.json();
-            if (!res.ok) throw new Error(data.error || '会话无效');
-            document.getElementById('confessionText').innerText = data.base || '对方没有留下文字，但心意已传达。';
-            document.getElementById('loadingView').style.display = 'none';
-            document.getElementById('contentView').style.display = 'block';
-            startPolling();
-        } catch (e) {
-            document.getElementById('loadingView').innerHTML = `<h3>💔 ${e.message}</h3>`;
+    <script>
+        // 鑳屾櫙鐗规晥锛氶娴埍蹇?
+        function createFloatHeart() {
+            const heart = document.createElement("div");
+            heart.className = "float-heart";
+            heart.innerText = "鉂?;
+            heart.style.left = Math.random() * 100 + "%";
+            heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 8000);
         }
-    }
+        setInterval(createFloatHeart, 800);
 
-    function startPolling() {
-        pollingTimer = setInterval(async () => {
-            try {
-                const res = await fetch(`/api/get-session?token=${token}`);
-                const data = await res.json();
-                if (data.messages && data.messages.length > lastMessageCount) {
-                    renderMessages(data.messages);
-                    lastMessageCount = data.messages.length;
-                }
-            } catch (e) {
-                clearInterval(pollingTimer);
-                console.error('轮询失败');
+        // ========== 鍚庣 API 浜や簰 ==========
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+
+        if (!token) {
+            document.getElementById('loadingView').innerHTML = '<h3 style="color:var(--danger-red);">💔</h3><p id="errorMsg2" style="margin-top:12px;color:var(--text-light);"></p>';
+                document.getElementById('errorMsg2').innerText = e.message
+            throw new Error('鏃犳晥閾炬帴');
+        }
+
+        const MAX_WORD = 480;
+        let lastMessageCount = 0;
+        let pollingTimer = null;
+        let chosen = false;
+        let refuseClickNum = 0;
+        const needClick = 4;
+        let agreeScale = 1;
+        let refuseScale = 1;
+        const AGREE_SCALE_STEP = 0.35;
+        const REFUSE_SCALE_STEP = 0.18;
+
+        const agreeBtn = document.getElementById('agreeBtn');
+        const refuseBtn = document.getElementById('refuseBtn');
+        const replyBox = document.getElementById('replyBox');
+        const replyContent = document.getElementById('replyContent');
+        const sendReplyBtn = document.getElementById('sendReplyBtn');
+        const quoteSelect = document.getElementById('quoteSelect');
+        const wordInfo = document.getElementById('wordInfo');
+        const chatContainer = document.getElementById('chatContainer');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const btnGroup = document.getElementById('btnGroup');
+        const decisionArea = document.getElementById('decisionArea');
+        const confessionText = document.getElementById('confessionText');
+
+        // 璇綍濉厖
+        quoteSelect.addEventListener('change', function() {
+            const val = this.value;
+            if (val) {
+                replyContent.value = val;
+                updateWordCount();
             }
-        }, 3000);
-    }
-
-    function renderMessages(messages) {
-        const container = document.getElementById('chatMessages');
-        container.innerHTML = '';
-        messages.forEach(msg => {
-            const div = document.createElement('div');
-            div.className = 'msg ' + (msg.role === 'sender' ? 'sender' : 'receiver');
-            div.innerText = msg.content;
-            container.appendChild(div);
         });
-        container.scrollTop = container.scrollHeight;
-    }
 
-    document.getElementById('sendBtn').addEventListener('click', async () => {
-        const input = document.getElementById('chatInput');
-        const content = input.value.trim();
-        if (!content) return;
-        try {
-            await fetch('/api/send-message', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ token, role: 'receiver', content })
-            });
-            input.value = '';
-            lastMessageCount = 0;
-        } catch (e) {
-            alert('发送失败');
+        function updateWordCount() {
+            let len = replyContent.value.length;
+            let percent = Math.min(Math.round(len / MAX_WORD * 100), 100);
+            wordInfo.innerText = `${len} / ${MAX_WORD} (${percent}%)`;
+            wordInfo.className = 'word-info' + (len >= 430 ? ' warn' : '');
         }
-    });
+        replyContent.addEventListener('input', updateWordCount);
 
-    window.addEventListener('beforeunload', () => {
-        if (pollingTimer) clearInterval(pollingTimer);
-    });
+        function createHeart(e) {
+            for (let i = 0; i < 6; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerText = '鉂?;
+                heart.style.left = e.clientX + 'px';
+                heart.style.top = e.clientY + 'px';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 1400);
+            }
+        }
+        function createBreakHeart(e) {
+            const heart = document.createElement('div');
+            heart.className = 'heart-break';
+            heart.innerText = '馃挃';
+            heart.style.left = e.clientX + 'px';
+            heart.style.top = e.clientY + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 1200);
+        }
 
-    init();
-</script>
+        function getSafeTranslate() {
+            const rangeX = 160;
+            const rangeY = 100;
+            let offsetX = (Math.random() - 0.5) * rangeX;
+            const offsetY = (Math.random() - 0.5) * rangeY;
+            return `translate(${offsetX}px, ${offsetY}px)`;
+        }
+
+        function resetButtonStates() {
+            agreeBtn.classList.remove('center-mode');
+            agreeBtn.style.transform = '';
+            refuseBtn.style.transform = '';
+            agreeScale = 1;
+            refuseScale = 1;
+        }
+
+        // 鍒濆鍖栭〉闈?
+        async function init() {
+            try {
+                const res = await fetch('/api/check-join', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || '浼氳瘽鏃犳晥');
+
+                confessionText.innerText = data.base || '瀵规柟娌℃湁鐣欎笅鏂囧瓧锛屼絾蹇冩剰宸蹭紶杈俱€?;
+                document.getElementById('loadingView').style.display = 'none';
+                document.getElementById('contentView').style.display = 'block';
+
+                const agreeMsg = data.agree || '鎴戞効鎰忥紒浠ュ悗璇峰鎸囨暀 馃挄';
+                const refuseMsg = data.refuse || '璋㈣阿浣犲枩娆㈡垜锛屼絾瀵逛笉璧?..';
+
+                // 鍚屾剰鎸夐挳浜嬩欢
+                agreeBtn.addEventListener('click', function(e) {
+                    if (chosen) return;
+                    chosen = true;
+                    refuseClickNum = 0;
+                    resetButtonStates();
+                    createHeart(e);
+                    replyContent.value = agreeMsg;
+                    updateWordCount();
+                    replyBox.style.display = 'block';
+                    replyBox.dataset.choice = 'agree';
+                    btnGroup.style.display = 'none';
+                });
+
+                // 鎷掔粷鎸夐挳锛堥渶鐐瑰嚮4娆★級
+                refuseBtn.addEventListener('click', function(e) {
+                    if (chosen) return;
+                    refuseClickNum++;
+                    refuseScale -= REFUSE_SCALE_STEP;
+                    agreeScale += AGREE_SCALE_STEP;
+
+                    const safePos = getSafeTranslate();
+                    refuseBtn.style.transform = `${safePos} scale(${refuseScale})`;
+
+                    agreeBtn.classList.add('center-mode');
+                    agreeBtn.style.transform = `translate(-50%, -50%) scale(${agreeScale})`;
+
+                    createBreakHeart(e);
+
+                    if (refuseClickNum >= needClick) {
+                        chosen = true;
+                        resetButtonStates();
+                        replyContent.value = refuseMsg;
+                        updateWordCount();
+                        replyBox.style.display = 'block';
+                        replyBox.dataset.choice = 'refuse';
+                        btnGroup.style.display = 'none';
+                    }
+                });
+
+                // 鍙戦€佸洖淇?
+                sendReplyBtn.addEventListener('click', async function(e) {
+                    if (sendReplyBtn.disabled) return;
+                    const choice = replyBox.dataset.choice;
+                    const text = replyContent.value.trim();
+                    if (!text) {
+                        alert('璇疯緭鍏ュ洖淇″唴瀹?);
+                        return;
+                    }
+                    sendReplyBtn.disabled = true;
+                    sendReplyBtn.innerHTML = '<span class="loading"></span> 瀵勫嚭涓?..';
+                    createHeart(e);
+
+                    try {
+                        const tag = choice === 'agree' ? '鉂わ笍 瀵规柟鎺ュ彈浜嗕綘鐨勫憡鐧斤紒' : '馃挃 瀵规柟濠夋嫆浜嗕綘鐨勫憡鐧姐€?;
+                        const systemMsg = tag + '\n' + text;
+                        await fetch('/api/send-message', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ token: token, role: 'receiver', content: systemMsg })
+                        });
+                        decisionArea.style.display = 'none';
+                        chatContainer.style.display = 'block';
+                        lastMessageCount = 0;
+                        startPolling();
+                    } catch (error) {
+                        alert('鍙戦€佸け璐ワ紝璇烽噸璇?);
+                        sendReplyBtn.disabled = false;
+                        sendReplyBtn.innerHTML = '馃拰 瀵勫嚭鍥炰俊';
+                    }
+                });
+
+                startPolling();
+            } catch (e) {
+                document.getElementById('loadingView').innerHTML = '<h3 style="color:var(--danger-red);">💔</h3><p id="errorMsg3" style="margin-top:12px;color:var(--text-light);"></p>';
+                document.getElementById('errorMsg3').innerText = e.message
+            }
+        }
+
+        function startPolling() {
+            if (pollingTimer) return;
+            pollingTimer = setInterval(async () => {
+                try {
+                    const res = await fetch('/api/get-session?token=' + token);
+                    const data = await res.json();
+                    if (data.messages && data.messages.length > lastMessageCount) {
+                        renderMessages(data.messages);
+                        lastMessageCount = data.messages.length;
+                    }
+                } catch (e) {
+                    console.error('杞澶辫触');
+                }
+            }, 3000);
+        }
+
+        function renderMessages(messages) {
+            chatMessages.innerHTML = '';
+            messages.forEach(function(msg) {
+                const div = document.createElement('div');
+                div.className = 'msg ' + (msg.role === 'sender' ? 'sender' : 'receiver');
+                div.innerText = msg.content;
+                chatMessages.appendChild(div);
+            });
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        sendBtn.addEventListener('click', async function() { if (sendBtn.disabled) return; sendBtn.disabled = true; await sendChatMessage(); sendBtn.disabled = false; });
+        chatInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendChatMessage();
+            }
+        });
+
+        async function sendChatMessage() {
+            const content = chatInput.value.trim();
+            if (!content) return;
+            try {
+                await fetch('/api/send-message', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: token, role: 'receiver', content: content })
+                });
+                chatInput.value = '';
+                lastMessageCount = 0;
+            } catch (e) {
+                alert('鍙戦€佸け璐?);
+            }
+        }
+
+        window.addEventListener('beforeunload', function() {
+            if (pollingTimer) if (pollingTimer) { clearInterval(pollingTimer); pollingTimer = null; }
+        });
+
+        init();
+    </script>
 </body>
 </html>

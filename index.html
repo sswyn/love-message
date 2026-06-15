@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>暮风藏情 - 发起告白</title>
+    <title>鏆钘忔儏 - 鍙戣捣鍛婄櫧</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Microsoft YaHei", system-ui, sans-serif; }
         :root { --main-pink: #ff6b8b; --light-pink: #ffc2d4; --dark-pink: #d64c6e; --success-green: #52b788; --danger-red: #ef5350; --text-gray: #444; --text-light: #a05872; --bg-blur: rgba(255,255,255,0.72); }
@@ -41,7 +41,7 @@
         .msg-hide-note { font-size: 12px; color: #999; text-align: center; margin-top: 10px; }
         .input-item { margin-bottom: 22px; position: relative; }
         .input-label { color: var(--text-light); font-size: 14px; margin-bottom: 8px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
-        .input-label::before { content: "💌"; }
+        .input-label::before { content: "馃拰"; }
         .input-box, .textarea-box, .select-box { width: 100%; padding: 16px 50px 16px 18px; border: 1px solid rgba(255,180,200,0.6); border-radius: 16px; font-size: 15px; background: #fffdfb; outline: none; transition: all 0.3s ease; box-shadow: inset 0 2px 6px rgba(255,180,200,0.15); }
         .input-box:focus, .textarea-box:focus, .select-box:focus { border-color: var(--main-pink); box-shadow: 0 0 0 3px rgba(255,107,139,0.25); }
         .select-box { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ff6b8b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; background-size: 16px; }
@@ -77,74 +77,74 @@
 
 <div class="receive-card">
     <div class="page-box active" id="welcomePage">
-        <div class="envelope-icon">💌</div>
-        <h2 class="title">暮风藏情</h2>
-        <div class="slogan">您的秘密，我们誓死守护。<br>只有心意，不见姓名。</div>
+        <div class="envelope-icon">馃拰</div>
+        <h2 class="title">鏆钘忔儏</h2>
+        <div class="slogan">鎮ㄧ殑绉樺瘑锛屾垜浠獡姝诲畧鎶ゃ€?br>鍙湁蹇冩剰锛屼笉瑙佸鍚嶃€?/div>
         <div class="privacy-desc">
-            <h4>隐私保护承诺</h4>
-            <p>本平台全程匿名，不会获取或泄露任何个人信息。告白链接仅由您手动转发，24小时后自动销毁，不留痕迹。</p>
+            <h4>闅愮淇濇姢鎵胯</h4>
+            <p>鏈钩鍙板叏绋嬪尶鍚嶏紝涓嶄細鑾峰彇鎴栨硠闇蹭换浣曚釜浜轰俊鎭€傚憡鐧介摼鎺ヤ粎鐢辨偍鎵嬪姩杞彂锛?4灏忔椂鍚庤嚜鍔ㄩ攢姣侊紝涓嶇暀鐥曡抗銆?/p>
         </div>
-        <button class="btn" id="startBtn">开始投递心意</button>
+        <button class="btn" id="startBtn">寮€濮嬫姇閫掑績鎰?/button>
     </div>
 
     <div class="page-box" id="page1">
-        <div class="envelope-icon">💌</div>
-        <h2 class="title">暮风藏情</h2>
-        <p class="tip-desc">写下信件，传递满满心意（最多500字）</p>
+        <div class="envelope-icon">馃拰</div>
+        <h2 class="title">鏆钘忔儏</h2>
+        <p class="tip-desc">鍐欎笅淇′欢锛屼紶閫掓弧婊″績鎰忥紙鏈€澶?00瀛楋級</p>
         <div class="input-item">
-            <label class="input-label">告白文案（选择后自动填充）</label>
+            <label class="input-label">鍛婄櫧鏂囨锛堥€夋嫨鍚庤嚜鍔ㄥ～鍏咃級</label>
             <select class="select-box" id="templateSelect">
-                <option value="">请选择告白文案</option>
-                <option value="语录1">予你温柔，满心欢喜</option>
-                <option value="语录2">藏于心底，万般心动</option>
-                <option value="语录3">遇见你，风也变得清甜</option>
-                <option value="语录4">不愿止步，只做友人</option>
-                <option value="语录5">长久偏爱，只为一人</option>
-                <option value="语录6">初见倾心，久处沦陷</option>
-                <option value="语录7">心安之处，恰好是你</option>
-                <option value="语录8">不惧遗憾，勇敢奔赴</option>
-                <option value="语录9">目光所及，皆是身影</option>
-                <option value="语录10">三餐四季，唯愿相伴</option>
+                <option value="">璇烽€夋嫨鍛婄櫧鏂囨</option>
+                <option value="璇綍1">浜堜綘娓╂煍锛屾弧蹇冩鍠?/option>
+                <option value="璇綍2">钘忎簬蹇冨簳锛屼竾鑸績鍔?/option>
+                <option value="璇綍3">閬囪浣狅紝椋庝篃鍙樺緱娓呯敎</option>
+                <option value="璇綍4">涓嶆効姝㈡锛屽彧鍋氬弸浜?/option>
+                <option value="璇綍5">闀夸箙鍋忕埍锛屽彧涓轰竴浜?/option>
+                <option value="璇綍6">鍒濊鍊惧績锛屼箙澶勬拨闄?/option>
+                <option value="璇綍7">蹇冨畨涔嬪锛屾伆濂芥槸浣?/option>
+                <option value="璇綍8">涓嶆儳閬楁喚锛屽媷鏁㈠璧?/option>
+                <option value="璇綍9">鐩厜鎵€鍙婏紝鐨嗘槸韬奖</option>
+                <option value="璇綍10">涓夐鍥涘锛屽敮鎰跨浉浼?/option>
             </select>
         </div>
         <div class="input-item">
-            <label class="input-label">你的心里话</label>
-            <textarea class="textarea-box" id="baseMsg" placeholder="在此书写告白信件，也可选择上方模板快速填充..." maxlength="500"></textarea>
+            <label class="input-label">浣犵殑蹇冮噷璇?/label>
+            <textarea class="textarea-box" id="baseMsg" placeholder="鍦ㄦ涔﹀啓鍛婄櫧淇′欢锛屼篃鍙€夋嫨涓婃柟妯℃澘蹇€熷～鍏?.." maxlength="500"></textarea>
             <span class="word-count" id="baseCount">0 / 500</span>
         </div>
-        <button class="btn next-btn" id="toPage2">下一步</button>
+        <button class="btn next-btn" id="toPage2">涓嬩竴姝?/button>
         <div class="status-tip" id="tip1"></div>
     </div>
 
     <div class="page-box" id="page2">
-        <div class="envelope-icon">💖</div>
-        <h2 class="title">暮风藏情</h2>
-        <p class="tip-desc">预设回信，完善整封信件</p>
-        <div class="safe-tip">🔒 双重保密：对方仅能看到内容，你的身份完全隐藏</div>
-        <div class="sender-tip">对方打开链接后将看到你的告白和聊天室</div>
-        <div class="switch-row"><span>预览对方手机看到的样式</span><label class="preview-switch"><input type="checkbox" id="previewSwitch"><span class="switch-slider"></span></label></div>
-        <div class="phone-preview" id="phonePreview"><div class="phone-preview-title">对方手机收到的短信效果</div><div class="msg-sender">发件人：匿名说</div><div class="msg-bubble" id="msgBubble">暂无内容</div><div class="msg-hide-note">您的个人号码已完全隐藏，对方无法查看</div></div>
-        <div class="input-item"><label class="input-label">同意寄语模板</label><select class="select-box" id="agreeSelect"><option value="">请选择同意寄语</option><option value="agree1">双向心动，恰逢其时</option><option value="agree2">人海相逢，珍惜缘分</option><option value="agree3">携手同行，风雨与共</option><option value="agree4">满心欢喜，静待相伴</option><option value="agree5">两心相悦，不负真心</option><option value="agree6">心意相通，岁岁相守</option><option value="agree7">双向奔赴，温暖朝夕</option><option value="agree8">兜兜转转，幸而有你</option><option value="agree9">余生漫漫，目光皆你</option><option value="agree10">温柔岁月，携手相守</option></select></div>
-        <div class="input-item"><label class="input-label">对方接受时寄语（最多500字）</label><textarea class="textarea-box" id="agreeMsg" placeholder="书写对方收下心意后的信件内容" maxlength="500"></textarea><span class="word-count" id="agreeCount">0 / 500</span></div>
-        <div class="input-item"><label class="input-label">拒绝心语模板</label><select class="select-box" id="refuseSelect"><option value="">请选择拒绝心语</option><option value="ref1">心意落空，仍存期许</option><option value="ref2">满心遗憾，不忍离场</option><option value="ref3">情根深种，难以放下</option><option value="ref4">美梦落空，万般不舍</option><option value="ref5">明知难圆，依旧执着</option><option value="ref6">执念未消</option><option value="ref7">止步原地，满心怅然</option><option value="ref8">一腔热忱，静待花开</option><option value="ref9">默默守候，心存微光</option><option value="ref10">心动暂歇，爱意不止</option></select></div>
-        <div class="input-item"><textarea class="textarea-box" id="refuseMsg" placeholder="书写委婉祝福的信件内容" maxlength="500"></textarea><span class="word-count" id="refuseCount">0 / 500</span></div>
-        <div class="preview-box"><div class="preview-title">📩 信件预览</div><div class="preview-item">告白内容：<span id="previewContent">暂无内容</span></div><div class="preview-item hide-text">（你的身份已隐藏）</div></div>
-        <button class="btn submit-btn" id="sendBtn">匿名发送</button>
+        <div class="envelope-icon">馃挅</div>
+        <h2 class="title">鏆钘忔儏</h2>
+        <p class="tip-desc">棰勮鍥炰俊锛屽畬鍠勬暣灏佷俊浠?/p>
+        <div class="safe-tip">馃敀 鍙岄噸淇濆瘑锛氬鏂逛粎鑳界湅鍒板唴瀹癸紝浣犵殑韬唤瀹屽叏闅愯棌</div>
+        <div class="sender-tip">瀵规柟鎵撳紑閾炬帴鍚庡皢鐪嬪埌浣犵殑鍛婄櫧鍜岃亰澶╁</div>
+        <div class="switch-row"><span>棰勮瀵规柟鎵嬫満鐪嬪埌鐨勬牱寮?/span><label class="preview-switch"><input type="checkbox" id="previewSwitch"><span class="switch-slider"></span></label></div>
+        <div class="phone-preview" id="phonePreview"><div class="phone-preview-title">瀵规柟鎵嬫満鏀跺埌鐨勭煭淇℃晥鏋?/div><div class="msg-sender">鍙戜欢浜猴細鍖垮悕璇?/div><div class="msg-bubble" id="msgBubble">鏆傛棤鍐呭</div><div class="msg-hide-note">鎮ㄧ殑涓汉鍙风爜宸插畬鍏ㄩ殣钘忥紝瀵规柟鏃犳硶鏌ョ湅</div></div>
+        <div class="input-item"><label class="input-label">鍚屾剰瀵勮妯℃澘</label><select class="select-box" id="agreeSelect"><option value="">璇烽€夋嫨鍚屾剰瀵勮</option><option value="agree1">鍙屽悜蹇冨姩锛屾伆閫㈠叾鏃?/option><option value="agree2">浜烘捣鐩搁€紝鐝嶆儨缂樺垎</option><option value="agree3">鎼烘墜鍚岃锛岄闆ㄤ笌鍏?/option><option value="agree4">婊″績娆㈠枩锛岄潤寰呯浉浼?/option><option value="agree5">涓ゅ績鐩告偊锛屼笉璐熺湡蹇?/option><option value="agree6">蹇冩剰鐩搁€氾紝宀佸瞾鐩稿畧</option><option value="agree7">鍙屽悜濂旇荡锛屾俯鏆栨湞澶?/option><option value="agree8">鍏滃厹杞浆锛屽垢鑰屾湁浣?/option><option value="agree9">浣欑敓婕极锛岀洰鍏夌殕浣?/option><option value="agree10">娓╂煍宀佹湀锛屾惡鎵嬬浉瀹?/option></select></div>
+        <div class="input-item"><label class="input-label">瀵规柟鎺ュ彈鏃跺瘎璇紙鏈€澶?00瀛楋級</label><textarea class="textarea-box" id="agreeMsg" placeholder="涔﹀啓瀵规柟鏀朵笅蹇冩剰鍚庣殑淇′欢鍐呭" maxlength="500"></textarea><span class="word-count" id="agreeCount">0 / 500</span></div>
+        <div class="input-item"><label class="input-label">鎷掔粷蹇冭妯℃澘</label><select class="select-box" id="refuseSelect"><option value="">璇烽€夋嫨鎷掔粷蹇冭</option><option value="ref1">蹇冩剰钀界┖锛屼粛瀛樻湡璁?/option><option value="ref2">婊″績閬楁喚锛屼笉蹇嶇鍦?/option><option value="ref3">鎯呮牴娣辩锛岄毦浠ユ斁涓?/option><option value="ref4">缇庢ⅵ钀界┖锛屼竾鑸笉鑸?/option><option value="ref5">鏄庣煡闅惧渾锛屼緷鏃ф墽鐫€</option><option value="ref6">鎵у康鏈秷</option><option value="ref7">姝㈡鍘熷湴锛屾弧蹇冩€呯劧</option><option value="ref8">涓€鑵旂儹蹇憋紝闈欏緟鑺卞紑</option><option value="ref9">榛橀粯瀹堝€欙紝蹇冨瓨寰厜</option><option value="ref10">蹇冨姩鏆傛瓏锛岀埍鎰忎笉姝?/option></select></div>
+        <div class="input-item"><textarea class="textarea-box" id="refuseMsg" placeholder="涔﹀啓濮斿绁濈鐨勪俊浠跺唴瀹? maxlength="500"></textarea><span class="word-count" id="refuseCount">0 / 500</span></div>
+        <div class="preview-box"><div class="preview-title">馃摡 淇′欢棰勮</div><div class="preview-item">鍛婄櫧鍐呭锛?span id="previewContent">鏆傛棤鍐呭</span></div><div class="preview-item hide-text">锛堜綘鐨勮韩浠藉凡闅愯棌锛?/div></div>
+        <button class="btn submit-btn" id="sendBtn">鍖垮悕鍙戦€?/button>
         <div class="status-tip" id="tip2"></div>
     </div>
 
     <div class="page-box" id="chatPage">
-        <div class="envelope-icon">💬</div>
-        <h2 class="title">匿名聊天室</h2>
-        <p class="tip-desc">你的告白链接已生成，请复制发给对方。对方打开后即可开始聊天。</p>
+        <div class="envelope-icon">馃挰</div>
+        <h2 class="title">鍖垮悕鑱婂ぉ瀹?/h2>
+        <p class="tip-desc">浣犵殑鍛婄櫧閾炬帴宸茬敓鎴愶紝璇峰鍒跺彂缁欏鏂广€傚鏂规墦寮€鍚庡嵆鍙紑濮嬭亰澶┿€?/p>
         <div class="copy-link-box" id="linkBox"></div>
-        <button class="btn" id="copyChatLinkBtn" style="background:#52b788;">📋 复制链接</button>
-        <div class="status-text" id="joinStatus">⏳ 等待对方加入...</div>
+        <button class="btn" id="copyChatLinkBtn" style="background:#52b788;">馃搵 澶嶅埗閾炬帴</button>
+        <div class="status-text" id="joinStatus">鈴?绛夊緟瀵规柟鍔犲叆...</div>
         <div class="chat-container" id="chatContainer">
             <div class="chat-messages" id="chatMessages"></div>
             <div class="chat-input-row">
-                <input type="text" class="input-box" id="chatInput" placeholder="输入消息..." maxlength="500">
-                <button class="btn" id="sendChatBtn" style="width:auto; padding:12px 20px;">发送</button>
+                <input type="text" class="input-box" id="chatInput" placeholder="杈撳叆娑堟伅..." maxlength="500">
+                <button class="btn" id="sendChatBtn" style="width:auto; padding:12px 20px;">鍙戦€?/button>
             </div>
         </div>
     </div>
@@ -164,7 +164,7 @@
     window.addEventListener('popstate', e => { const s = e.state; if(s && s.page) showPage(s.page); else showPage('welcome'); });
     window.addEventListener('load', () => { if(history.state && history.state.page) showPage(history.state.page); else showPage('welcome'); });
 
-    function createFloatHeart(){ const h = document.createElement("div"); h.className = "float-heart"; h.innerText = "❤"; h.style.left = Math.random()*100+"%"; h.style.animationDuration = (4+Math.random()*4)+"s"; document.body.appendChild(h); setTimeout(()=>h.remove(),8000); }
+    function createFloatHeart(){ const h = document.createElement("div"); h.className = "float-heart"; h.innerText = "鉂?; h.style.left = Math.random()*100+"%"; h.style.animationDuration = (4+Math.random()*4)+"s"; document.body.appendChild(h); setTimeout(()=>h.remove(),8000); }
     setInterval(createFloatHeart, 800);
 
     const els = {
@@ -184,49 +184,49 @@
     els.startBtn.addEventListener('click', ()=> navigateTo('write'));
     els.toPage2Btn.addEventListener('click', () => {
         els.tip1.innerText = "";
-        if(!els.baseMsg.value.trim()){ els.tip1.style.color = '#ef5350'; els.tip1.innerText = "请填写告白内容"; return; }
+        if(!els.baseMsg.value.trim()){ els.tip1.style.color = '#ef5350'; els.tip1.innerText = "璇峰～鍐欏憡鐧藉唴瀹?; return; }
         navigateTo('preview');
     });
     els.previewSwitch.addEventListener('change', ()=> els.phonePreview.classList.toggle('show'));
-    els.baseMsg.addEventListener('input', ()=>{ let t = els.baseMsg.value.trim()||"暂无内容"; els.previewContent.innerText = t; els.msgBubble.innerText = t; });
+    els.baseMsg.addEventListener('input', ()=>{ let t = els.baseMsg.value.trim()||"鏆傛棤鍐呭"; els.previewContent.innerText = t; els.msgBubble.innerText = t; });
 
     const baseTemplate = {
-        "语录1": "我攒了好久的温柔和爱意，今天一次性全部送给你。人海茫茫，我见过形形色色的人，却唯独对你动了心。每一次目光相遇，我的心跳都会漏掉一拍，那种感觉就像春天的第一场雨，细腻又不可阻挡。我不想再把喜欢藏在心底，也不想留下任何遗憾。我喜欢你，不是一时的新鲜感，是深思熟虑后的笃定。希望你能收下这份心意，给我一个机会，往后余生，我想陪着你，把所有美好都慢慢兑现。我会记得你不爱吃香菜，会陪你熬夜复习，会在你难过时第一个递上纸巾。日子很长，但只要身边是你，每一天都值得期待。请让我成为那个可以光明正大照顾你的人，好吗？",
-        "语录2": "其实我喜欢你这件事，身边很多人都看出来了，唯独我一直小心翼翼藏着。每次见到你，心跳都会不由自主加速，你的出现，让平淡的生活多了很多光亮。我总是不自觉地模仿你的语气，收藏你听过的歌，甚至你随口提过的电影我都会偷偷看三遍。犹豫了无数个日夜，终于鼓起勇气开口。我不求轰轰烈烈的爱情，只希望能陪在你身边，懂你的情绪，分担你的烦恼，简简单单，岁岁年年都在一起。我们可以一起逛超市，一起煮火锅，一起在沙发上发呆，这些小事因为有你就变成了浪漫。所以，请让我成为你的例外，好吗？",
-        "语录3": "有人说，遇见对的人，连风都是甜的。遇见你之后，我才真正明白这句话的含义。我慢慢习惯了身边有你的存在，习惯了目光追随你的身影。这份感情在心底慢慢发酵，从好感变成深爱。今天勇敢告白，只想告诉你，你是我明目张胆的偏爱，也是我众所周知的私心。我想和你正式走到一起，想和你分享同一副耳机，想在雨天撑同一把伞，想把你介绍给我的家人和朋友。我可能不会说太多甜言蜜语，但我会用行动证明，你的选择没有错。希望你能给我一个机会，让我陪你走过春夏秋冬，看遍世间风景。",
-        "语录4": "我不想做你的朋友，也不想只做路人。我想成为那个可以陪你三餐四季、朝夕相伴的人。这一路走来，谢谢你出现在我的生命里，治愈了我很多不开心。我认真对待这份心动，也认真规划过我们的未来。现在我鼓起全部勇气说出喜欢，愿我的真心能够被你接纳，从此我们携手同行，不再孤单。我会记得你不爱吃香菜，会陪你熬夜复习，会在你难过时第一个递上纸巾。日子很长，但只要身边是你，每一天都值得期待。请让我成为那个可以光明正大照顾你的人，好吗？",
-        "语录5": "世界那么大，有人对你好是心意，一直对你好才是真心。我愿意把长久的偏爱和陪伴都留给你。我见过深夜的孤独，也期待有人并肩前行，而那个人，我希望是你。我不敢保证永远不会吵架，但我能保证永远不会离开。喜欢你这件事，我会坚持到底，也期待能和你开启一段甜甜的恋爱。我们可以一起养一只猫，给它取个可爱的名字；我们可以一起旅行，在陌生的城市里牵手漫步。这些画面在我脑海里重复了无数次，就差一个真实的你了。所以，答应我，让我们从今天开始，成为彼此最特别的人。",
-        "语录6": "心动始于初见，沦陷在于相处。和你相处的每一段时光，都让我越发确定自己的心意。我喜欢和你聊天，喜欢看你微笑，喜欢身边有你的氛围。犹豫再三，还是决定遵从内心。我喜欢你，想跨过普通朋友的界限，成为你最亲密的人。往后风雨同舟，快乐共享，把平凡的日子过得温暖又浪漫。我会努力成为更好的人，因为你的出现让我想要变得优秀。希望你能给我一个机会，让我用接下来的每一天告诉你，被我喜欢是一件很幸福的事。",
-        "语录7": "不用刻意迎合，不用假装快乐，在你面前我可以做最真实的自己。这种踏实又安心的感觉，是别人给不了我的。慢慢相处，慢慢喜欢，直到再也放不下。今天写下这段话，就是想郑重告诉你，我喜欢你。希望往后的路，我们可以一起走，互相包容，彼此珍惜，把每一天都过得温柔有趣。我愿意做你的树洞，倾听你的烦恼；也愿意做你的太阳，温暖你的生活。请收下这份真诚的喜欢，让它成为我们故事的开始。",
-        "语录8": "人生短短几十载，总要勇敢为爱冲动一次。我不想等到多年以后回想起来，因为没有开口而满心懊悔。你是我平淡岁月里的星辰，照亮了我的整个世界。我带着满腔真诚向你告白，不求立刻得到答案，只希望你能知晓这份心意。如果可以，我想牵着你的手，奔赴每一场日出与日落。我想和你一起经历人生的每一个重要时刻，一起笑、一起哭、一起成长。这份勇气是我送给自己最好的礼物，而你就是那个礼物本身。",
-        "语录9": "真正的喜欢，是藏不住的，哪怕捂住嘴巴，也会从眼睛里跑出来。我的目光总是不自觉偏向你，情绪也总被你牵动。我认真喜欢了你很久，默默付出，默默关注。如今选择勇敢表白，只想给自己一个交代，也给彼此一个机会。愿我们双向温暖，彼此守护，在漫长岁月里不离不弃。我会用细节告诉你，你值得被爱，值得被坚定地选择。希望从今天起，你的早安和晚安都由我来承包。",
-        "语录10": "我向往的爱情很简单，一屋两人，三餐四季，闲时谈心，累时依靠。而我心中那个想要共度一生的人，就是你。你的性格、你的样子、你的一切，都深深吸引着我。我鼓足勇气说出心底的话，希望你能读懂我的真心。往后我会用心呵护这份感情，陪你走过春夏秋冬，相守到老。我们可以一起布置我们的小窝，一起研究新菜谱，一起在周末的早晨赖床。这些平凡的日子，因为有你而闪闪发光。请让我成为那个能给你幸福的人。"
+        "璇綍1": "鎴戞敀浜嗗ソ涔呯殑娓╂煍鍜岀埍鎰忥紝浠婂ぉ涓€娆℃€у叏閮ㄩ€佺粰浣犮€備汉娴疯尗鑼紝鎴戣杩囧舰褰㈣壊鑹茬殑浜猴紝鍗村敮鐙浣犲姩浜嗗績銆傛瘡涓€娆＄洰鍏夌浉閬囷紝鎴戠殑蹇冭烦閮戒細婕忔帀涓€鎷嶏紝閭ｇ鎰熻灏卞儚鏄ュぉ鐨勭涓€鍦洪洦锛岀粏鑵诲張涓嶅彲闃绘尅銆傛垜涓嶆兂鍐嶆妸鍠滄钘忓湪蹇冨簳锛屼篃涓嶆兂鐣欎笅浠讳綍閬楁喚銆傛垜鍠滄浣狅紝涓嶆槸涓€鏃剁殑鏂伴矞鎰燂紝鏄繁鎬濈啛铏戝悗鐨勭瑑瀹氥€傚笇鏈涗綘鑳芥敹涓嬭繖浠藉績鎰忥紝缁欐垜涓€涓満浼氾紝寰€鍚庝綑鐢燂紝鎴戞兂闄潃浣狅紝鎶婃墍鏈夌編濂介兘鎱㈡參鍏戠幇銆傛垜浼氳寰椾綘涓嶇埍鍚冮鑿滐紝浼氶櫔浣犵啲澶滃涔狅紝浼氬湪浣犻毦杩囨椂绗竴涓€掍笂绾稿肪銆傛棩瀛愬緢闀匡紝浣嗗彧瑕佽韩杈规槸浣狅紝姣忎竴澶╅兘鍊煎緱鏈熷緟銆傝璁╂垜鎴愪负閭ｄ釜鍙互鍏夋槑姝ｅぇ鐓ч【浣犵殑浜猴紝濂藉悧锛?,
+        "璇綍2": "鍏跺疄鎴戝枩娆綘杩欎欢浜嬶紝韬竟寰堝浜洪兘鐪嬪嚭鏉ヤ簡锛屽敮鐙垜涓€鐩村皬蹇冪考缈艰棌鐫€銆傛瘡娆¤鍒颁綘锛屽績璺抽兘浼氫笉鐢辫嚜涓诲姞閫燂紝浣犵殑鍑虹幇锛岃骞虫贰鐨勭敓娲诲浜嗗緢澶氬厜浜€傛垜鎬绘槸涓嶈嚜瑙夊湴妯′豢浣犵殑璇皵锛屾敹钘忎綘鍚繃鐨勬瓕锛岀敋鑷充綘闅忓彛鎻愯繃鐨勭數褰辨垜閮戒細鍋峰伔鐪嬩笁閬嶃€傜姽璞簡鏃犳暟涓棩澶滐紝缁堜簬榧撹捣鍕囨皵寮€鍙ｃ€傛垜涓嶆眰杞拌桨鐑堢儓鐨勭埍鎯咃紝鍙笇鏈涜兘闄湪浣犺韩杈癸紝鎳備綘鐨勬儏缁紝鍒嗘媴浣犵殑鐑︽伡锛岀畝绠€鍗曞崟锛屽瞾宀佸勾骞撮兘鍦ㄤ竴璧枫€傛垜浠彲浠ヤ竴璧烽€涜秴甯傦紝涓€璧风叜鐏攨锛屼竴璧峰湪娌欏彂涓婂彂鍛嗭紝杩欎簺灏忎簨鍥犱负鏈変綘灏卞彉鎴愪簡娴极銆傛墍浠ワ紝璇疯鎴戞垚涓轰綘鐨勪緥澶栵紝濂藉悧锛?,
+        "璇綍3": "鏈変汉璇达紝閬囪瀵圭殑浜猴紝杩為閮芥槸鐢滅殑銆傞亣瑙佷綘涔嬪悗锛屾垜鎵嶇湡姝ｆ槑鐧借繖鍙ヨ瘽鐨勫惈涔夈€傛垜鎱㈡參涔犳儻浜嗚韩杈规湁浣犵殑瀛樺湪锛屼範鎯簡鐩厜杩介殢浣犵殑韬奖銆傝繖浠芥劅鎯呭湪蹇冨簳鎱㈡參鍙戦叺锛屼粠濂芥劅鍙樻垚娣辩埍銆備粖澶╁媷鏁㈠憡鐧斤紝鍙兂鍛婅瘔浣狅紝浣犳槸鎴戞槑鐩紶鑳嗙殑鍋忕埍锛屼篃鏄垜浼楁墍鍛ㄧ煡鐨勭蹇冦€傛垜鎯冲拰浣犳寮忚蛋鍒颁竴璧凤紝鎯冲拰浣犲垎浜悓涓€鍓€虫満锛屾兂鍦ㄩ洦澶╂拺鍚屼竴鎶婁紴锛屾兂鎶婁綘浠嬬粛缁欐垜鐨勫浜哄拰鏈嬪弸銆傛垜鍙兘涓嶄細璇村お澶氱敎瑷€铚滆锛屼絾鎴戜細鐢ㄨ鍔ㄨ瘉鏄庯紝浣犵殑閫夋嫨娌℃湁閿欍€傚笇鏈涗綘鑳界粰鎴戜竴涓満浼氾紝璁╂垜闄綘璧拌繃鏄ュ绉嬪啲锛岀湅閬嶄笘闂撮鏅€?,
+        "璇綍4": "鎴戜笉鎯冲仛浣犵殑鏈嬪弸锛屼篃涓嶆兂鍙仛璺汉銆傛垜鎯虫垚涓洪偅涓彲浠ラ櫔浣犱笁椁愬洓瀛ｃ€佹湞澶曠浉浼寸殑浜恒€傝繖涓€璺蛋鏉ワ紝璋㈣阿浣犲嚭鐜板湪鎴戠殑鐢熷懡閲岋紝娌绘剤浜嗘垜寰堝涓嶅紑蹇冦€傛垜璁ょ湡瀵瑰緟杩欎唤蹇冨姩锛屼篃璁ょ湡瑙勫垝杩囨垜浠殑鏈潵銆傜幇鍦ㄦ垜榧撹捣鍏ㄩ儴鍕囨皵璇村嚭鍠滄锛屾効鎴戠殑鐪熷績鑳藉琚綘鎺ョ撼锛屼粠姝ゆ垜浠惡鎵嬪悓琛岋紝涓嶅啀瀛ゅ崟銆傛垜浼氳寰椾綘涓嶇埍鍚冮鑿滐紝浼氶櫔浣犵啲澶滃涔狅紝浼氬湪浣犻毦杩囨椂绗竴涓€掍笂绾稿肪銆傛棩瀛愬緢闀匡紝浣嗗彧瑕佽韩杈规槸浣狅紝姣忎竴澶╅兘鍊煎緱鏈熷緟銆傝璁╂垜鎴愪负閭ｄ釜鍙互鍏夋槑姝ｅぇ鐓ч【浣犵殑浜猴紝濂藉悧锛?,
+        "璇綍5": "涓栫晫閭ｄ箞澶э紝鏈変汉瀵逛綘濂芥槸蹇冩剰锛屼竴鐩村浣犲ソ鎵嶆槸鐪熷績銆傛垜鎰挎剰鎶婇暱涔呯殑鍋忕埍鍜岄櫔浼撮兘鐣欑粰浣犮€傛垜瑙佽繃娣卞鐨勫鐙紝涔熸湡寰呮湁浜哄苟鑲╁墠琛岋紝鑰岄偅涓汉锛屾垜甯屾湜鏄綘銆傛垜涓嶆暍淇濊瘉姘歌繙涓嶄細鍚垫灦锛屼絾鎴戣兘淇濊瘉姘歌繙涓嶄細绂诲紑銆傚枩娆綘杩欎欢浜嬶紝鎴戜細鍧氭寔鍒板簳锛屼篃鏈熷緟鑳藉拰浣犲紑鍚竴娈电敎鐢滅殑鎭嬬埍銆傛垜浠彲浠ヤ竴璧峰吇涓€鍙尗锛岀粰瀹冨彇涓彲鐖辩殑鍚嶅瓧锛涙垜浠彲浠ヤ竴璧锋梾琛岋紝鍦ㄩ檶鐢熺殑鍩庡競閲岀壍鎵嬫极姝ャ€傝繖浜涚敾闈㈠湪鎴戣剳娴烽噷閲嶅浜嗘棤鏁版锛屽氨宸竴涓湡瀹炵殑浣犱簡銆傛墍浠ワ紝绛斿簲鎴戯紝璁╂垜浠粠浠婂ぉ寮€濮嬶紝鎴愪负褰兼鏈€鐗瑰埆鐨勪汉銆?,
+        "璇綍6": "蹇冨姩濮嬩簬鍒濊锛屾拨闄峰湪浜庣浉澶勩€傚拰浣犵浉澶勭殑姣忎竴娈垫椂鍏夛紝閮借鎴戣秺鍙戠‘瀹氳嚜宸辩殑蹇冩剰銆傛垜鍠滄鍜屼綘鑱婂ぉ锛屽枩娆㈢湅浣犲井绗戯紝鍠滄韬竟鏈変綘鐨勬皼鍥淬€傜姽璞啀涓夛紝杩樻槸鍐冲畾閬典粠鍐呭績銆傛垜鍠滄浣狅紝鎯宠法杩囨櫘閫氭湅鍙嬬殑鐣岄檺锛屾垚涓轰綘鏈€浜插瘑鐨勪汉銆傚線鍚庨闆ㄥ悓鑸燂紝蹇箰鍏变韩锛屾妸骞冲嚒鐨勬棩瀛愯繃寰楁俯鏆栧張娴极銆傛垜浼氬姫鍔涙垚涓烘洿濂界殑浜猴紝鍥犱负浣犵殑鍑虹幇璁╂垜鎯宠鍙樺緱浼樼銆傚笇鏈涗綘鑳界粰鎴戜竴涓満浼氾紝璁╂垜鐢ㄦ帴涓嬫潵鐨勬瘡涓€澶╁憡璇変綘锛岃鎴戝枩娆㈡槸涓€浠跺緢骞哥鐨勪簨銆?,
+        "璇綍7": "涓嶇敤鍒绘剰杩庡悎锛屼笉鐢ㄥ亣瑁呭揩涔愶紝鍦ㄤ綘闈㈠墠鎴戝彲浠ュ仛鏈€鐪熷疄鐨勮嚜宸便€傝繖绉嶈笍瀹炲張瀹夊績鐨勬劅瑙夛紝鏄埆浜虹粰涓嶄簡鎴戠殑銆傛參鎱㈢浉澶勶紝鎱㈡參鍠滄锛岀洿鍒板啀涔熸斁涓嶄笅銆備粖澶╁啓涓嬭繖娈佃瘽锛屽氨鏄兂閮戦噸鍛婅瘔浣狅紝鎴戝枩娆綘銆傚笇鏈涘線鍚庣殑璺紝鎴戜滑鍙互涓€璧疯蛋锛屼簰鐩稿寘瀹癸紝褰兼鐝嶆儨锛屾妸姣忎竴澶╅兘杩囧緱娓╂煍鏈夎叮銆傛垜鎰挎剰鍋氫綘鐨勬爲娲烇紝鍊惧惉浣犵殑鐑︽伡锛涗篃鎰挎剰鍋氫綘鐨勫お闃筹紝娓╂殩浣犵殑鐢熸椿銆傝鏀朵笅杩欎唤鐪熻瘹鐨勫枩娆紝璁╁畠鎴愪负鎴戜滑鏁呬簨鐨勫紑濮嬨€?,
+        "璇綍8": "浜虹敓鐭煭鍑犲崄杞斤紝鎬昏鍕囨暍涓虹埍鍐插姩涓€娆°€傛垜涓嶆兂绛夊埌澶氬勾浠ュ悗鍥炴兂璧锋潵锛屽洜涓烘病鏈夊紑鍙ｈ€屾弧蹇冩噴鎮斻€備綘鏄垜骞虫贰宀佹湀閲岀殑鏄熻景锛岀収浜簡鎴戠殑鏁翠釜涓栫晫銆傛垜甯︾潃婊¤厰鐪熻瘹鍚戜綘鍛婄櫧锛屼笉姹傜珛鍒诲緱鍒扮瓟妗堬紝鍙笇鏈涗綘鑳界煡鏅撹繖浠藉績鎰忋€傚鏋滃彲浠ワ紝鎴戞兂鐗电潃浣犵殑鎵嬶紝濂旇荡姣忎竴鍦烘棩鍑轰笌鏃ヨ惤銆傛垜鎯冲拰浣犱竴璧风粡鍘嗕汉鐢熺殑姣忎竴涓噸瑕佹椂鍒伙紝涓€璧风瑧銆佷竴璧峰摥銆佷竴璧锋垚闀裤€傝繖浠藉媷姘旀槸鎴戦€佺粰鑷繁鏈€濂界殑绀肩墿锛岃€屼綘灏辨槸閭ｄ釜绀肩墿鏈韩銆?,
+        "璇綍9": "鐪熸鐨勫枩娆紝鏄棌涓嶄綇鐨勶紝鍝€曟崅浣忓槾宸达紝涔熶細浠庣溂鐫涢噷璺戝嚭鏉ャ€傛垜鐨勭洰鍏夋€绘槸涓嶈嚜瑙夊亸鍚戜綘锛屾儏缁篃鎬昏浣犵壍鍔ㄣ€傛垜璁ょ湡鍠滄浜嗕綘寰堜箙锛岄粯榛樹粯鍑猴紝榛橀粯鍏虫敞銆傚浠婇€夋嫨鍕囨暍琛ㄧ櫧锛屽彧鎯崇粰鑷繁涓€涓氦浠ｏ紝涔熺粰褰兼涓€涓満浼氥€傛効鎴戜滑鍙屽悜娓╂殩锛屽郊姝ゅ畧鎶わ紝鍦ㄦ极闀垮瞾鏈堥噷涓嶇涓嶅純銆傛垜浼氱敤缁嗚妭鍛婅瘔浣狅紝浣犲€煎緱琚埍锛屽€煎緱琚潥瀹氬湴閫夋嫨銆傚笇鏈涗粠浠婂ぉ璧凤紝浣犵殑鏃╁畨鍜屾櫄瀹夐兘鐢辨垜鏉ユ壙鍖呫€?,
+        "璇綍10": "鎴戝悜寰€鐨勭埍鎯呭緢绠€鍗曪紝涓€灞嬩袱浜猴紝涓夐鍥涘锛岄棽鏃惰皥蹇冿紝绱椂渚濋潬銆傝€屾垜蹇冧腑閭ｄ釜鎯宠鍏卞害涓€鐢熺殑浜猴紝灏辨槸浣犮€備綘鐨勬€ф牸銆佷綘鐨勬牱瀛愩€佷綘鐨勪竴鍒囷紝閮芥繁娣卞惛寮曠潃鎴戙€傛垜榧撹冻鍕囨皵璇村嚭蹇冨簳鐨勮瘽锛屽笇鏈涗綘鑳借鎳傛垜鐨勭湡蹇冦€傚線鍚庢垜浼氱敤蹇冨懙鎶よ繖浠芥劅鎯咃紝闄綘璧拌繃鏄ュ绉嬪啲锛岀浉瀹堝埌鑰併€傛垜浠彲浠ヤ竴璧峰竷缃垜浠殑灏忕獫锛屼竴璧风爺绌舵柊鑿滆氨锛屼竴璧峰湪鍛ㄦ湯鐨勬棭鏅ㄨ禆搴娿€傝繖浜涘钩鍑＄殑鏃ュ瓙锛屽洜涓烘湁浣犺€岄棯闂彂鍏夈€傝璁╂垜鎴愪负閭ｄ釜鑳界粰浣犲垢绂忕殑浜恒€?
     };
 
     const agreeTemplate = {
-        "agree1": "收到你的告白，心里满是惊喜与感动，其实我也早已对你心生好感。原来最好的缘分，就是我喜欢你的时候，恰好你也喜欢我。往后的日子，我们就正式在一起吧。不用轰轰烈烈，只求细水长流，彼此包容，互相理解，把每一个平凡的日子都过得甜甜蜜蜜，携手走向更远的未来。我会珍惜这份来之不易的默契，和你一起经营属于我们的小世界。",
-        "agree2": "很开心能够收到你的心意，我愿意接受你的喜欢。人海相遇本就不易，双向心动更是难得。往后我会真心对待这份感情，开心时一起分享，难过时彼此安慰。愿我们初心不改，温柔相待，在往后的时光里慢慢相爱，相互陪伴，把简单的生活过得温暖又幸福。我们可以一起做很多无聊的小事，只要身边是你就好。",
-        "agree3": "谢谢你勇敢说出喜欢，我也同样喜欢你。从此我们不再是独自前行，身边多了一个可以依靠的人。未来会有风雨，也会有无数美好，我愿意和你一起面对、一起经历。珍惜这份来之不易的缘分，认真对待彼此，岁岁年年，不离不弃，做彼此最安稳的归宿。我会用行动告诉你，被我喜欢是一件幸福的事。",
-        "agree4": "其实我一直在等你这句话，如今终于等到了，心里格外欢喜。缘分让我们靠近，心动让我们相守。接下来的路，我们并肩同行吧。我会把温柔和耐心都留给你，懂你的欲言又止，陪你的岁岁年年。愿我们爱意不减，温暖如初，在烟火生活里相守相伴，一直幸福下去。",
-        "agree5": "我收下你的真心，也交出我的心意。两个人互相喜欢，大概是世间最美好的事情。往后我们彼此偏爱，彼此守护，不辜负相遇，不辜负真心。生活有苦有甜，只要身边是你，一切就都值得。慢慢相处，慢慢深爱，从新鲜感走到归属感，一直走到余生尽头。",
-        "agree6": "很庆幸我们心意相通，正式成为彼此的恋人。往后不用再小心翼翼试探，不用再藏起心底的欢喜。我会好好珍惜你，珍惜这份难得的爱情。一起看风景，一起闯难关，把日常的琐碎变成浪漫。愿我们长久相伴，爱意绵长，在漫长时光里，始终偏爱对方一人。",
-        "agree7": "你的真诚打动了我，我愿意和你开启新的故事。爱情最好的模样，就是双向奔赴、彼此珍惜。未来的每一天，我都想有你的陪伴。累了相互依靠，闲了彼此陪伴，认真经营属于我们的小幸福。愿我们一路同行，温柔相守，不负遇见，不负彼此。",
-        "agree8": "兜兜转转，还好最后是你。我接受你的告白，也满心期待和你在一起的每一天。往后我们坦诚相待，无话不说，把所有温柔都留给对方。不惧岁月漫长，不畏前路坎坷，只要身边有彼此，便有无限勇气。愿我们携手同行，爱意只增不减，一直温暖到老。",
-        "agree9": "被人认真喜欢是一件很幸福的事，而我很幸运成为那个人。我也喜欢你，愿意和你相守相伴。往后余生，风雪是你，平淡是你，目光所及皆是你。用心对待这份感情，互相迁就，彼此包容，把普通的日子过成别人羡慕的模样，岁岁年年，温暖如初。",
-        "agree10": "终于等到你的心意，我欣然接受。从此我们拥有了专属彼此的浪漫与温柔。不求惊艳时光，但愿温柔岁月。在往后的日子里，携手并肩，冷暖相知，风雨相依。认真爱，用心伴，让这份喜欢一直延续，从初见的心动，走到余生的安稳。"
+        "agree1": "鏀跺埌浣犵殑鍛婄櫧锛屽績閲屾弧鏄儕鍠滀笌鎰熷姩锛屽叾瀹炴垜涔熸棭宸插浣犲績鐢熷ソ鎰熴€傚師鏉ユ渶濂界殑缂樺垎锛屽氨鏄垜鍠滄浣犵殑鏃跺€欙紝鎭板ソ浣犱篃鍠滄鎴戙€傚線鍚庣殑鏃ュ瓙锛屾垜浠氨姝ｅ紡鍦ㄤ竴璧峰惂銆備笉鐢ㄨ桨杞扮儓鐑堬紝鍙眰缁嗘按闀挎祦锛屽郊姝ゅ寘瀹癸紝浜掔浉鐞嗚В锛屾妸姣忎竴涓钩鍑＄殑鏃ュ瓙閮借繃寰楃敎鐢滆湝铚滐紝鎼烘墜璧板悜鏇磋繙鐨勬湭鏉ャ€傛垜浼氱弽鎯滆繖浠芥潵涔嬩笉鏄撶殑榛樺锛屽拰浣犱竴璧风粡钀ュ睘浜庢垜浠殑灏忎笘鐣屻€?,
+        "agree2": "寰堝紑蹇冭兘澶熸敹鍒颁綘鐨勫績鎰忥紝鎴戞効鎰忔帴鍙椾綘鐨勫枩娆€備汉娴风浉閬囨湰灏变笉鏄擄紝鍙屽悜蹇冨姩鏇存槸闅惧緱銆傚線鍚庢垜浼氱湡蹇冨寰呰繖浠芥劅鎯咃紝寮€蹇冩椂涓€璧峰垎浜紝闅捐繃鏃跺郊姝ゅ畨鎱般€傛効鎴戜滑鍒濆績涓嶆敼锛屾俯鏌旂浉寰咃紝鍦ㄥ線鍚庣殑鏃跺厜閲屾參鎱㈢浉鐖憋紝鐩镐簰闄即锛屾妸绠€鍗曠殑鐢熸椿杩囧緱娓╂殩鍙堝垢绂忋€傛垜浠彲浠ヤ竴璧峰仛寰堝鏃犺亰鐨勫皬浜嬶紝鍙韬竟鏄綘灏卞ソ銆?,
+        "agree3": "璋㈣阿浣犲媷鏁㈣鍑哄枩娆紝鎴戜篃鍚屾牱鍠滄浣犮€備粠姝ゆ垜浠笉鍐嶆槸鐙嚜鍓嶈锛岃韩杈瑰浜嗕竴涓彲浠ヤ緷闈犵殑浜恒€傛湭鏉ヤ細鏈夐闆紝涔熶細鏈夋棤鏁扮編濂斤紝鎴戞効鎰忓拰浣犱竴璧烽潰瀵广€佷竴璧风粡鍘嗐€傜弽鎯滆繖浠芥潵涔嬩笉鏄撶殑缂樺垎锛岃鐪熷寰呭郊姝わ紝宀佸瞾骞村勾锛屼笉绂讳笉寮冿紝鍋氬郊姝ゆ渶瀹夌ǔ鐨勫綊瀹裤€傛垜浼氱敤琛屽姩鍛婅瘔浣狅紝琚垜鍠滄鏄竴浠跺垢绂忕殑浜嬨€?,
+        "agree4": "鍏跺疄鎴戜竴鐩村湪绛変綘杩欏彞璇濓紝濡備粖缁堜簬绛夊埌浜嗭紝蹇冮噷鏍煎娆㈠枩銆傜紭鍒嗚鎴戜滑闈犺繎锛屽績鍔ㄨ鎴戜滑鐩稿畧銆傛帴涓嬫潵鐨勮矾锛屾垜浠苟鑲╁悓琛屽惂銆傛垜浼氭妸娓╂煍鍜岃€愬績閮界暀缁欎綘锛屾噦浣犵殑娆茶█鍙堟锛岄櫔浣犵殑宀佸瞾骞村勾銆傛効鎴戜滑鐖辨剰涓嶅噺锛屾俯鏆栧鍒濓紝鍦ㄧ儫鐏敓娲婚噷鐩稿畧鐩镐即锛屼竴鐩村垢绂忎笅鍘汇€?,
+        "agree5": "鎴戞敹涓嬩綘鐨勭湡蹇冿紝涔熶氦鍑烘垜鐨勫績鎰忋€備袱涓汉浜掔浉鍠滄锛屽ぇ姒傛槸涓栭棿鏈€缇庡ソ鐨勪簨鎯呫€傚線鍚庢垜浠郊姝ゅ亸鐖憋紝褰兼瀹堟姢锛屼笉杈滆礋鐩搁亣锛屼笉杈滆礋鐪熷績銆傜敓娲绘湁鑻︽湁鐢滐紝鍙韬竟鏄綘锛屼竴鍒囧氨閮藉€煎緱銆傛參鎱㈢浉澶勶紝鎱㈡參娣辩埍锛屼粠鏂伴矞鎰熻蛋鍒板綊灞炴劅锛屼竴鐩磋蛋鍒颁綑鐢熷敖澶淬€?,
+        "agree6": "寰堝簡骞告垜浠績鎰忕浉閫氾紝姝ｅ紡鎴愪负褰兼鐨勬亱浜恒€傚線鍚庝笉鐢ㄥ啀灏忓績缈肩考璇曟帰锛屼笉鐢ㄥ啀钘忚捣蹇冨簳鐨勬鍠溿€傛垜浼氬ソ濂界弽鎯滀綘锛岀弽鎯滆繖浠介毦寰楃殑鐖辨儏銆備竴璧风湅椋庢櫙锛屼竴璧烽棷闅惧叧锛屾妸鏃ュ父鐨勭悙纰庡彉鎴愭氮婕€傛効鎴戜滑闀夸箙鐩镐即锛岀埍鎰忕坏闀匡紝鍦ㄦ极闀挎椂鍏夐噷锛屽缁堝亸鐖卞鏂逛竴浜恒€?,
+        "agree7": "浣犵殑鐪熻瘹鎵撳姩浜嗘垜锛屾垜鎰挎剰鍜屼綘寮€鍚柊鐨勬晠浜嬨€傜埍鎯呮渶濂界殑妯℃牱锛屽氨鏄弻鍚戝璧淬€佸郊姝ょ弽鎯溿€傛湭鏉ョ殑姣忎竴澶╋紝鎴戦兘鎯虫湁浣犵殑闄即銆傜疮浜嗙浉浜掍緷闈狅紝闂蹭簡褰兼闄即锛岃鐪熺粡钀ュ睘浜庢垜浠殑灏忓垢绂忋€傛効鎴戜滑涓€璺悓琛岋紝娓╂煍鐩稿畧锛屼笉璐熼亣瑙侊紝涓嶈礋褰兼銆?,
+        "agree8": "鍏滃厹杞浆锛岃繕濂芥渶鍚庢槸浣犮€傛垜鎺ュ彈浣犵殑鍛婄櫧锛屼篃婊″績鏈熷緟鍜屼綘鍦ㄤ竴璧风殑姣忎竴澶┿€傚線鍚庢垜浠潶璇氱浉寰咃紝鏃犺瘽涓嶈锛屾妸鎵€鏈夋俯鏌旈兘鐣欑粰瀵规柟銆備笉鎯у瞾鏈堟极闀匡紝涓嶇晱鍓嶈矾鍧庡澐锛屽彧瑕佽韩杈规湁褰兼锛屼究鏈夋棤闄愬媷姘斻€傛効鎴戜滑鎼烘墜鍚岃锛岀埍鎰忓彧澧炰笉鍑忥紝涓€鐩存俯鏆栧埌鑰併€?,
+        "agree9": "琚汉璁ょ湡鍠滄鏄竴浠跺緢骞哥鐨勪簨锛岃€屾垜寰堝垢杩愭垚涓洪偅涓汉銆傛垜涔熷枩娆綘锛屾効鎰忓拰浣犵浉瀹堢浉浼淬€傚線鍚庝綑鐢燂紝椋庨洩鏄綘锛屽钩娣℃槸浣狅紝鐩厜鎵€鍙婄殕鏄綘銆傜敤蹇冨寰呰繖浠芥劅鎯咃紝浜掔浉杩佸氨锛屽郊姝ゅ寘瀹癸紝鎶婃櫘閫氱殑鏃ュ瓙杩囨垚鍒汉缇℃厱鐨勬ā鏍凤紝宀佸瞾骞村勾锛屾俯鏆栧鍒濄€?,
+        "agree10": "缁堜簬绛夊埌浣犵殑蹇冩剰锛屾垜娆ｇ劧鎺ュ彈銆備粠姝ゆ垜浠嫢鏈変簡涓撳睘褰兼鐨勬氮婕笌娓╂煍銆備笉姹傛儕鑹虫椂鍏夛紝浣嗘効娓╂煍宀佹湀銆傚湪寰€鍚庣殑鏃ュ瓙閲岋紝鎼烘墜骞惰偐锛屽喎鏆栫浉鐭ワ紝椋庨洦鐩镐緷銆傝鐪熺埍锛岀敤蹇冧即锛岃杩欎唤鍠滄涓€鐩村欢缁紝浠庡垵瑙佺殑蹇冨姩锛岃蛋鍒颁綑鐢熺殑瀹夌ǔ銆?
     };
 
     const refuseTemplate = {
-        "ref1": "当看到拒绝的结果时，我的心一下子沉了下去，失落和难过瞬间包围了我。我鼓起全部勇气告白，抱着满满的期待，最后还是没能如愿。可我对你的喜欢早已深入心底，根本没办法说放下就放下。哪怕现在被拒绝，我依旧舍不得离开，还在默默期待未来能有转机，盼着有一天可以名正言顺陪在你身边。我会继续悄悄关注你，但不会打扰，只愿你能偶尔想起有个人曾那么认真地喜欢过你。",
-        "ref2": "我尊重你的选择，也不会怪你，只是心底的遗憾久久无法散去。无数个日夜幻想过我们在一起的画面，如今美梦落空，情绪低落到极点。我真的很想和你走到一起，成为陪你喜怒哀乐的人。就算此刻没有结果，我也不愿彻底放弃，愿意静静等待，用长久的陪伴，希望终有一天能打动你。我不会打扰你的生活，但请允许我继续默默喜欢你，直到时间给出答案。",
-        "ref3": "被你拒绝之后，心里又酸又堵，难过久久无法平复。这份喜欢不是一时兴起，是日积月累的心动与牵挂。你可以不接受我，却阻止不了我继续喜欢你。我不甘心就这样退场，也舍不得斩断所有念想。我会继续留在你身旁，默默守护，哪怕过程漫长煎熬，也想再努力一次，争取和你相守的机会。",
-        "ref4": "鼓足勇气说出心底的喜欢，换来的却是拒绝，委屈和心酸涌上心头。我认真规划过我们的未来，全心全意对待这份感情，实在没办法轻易转身离开。我真的太想和你在一起了，不想就这样成为过客。能不能不要彻底推开我？我愿意慢慢等待，慢慢坚持，只为等到你愿意接受我的那一天。",
-        "ref5": "明知道结局可能不如所愿，却还是勇敢试了一次，最后依旧留下满心伤感。被拒绝的那一刻，整个人都提不起精神。可我对你的执念从未减少，依旧贪恋和你有关的一切。我不怕等待的孤单，也不怕暂时没有回应，只盼时间能够证明我的真心，让我最终可以陪在你身边，共度朝夕。",
-        "ref6": "告白失败的滋味真的很难受，夜里辗转难眠，脑海里全是你的身影。我承认此刻特别难过，但我依旧放不下这份感情。喜欢一个人不容易，放下一个深爱的人更难。我不会纠缠打扰，却也不会轻易走远。默默留在原地，心怀期待，希望未来某一刻，你能看见我的真心，给我一个相守的可能。",
-        "ref7": "我以为勇敢开口就能靠近你，没想到还是停在了原地。失落、难过、无奈交织在一起，压得人喘不过气。可我还是控制不住去想你、去喜欢你。我真的很渴望能和你拥有一段故事，而不是匆匆遇见就草草结束。我愿意坚持下去，默默陪伴，静待花开，期盼终有一日能和你携手同行。",
-        "ref8": "满心欢喜去告白，最后却换来拒绝，这种落差让人格外难受。我认真爱过、勇敢争取过，虽然暂时没有结果，却依旧不愿放弃。你是我义无反顾的选择，也是我藏在心底的执念。哪怕前路渺茫，我也想再等一等、再守一守，多希望命运可以眷顾我，让我如愿和你在一起。",
-        "ref9": "身边人都劝我放下，说不值得执着，可我的心早已被你占据。被拒绝之后情绪低落，却还是忍不住抱有一丝期待。我不求立刻得到你的回应，只希望你不要彻底忘记我。我会以另一种方式陪在你身边，慢慢付出，慢慢等待，相信真心不会被辜负，总有一天我们会走到一起。",
-        "ref10": "这场单向的心动，终究还是暂时画上了休止符，难过填满了整个心房。我遗憾没能成为你喜欢的人，却依旧舍不得结束这份喜欢。我真的很想和你朝夕相伴，分享生活里的点点滴滴。所以我选择继续坚持，不吵不闹，默默守候，等待一个不确定的未来，也等待一个可以和你相守的机会。"
+        "ref1": "褰撶湅鍒版嫆缁濈殑缁撴灉鏃讹紝鎴戠殑蹇冧竴涓嬪瓙娌変簡涓嬪幓锛屽け钀藉拰闅捐繃鐬棿鍖呭洿浜嗘垜銆傛垜榧撹捣鍏ㄩ儴鍕囨皵鍛婄櫧锛屾姳鐫€婊℃弧鐨勬湡寰咃紝鏈€鍚庤繕鏄病鑳藉鎰裤€傚彲鎴戝浣犵殑鍠滄鏃╁凡娣卞叆蹇冨簳锛屾牴鏈病鍔炴硶璇存斁涓嬪氨鏀句笅銆傚摢鎬曠幇鍦ㄨ鎷掔粷锛屾垜渚濇棫鑸嶄笉寰楃寮€锛岃繕鍦ㄩ粯榛樻湡寰呮湭鏉ヨ兘鏈夎浆鏈猴紝鐩肩潃鏈変竴澶╁彲浠ュ悕姝ｈ█椤洪櫔鍦ㄤ綘韬竟銆傛垜浼氱户缁倓鎮勫叧娉ㄤ綘锛屼絾涓嶄細鎵撴壈锛屽彧鎰夸綘鑳藉伓灏旀兂璧锋湁涓汉鏇鹃偅涔堣鐪熷湴鍠滄杩囦綘銆?,
+        "ref2": "鎴戝皧閲嶄綘鐨勯€夋嫨锛屼篃涓嶄細鎬綘锛屽彧鏄績搴曠殑閬楁喚涔呬箙鏃犳硶鏁ｅ幓銆傛棤鏁颁釜鏃ュ骞绘兂杩囨垜浠湪涓€璧风殑鐢婚潰锛屽浠婄編姊﹁惤绌猴紝鎯呯华浣庤惤鍒版瀬鐐广€傛垜鐪熺殑寰堟兂鍜屼綘璧板埌涓€璧凤紝鎴愪负闄綘鍠滄€掑搥涔愮殑浜恒€傚氨绠楁鍒绘病鏈夌粨鏋滐紝鎴戜篃涓嶆効褰诲簳鏀惧純锛屾効鎰忛潤闈欑瓑寰咃紝鐢ㄩ暱涔呯殑闄即锛屽笇鏈涚粓鏈変竴澶╄兘鎵撳姩浣犮€傛垜涓嶄細鎵撴壈浣犵殑鐢熸椿锛屼絾璇峰厑璁告垜缁х画榛橀粯鍠滄浣狅紝鐩村埌鏃堕棿缁欏嚭绛旀銆?,
+        "ref3": "琚綘鎷掔粷涔嬪悗锛屽績閲屽張閰稿張鍫碉紝闅捐繃涔呬箙鏃犳硶骞冲銆傝繖浠藉枩娆笉鏄竴鏃跺叴璧凤紝鏄棩绉湀绱殑蹇冨姩涓庣壍鎸傘€備綘鍙互涓嶆帴鍙楁垜锛屽嵈闃绘涓嶄簡鎴戠户缁枩娆綘銆傛垜涓嶇敇蹇冨氨杩欐牱閫€鍦猴紝涔熻垗涓嶅緱鏂╂柇鎵€鏈夊康鎯炽€傛垜浼氱户缁暀鍦ㄤ綘韬梺锛岄粯榛樺畧鎶わ紝鍝€曡繃绋嬫极闀跨厧鐔紝涔熸兂鍐嶅姫鍔涗竴娆★紝浜夊彇鍜屼綘鐩稿畧鐨勬満浼氥€?,
+        "ref4": "榧撹冻鍕囨皵璇村嚭蹇冨簳鐨勫枩娆紝鎹㈡潵鐨勫嵈鏄嫆缁濓紝濮斿眻鍜屽績閰告秾涓婂績澶淬€傛垜璁ょ湡瑙勫垝杩囨垜浠殑鏈潵锛屽叏蹇冨叏鎰忓寰呰繖浠芥劅鎯咃紝瀹炲湪娌″姙娉曡交鏄撹浆韬寮€銆傛垜鐪熺殑澶兂鍜屼綘鍦ㄤ竴璧蜂簡锛屼笉鎯冲氨杩欐牱鎴愪负杩囧銆傝兘涓嶈兘涓嶈褰诲簳鎺ㄥ紑鎴戯紵鎴戞効鎰忔參鎱㈢瓑寰咃紝鎱㈡參鍧氭寔锛屽彧涓虹瓑鍒颁綘鎰挎剰鎺ュ彈鎴戠殑閭ｄ竴澶┿€?,
+        "ref5": "鏄庣煡閬撶粨灞€鍙兘涓嶅鎵€鎰匡紝鍗磋繕鏄媷鏁㈣瘯浜嗕竴娆★紝鏈€鍚庝緷鏃х暀涓嬫弧蹇冧激鎰熴€傝鎷掔粷鐨勯偅涓€鍒伙紝鏁翠釜浜洪兘鎻愪笉璧风簿绁炪€傚彲鎴戝浣犵殑鎵у康浠庢湭鍑忓皯锛屼緷鏃ц椽鎭嬪拰浣犳湁鍏崇殑涓€鍒囥€傛垜涓嶆€曠瓑寰呯殑瀛ゅ崟锛屼篃涓嶆€曟殏鏃舵病鏈夊洖搴旓紝鍙浖鏃堕棿鑳藉璇佹槑鎴戠殑鐪熷績锛岃鎴戞渶缁堝彲浠ラ櫔鍦ㄤ綘韬竟锛屽叡搴︽湞澶曘€?,
+        "ref6": "鍛婄櫧澶辫触鐨勬粙鍛崇湡鐨勫緢闅惧彈锛屽閲岃緱杞毦鐪狅紝鑴戞捣閲屽叏鏄綘鐨勮韩褰便€傛垜鎵胯姝ゅ埢鐗瑰埆闅捐繃锛屼絾鎴戜緷鏃ф斁涓嶄笅杩欎唤鎰熸儏銆傚枩娆竴涓汉涓嶅鏄擄紝鏀句笅涓€涓繁鐖辩殑浜烘洿闅俱€傛垜涓嶄細绾犵紶鎵撴壈锛屽嵈涔熶笉浼氳交鏄撹蛋杩溿€傞粯榛樼暀鍦ㄥ師鍦帮紝蹇冩€€鏈熷緟锛屽笇鏈涙湭鏉ユ煇涓€鍒伙紝浣犺兘鐪嬭鎴戠殑鐪熷績锛岀粰鎴戜竴涓浉瀹堢殑鍙兘銆?,
+        "ref7": "鎴戜互涓哄媷鏁㈠紑鍙ｅ氨鑳介潬杩戜綘锛屾病鎯冲埌杩樻槸鍋滃湪浜嗗師鍦般€傚け钀姐€侀毦杩囥€佹棤濂堜氦缁囧湪涓€璧凤紝鍘嬪緱浜哄枠涓嶈繃姘斻€傚彲鎴戣繕鏄帶鍒朵笉浣忓幓鎯充綘銆佸幓鍠滄浣犮€傛垜鐪熺殑寰堟复鏈涜兘鍜屼綘鎷ユ湁涓€娈垫晠浜嬶紝鑰屼笉鏄寙鍖嗛亣瑙佸氨鑽夎崏缁撴潫銆傛垜鎰挎剰鍧氭寔涓嬪幓锛岄粯榛橀櫔浼达紝闈欏緟鑺卞紑锛屾湡鐩肩粓鏈変竴鏃ヨ兘鍜屼綘鎼烘墜鍚岃銆?,
+        "ref8": "婊″績娆㈠枩鍘诲憡鐧斤紝鏈€鍚庡嵈鎹㈡潵鎷掔粷锛岃繖绉嶈惤宸浜烘牸澶栭毦鍙椼€傛垜璁ょ湡鐖辫繃銆佸媷鏁簤鍙栬繃锛岃櫧鐒舵殏鏃舵病鏈夌粨鏋滐紝鍗翠緷鏃т笉鎰挎斁寮冦€備綘鏄垜涔夋棤鍙嶉【鐨勯€夋嫨锛屼篃鏄垜钘忓湪蹇冨簳鐨勬墽蹇点€傚摢鎬曞墠璺负鑼紝鎴戜篃鎯冲啀绛変竴绛夈€佸啀瀹堜竴瀹堬紝澶氬笇鏈涘懡杩愬彲浠ョ湻椤炬垜锛岃鎴戝鎰垮拰浣犲湪涓€璧枫€?,
+        "ref9": "韬竟浜洪兘鍔濇垜鏀句笅锛岃涓嶅€煎緱鎵х潃锛屽彲鎴戠殑蹇冩棭宸茶浣犲崰鎹€傝鎷掔粷涔嬪悗鎯呯华浣庤惤锛屽嵈杩樻槸蹇嶄笉浣忔姳鏈変竴涓濇湡寰呫€傛垜涓嶆眰绔嬪埢寰楀埌浣犵殑鍥炲簲锛屽彧甯屾湜浣犱笉瑕佸交搴曞繕璁版垜銆傛垜浼氫互鍙︿竴绉嶆柟寮忛櫔鍦ㄤ綘韬竟锛屾參鎱粯鍑猴紝鎱㈡參绛夊緟锛岀浉淇＄湡蹇冧笉浼氳杈滆礋锛屾€绘湁涓€澶╂垜浠細璧板埌涓€璧枫€?,
+        "ref10": "杩欏満鍗曞悜鐨勫績鍔紝缁堢┒杩樻槸鏆傛椂鐢讳笂浜嗕紤姝㈢锛岄毦杩囧～婊′簡鏁翠釜蹇冩埧銆傛垜閬楁喚娌¤兘鎴愪负浣犲枩娆㈢殑浜猴紝鍗翠緷鏃ц垗涓嶅緱缁撴潫杩欎唤鍠滄銆傛垜鐪熺殑寰堟兂鍜屼綘鏈濆鐩镐即锛屽垎浜敓娲婚噷鐨勭偣鐐规淮婊淬€傛墍浠ユ垜閫夋嫨缁х画鍧氭寔锛屼笉鍚典笉闂癸紝榛橀粯瀹堝€欙紝绛夊緟涓€涓笉纭畾鐨勬湭鏉ワ紝涔熺瓑寰呬竴涓彲浠ュ拰浣犵浉瀹堢殑鏈轰細銆?
     };
 
     els.templateSelect.addEventListener('change', function(){ let v = this.value; if(v && baseTemplate[v]){ els.baseMsg.value = baseTemplate[v]; els.baseCount.innerText = els.baseMsg.value.length + " / 500"; els.previewContent.innerText = els.baseMsg.value; els.msgBubble.innerText = els.baseMsg.value; } });
@@ -242,10 +242,10 @@
 
     els.sendBtn.addEventListener('click', async () => {
         if(els.sendBtn.disabled) return;
-        els.sendBtn.disabled = true; els.sendBtn.innerText = '生成链接中...';
-        const base = encodeURIComponent(els.baseMsg.value.trim());
-        const agree = encodeURIComponent(els.agreeMsg.value.trim());
-        const refuse = encodeURIComponent(els.refuseMsg.value.trim());
+        els.sendBtn.disabled = true; els.sendBtn.innerText = '鐢熸垚閾炬帴涓?..';
+        const base = els.baseMsg.value.trim();
+        const agree = els.agreeMsg.value.trim();
+        const refuse = els.refuseMsg.value.trim();
         try {
             const res = await fetch('/api/create-session', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ base, agree, refuse }) });
             const data = await res.json();
@@ -255,15 +255,15 @@
                 els.linkBox.innerText = link;
                 navigateTo('chat');
                 startChatPolling();
-            } else { throw new Error(data.error || '创建失败'); }
-        } catch(e) { alert('创建失败：' + e.message); }
-        els.sendBtn.disabled = false; els.sendBtn.innerText = '匿名发送';
+            } else { throw new Error(data.error || '鍒涘缓澶辫触'); }
+        } catch(e) { alert('鍒涘缓澶辫触锛? + e.message); }
+        els.sendBtn.disabled = false; els.sendBtn.innerText = '鍖垮悕鍙戦€?;
     });
 
     els.copyChatLinkBtn.addEventListener('click', () => {
         const link = els.linkBox.innerText;
-        navigator.clipboard.writeText(link).then(() => { els.copyChatLinkBtn.innerText = '✅ 已复制'; setTimeout(()=> els.copyChatLinkBtn.innerText = '📋 复制链接', 2000); })
-        .catch(() => { const range = document.createRange(); range.selectNode(els.linkBox); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); els.copyChatLinkBtn.innerText = '✅ 已复制'; setTimeout(()=> els.copyChatLinkBtn.innerText = '📋 复制链接', 2000); });
+        navigator.clipboard.writeText(link).then(() => { els.copyChatLinkBtn.innerText = '鉁?宸插鍒?; setTimeout(()=> els.copyChatLinkBtn.innerText = '馃搵 澶嶅埗閾炬帴', 2000); })
+        .catch(() => { const range = document.createRange(); range.selectNode(els.linkBox); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); els.copyChatLinkBtn.innerText = '鉁?宸插鍒?; setTimeout(()=> els.copyChatLinkBtn.innerText = '馃搵 澶嶅埗閾炬帴', 2000); });
     });
 
     function startChatPolling() {
@@ -274,13 +274,13 @@
                 const res = await fetch(`/api/get-session?token=${sessionToken}`);
                 const data = await res.json();
                 if (!res.ok) throw new Error(data.error);
-                els.joinStatus.innerText = data.joined ? '✅ 对方已加入，开始聊天吧！' : '⏳ 等待对方加入...';
+                els.joinStatus.innerText = data.joined ? '鉁?瀵规柟宸插姞鍏ワ紝寮€濮嬭亰澶╁惂锛? : '鈴?绛夊緟瀵规柟鍔犲叆...';
                 if (data.messages && data.messages.length > lastMessageCount) {
                     renderMessages(data.messages);
                     lastMessageCount = data.messages.length;
                     els.chatContainer.style.display = 'block';
                 }
-            } catch(e) { clearInterval(chatPollingTimer); chatPollingTimer = null; els.joinStatus.innerText = '❌ 会话已失效'; }
+            } catch(e) { clearInterval(chatPollingTimer); chatPollingTimer = null; els.joinStatus.innerText = '鉂?浼氳瘽宸插け鏁?; }
         }, 3000);
     }
 
@@ -296,13 +296,16 @@
     }
 
     els.sendChatBtn.addEventListener('click', async () => {
+        if (els.sendChatBtn.disabled) return;
         const content = els.chatInput.value.trim();
         if (!content || !sessionToken) return;
+        els.sendChatBtn.disabled = true;
         try {
             await fetch('/api/send-message', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ token: sessionToken, role: 'sender', content }) });
             els.chatInput.value = '';
             lastMessageCount = 0;
         } catch(e) { alert('发送失败'); }
+        els.sendChatBtn.disabled = false;
     });
 
     window.addEventListener('beforeunload', () => { if (chatPollingTimer) clearInterval(chatPollingTimer); });
