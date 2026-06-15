@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>鍖垮悕钘忔儏 - 鏀跺埌鍛婄櫧</title>
+    <title>匿名藏情 - 收到告白</title>
     <style>
         * {
             margin: 0;
@@ -35,7 +35,7 @@
             overflow: visible;
         }
 
-        /* 椋樻诞鐖卞績 */
+        /* 飘浮爱心 */
         .float-heart {
             position: fixed;
             color: #ff87a2;
@@ -220,7 +220,7 @@
             border: 1px solid #ddd !important;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             position: relative;
-            z-index: 50;  /* 楂樹簬鍚屾剰鎸夐挳锛岄槻姝㈣瀹屽叏閬尅 */
+            z-index: 50;  /* 高于同意按钮，防止被完全遮挡 */
         }
         .btn-refuse:hover {
             background: #e8e8e8;
@@ -444,72 +444,72 @@
 
     <div class="receive-card">
         <div id="loadingView" style="text-align:center; color: #a05872; padding: 30px 0;">
-            <div class="envelope-icon">馃拰</div>
-            <h2 class="title">鍔犺浇涓?..</h2>
-            <p style="margin-top:12px; color:var(--text-light);">姝ｅ湪璇诲彇浣犵殑淇′欢...</p>
+            <div class="envelope-icon">💌</div>
+            <h2 class="title">加载中...</h2>
+            <p style="margin-top:12px; color:var(--text-light);">正在读取你的信件...</p>
         </div>
 
         <div id="contentView" style="display:none;">
-            <div class="envelope-icon">馃拰</div>
-            <h2 class="title">鏈変汉鍚戜綘琛ㄧ櫧</h2>
+            <div class="envelope-icon">💌</div>
+            <h2 class="title">有人向你表白</h2>
             <div class="msg-box" id="confessionText"></div>
 
             <div id="decisionArea">
                 <div class="decision-btns" id="btnGroup">
-                    <button class="btn btn-agree" id="agreeBtn">鉂わ笍 鎺ュ彈琛ㄧ櫧</button>
-                    <button class="btn btn-refuse" id="refuseBtn">馃挃 濠夋嫆</button>
+                    <button class="btn btn-agree" id="agreeBtn">❤️ 接受表白</button>
+                    <button class="btn btn-refuse" id="refuseBtn">💔 婉拒</button>
                 </div>
 
                 <div class="reply-wrap" id="replyBox" style="display:none;">
                     <select id="quoteSelect" class="quote-select">
-                        <option value="">鈥斺€?閫夋嫨涓€鍙ュ洖淇¤褰?鈥斺€?/option>
-                        <optgroup label="鉁?鍚屾剰蹇冩儏锛?0娆撅級">
-                            <option value="钀芥棩娌夋汉浜庢鑹茬殑娴凤紝鏅氶娌﹂櫡浜庤丹璇氱殑鐖便€傚綋鎴戠湅鍒拌繖浠藉績鎰忔椂锛屽唴蹇冩弧鏄鍠滀笌鎮稿姩锛屽師鏉ュ弻鍚戝璧寸殑鎰熻濡傛缇庡ソ銆傛极闀垮瞾鏈堥噷锛岃兘閬囪褰兼鏄毦寰楃殑缂樺垎锛屽線鍚庢垜鎰挎剰鍜屼綘涓€璧锋劅鍙楀洓瀛ｆ祦杞紝鍒嗕韩鐢熸椿閲屾墍鏈夌粏纰庣殑缇庡ソ锛屾妸姣忎竴娈靛钩鍑℃椂鍏夐兘杩囧緱娓╂煍鍙堟氮婕€?>1. 钀芥棩鏅氶</option>
-                            <option value="浣犱粠涓嶆槸鎴戞潈琛″埄寮婁箣鍚庡仛鍑虹殑閫夋嫨锛岃€屾槸鍒濊鏃舵€︾劧蹇冨姩锛屾繁鎬濈啛铏戝悗渚濇棫鎯宠鐝嶆儨鐨勪汉銆傝繖浠藉績鎰忔垜鍧︾劧鏀朵笅锛屽線鍚庣殑璺笇鏈涜兘涓庝綘骞惰偐鍚岃銆備笉鐢ㄧ籂缁撳墠璺浣曪紝鍙韬竟鏄綘锛岄闆ㄤ篃濂斤紝鏅村ぉ涔熺舰锛屾垜閮芥弧蹇冩鍠滐紝璁ょ湡瀵瑰緟杩欎唤鏉ヤ箣涓嶆槗鐨勬儏鎰€?>2. 鎬︾劧蹇冨姩</option>
-                            <option value="灞遍噹涓囬噷锛屾槦娌虫极婕紝涓栭棿椋庢櫙鍗冨崈涓囷紝鑰屼綘鏄垜钘忓湪蹇冨簳鏈€娓╂煍鐨勬氮婕€傚緢寮€蹇冭兘澶熸敹鍒颁綘鐨勫憡鐧斤紝涔熸伆濂芥垜瀵逛綘鏈夌潃鍚屾牱鐨勫績鎰忋€傚線鍚庣殑鏃ュ瓙锛屾効鎴戜滑褰兼闄即锛屽郊姝ゅ寘瀹癸紝涓€璧峰璧存洿杩滅殑杩滄柟锛岃娓╂煍涓庡亸鐖憋紝涓€鐩村仠鐣欏湪褰兼韬梺銆?>3. 灞遍噹娴极</option>
-                            <option value="寰€鍚庢湞澶曪紝涓夐鍥涘锛岀粏姘撮暱娴佺殑鏃ュ父鏄綘锛屾煷绫虫补鐩愮殑鐑熺伀涔熸槸浣犮€傛垜鎰挎剰鎺ュ彈杩欎唤鐪熸寶鐨勫枩娆紝浠庢鐢熸椿澶氫簡涓€浠芥湡寰呬笌鐢滆湝銆備笉蹇呰桨杞扮儓鐑堬紝鍙効宀佸瞾骞村勾鐩稿畧鐩镐即锛屾妸绠€鍗曠殑鏃ュ瓙杩囧緱娓╅Θ韪忓疄锛岃鐖辨剰鍦ㄦ湞澶曠浉澶勪腑鎱㈡參娌夋穩銆佹剤鍙戞祿鍘氥€?>4. 浣欑敓鏄綘</option>
-                            <option value="浠庡墠鎬昏寰椾汉鐢熸梾閫斿钩娣℃棤濂囷紝鐩村埌閬囪浣犳墠鏄庣櫧锛屽師鏉ュ揩涔愬彲浠ュ姝ょ畝鍗曘€備綘鐨勫嚭鐜扮収浜簡鎴戠殑鐢熸椿锛屼篃璁╁钩鍑＄殑鏃ュ瓙鍏呮弧鐢滃害銆傛垜寰堝紑蹇冨洖搴斾綘鐨勫績鎰忥紝甯屾湜鎴戜滑鑳界弽鎯滆繖浠界浉閬囷紝鍦ㄥ線鍚庢椂鍏夐噷浜掔浉娓╂殩锛屾妸鎵€鏈夌編濂戒笌娓╂煍锛屽敖鏁拌禒浜堝鏂广€?>5. 鐢滅殑寰堥暱</option>
-                            <option value="蹇冭剰澶╃敓鍋忓悜宸︿晶锛屽氨鍍忔垜瀵逛綘鐨勫亸鐖变粠鏉ラ兘鑷劧鑰岀劧锛屾鏃犵紭鐢便€傛敹鍒颁綘鐨勫憡鐧斤紝鎴戝績閲屾弧鏄鍠滐紝鍐冲畾鍧︾劧鎺ュ彈杩欎唤鍠滄銆傚線鍚庢垜浼氭槑鐩紶鑳嗗湴鍋忓悜浣狅紝璁ょ湡瀹堟姢杩欎唤鎰熸儏锛屼竴璧疯蛋杩囨湞鏈濇毊鏆紝璁╃埍鎰忚疮绌跨敓娲荤殑姣忎竴涓钀姐€?>6. 瀵逛綘鍋忓績</option>
-                            <option value="閬囪浣犵殑姣忎竴澶╅兘鏍煎娓╂煍锛屽摢鎬曞彧鏄繋闈㈠惞鏉ョ殑寰锛岄兘鍍忔槸灏嗕竴鏁翠釜鏄庡獨鐨勬槬澶╂嫢鍏ユ€€涓€傛垜鍗佸垎鐝嶆儨杩欎唤蹇冩剰锛屼篃鎰挎剰鍜屼綘鎼烘墜鍚岃銆傛効鎴戜滑甯︾潃杩欎唤鐑勘涓庢鍠滐紝鎱㈡參鐩稿銆佹參鎱簡瑙ｏ紝鍦ㄥ瞾鏈堥噷鐩稿畧锛岃缇庡ソ涓€鐩村欢缁笅鍘汇€?>7. 鎷ュ叆鏄ュぉ</option>
-                            <option value="骞虫棩閲屾€绘湁蹇欎笉瀹岀殑鐞愪簨锛屽彲鍙鎯冲埌浣狅紝灏卞繊涓嶄綇鍋滀笅鑴氭鎯冲鑱婂嚑鍙ャ€備綘鐨勫績鎰忔垜瀹屽叏鏀朵笅锛岃兘澶熻浣犲枩娆㈡槸涓€浠跺緢骞哥鐨勪簨銆傚線鍚庨棽鏆囦箣鏃舵垜浠彲浠ョ晠璋堝績浜嬶紝鍒嗕韩鍠滄€掑搥涔愶紝璁╁郊姝ゆ垚涓虹敓娲婚噷鏈€璐村績鐨勯櫔浼达紝娓╂殩婕暱宀佹湀銆?>8. 鍙兂鑱婁綘</option>
-                            <option value="鐖辨剰涓嶅繀鏃舵椂鎸傚湪鍢磋竟锛屽嵈浼氳棌鍦ㄦ棩甯哥殑涓€鐐逛竴婊撮噷锛屾€濆康涔熶細浼撮殢鏈濇毊宀佸瞾涓嶆伅銆傚浠婃垜鍥炲簲浣犵殑蹇冩剰锛屾弧蹇冩弧鐪肩殕鏄浣犵殑鏈熻涓庢俯鏌斻€傛効鎴戜滑甯︾潃鐪熻瘹涓庣湡蹇冪浉澶勶紝褰兼鐞嗚В銆佸郊姝や綋璋咃紝璁╄繖浠芥劅鎯呭畨绋抽暱涔咃紝涓嶈礋鐩搁亣锛屼笉璐熺湡蹇冦€?>9. 婊″績鏄綘</option>
-                            <option value="琚汉璁ょ湡鍠滄鐨勬劅瑙夋牸澶栨俯鏆栵紝浠夸經涓栭棿鎵€鏈夌殑娓╂煍涓庡杽鎰忥紝閮界悍绾疯惤鍦ㄤ簡鑷繁韬笂銆傛垜娆ｇ劧鎺ュ彈浣犵殑鍛婄櫧锛屾劅鎭╄繖鍦虹編濂界殑鐩搁亣銆傛湭鏉ョ殑璺紝甯屾湜鎴戜滑鎼烘墜鐩镐即锛岀敤蹇冨寰呭郊姝わ紝鍦ㄥ钩娣＄敓娲婚噷鍒堕€犳儕鍠滐紝鍦ㄦ极闀挎椂鍏夐噷瀹堟姢杩欎唤绾补鐨勭埍鎰忋€?>10. 娓╂煍钀芥垜</option>
+                        <option value="">—— 选择一句回信语录 ——</option>
+                        <optgroup label="✅ 同意心情（10款）">
+                            <option value="落日沉溺于橘色的海，晚风沦陷于赤诚的爱。当我看到这份心意时，内心满是欢喜与悸动，原来双向奔赴的感觉如此美好。漫长岁月里，能遇见彼此是难得的缘分，往后我愿意和你一起感受四季流转，分享生活里所有细碎的美好，把每一段平凡时光都过得温柔又浪漫。">1. 落日晚风</option>
+                            <option value="你从不是我权衡利弊之后做出的选择，而是初见时怦然心动，深思熟虑后依旧想要珍惜的人。这份心意我坦然收下，往后的路希望能与你并肩同行。不用纠结前路如何，只要身边是你，风雨也好，晴天也罢，我都满心欢喜，认真对待这份来之不易的情愫。">2. 怦然心动</option>
+                            <option value="山野万里，星河漫漫，世间风景千千万，而你是我藏在心底最温柔的浪漫。很开心能够收到你的告白，也恰好我对你有着同样的心意。往后的日子，愿我们彼此陪伴，彼此包容，一起奔赴更远的远方，让温柔与偏爱，一直停留在彼此身旁。">3. 山野浪漫</option>
+                            <option value="往后朝夕，三餐四季，细水长流的日常是你，柴米油盐的烟火也是你。我愿意接受这份真挚的喜欢，从此生活多了一份期待与甜蜜。不必轰轰烈烈，只愿岁岁年年相守相伴，把简单的日子过得温馨踏实，让爱意在朝夕相处中慢慢沉淀、愈发浓厚。">4. 余生是你</option>
+                            <option value="从前总觉得人生旅途平淡无奇，直到遇见你才明白，原来快乐可以如此简单。你的出现照亮了我的生活，也让平凡的日子充满甜度。我很开心回应你的心意，希望我们能珍惜这份相遇，在往后时光里互相温暖，把所有美好与温柔，尽数赠予对方。">5. 甜的很长</option>
+                            <option value="心脏天生偏向左侧，就像我对你的偏爱从来都自然而然，毫无缘由。收到你的告白，我心里满是欣喜，决定坦然接受这份喜欢。往后我会明目张胆地偏向你，认真守护这份感情，一起走过朝朝暮暮，让爱意贯穿生活的每一个角落。">6. 对你偏心</option>
+                            <option value="遇见你的每一天都格外温柔，哪怕只是迎面吹来的微风，都像是将一整个明媚的春天拥入怀中。我十分珍惜这份心意，也愿意和你携手同行。愿我们带着这份热忱与欢喜，慢慢相处、慢慢了解，在岁月里相守，让美好一直延续下去。">7. 拥入春天</option>
+                            <option value="平日里总有忙不完的琐事，可只要想到你，就忍不住停下脚步想多聊几句。你的心意我完全收下，能够被你喜欢是一件很幸福的事。往后闲暇之时我们可以畅谈心事，分享喜怒哀乐，让彼此成为生活里最贴心的陪伴，温暖漫长岁月。">8. 只想聊你</option>
+                            <option value="爱意不必时时挂在嘴边，却会藏在日常的一点一滴里，思念也会伴随朝暮岁岁不息。如今我回应你的心意，满心满眼皆是对你的期许与温柔。愿我们带着真诚与真心相处，彼此理解、彼此体谅，让这份感情安稳长久，不负相遇，不负真心。">9. 满心是你</option>
+                            <option value="被人认真喜欢的感觉格外温暖，仿佛世间所有的温柔与善意，都纷纷落在了自己身上。我欣然接受你的告白，感恩这场美好的相遇。未来的路，希望我们携手相伴，用心对待彼此，在平淡生活里制造惊喜，在漫长时光里守护这份纯粹的爱意。">10. 温柔落我</option>
                         </optgroup>
-                        <optgroup label="鉂?鎷掔粷 & 璁ら敊浜猴紙10娆撅級">
-                            <option value="浠旂粏鐪嬭繃浣犵殑鐣欒█锛屾墠鍙戠幇鍘熸潵鏄竴鍦鸿浼氾紝寰堟姳姝夛紝浣犲苟涓嶆槸鎴戞兂瑕佸€捐瘔蹇冮噷鐨勯偅涓汉銆傝繖浠界湡鎸氱殑鎯呮劅鍗佸垎鐝嶈吹锛岃繕璇蜂綘濂藉ソ鐣欑粰鐪熸瀵圭殑浜恒€備篃绁濅綘鏃╂棩閬囪蹇冩剰鐩搁€氱殑浜猴紝鎷ユ湁涓€娈靛渾婊＄編濂界殑缂樺垎锛屼笉琚仐鎲炬墦鎵帮紝宀佸瞾骞冲畨椤洪亗銆?>11. 璁ら敊浜轰簡</option>
-                            <option value="浣犳槸涓€涓緢浼樼銆佸緢娓╂煍鐨勪汉锛屽€煎緱琚ソ濂藉亸鐖变笌鐝嶆儨銆傚彧鏄緢閬楁喚锛屾垜鐨勫績閲屾棭宸蹭綇杩涗簡鍒汉锛屽疄鍦ㄦ棤娉曞洖搴斾綘鐨勫績鎰忋€傚笇鏈涗綘涓嶈鍥犱负杩欐鐨勭粨鏋滄劅鍒板け钀斤紝鏀舵嬀濂藉績鎯呯户缁悜鍓嶏紝涓€瀹氫細鍦ㄥ墠璺亣瑙侀偅涓弧蹇冮兘鏄綘鐨勪汉銆?>12. 蹇冩湁鎵€灞?/option>
-                            <option value="鎰熻阿浣犲潶璇氳鍑哄唴蹇冪殑鎯虫硶锛屽彧鏄枱閰岃涔咃紝鎴戣寰楁垜浠洿閫傚悎浠ユ湅鍙嬬殑韬唤鐩稿銆傝繘涓€姝ヤ細鏄惧緱灏村艾锛岄€€涓€姝ュ張鑸嶄笉寰楄繖浠芥儏璋婏紝缁存寔鐜扮姸渚挎槸鏈€濂界殑閫夋嫨銆傛効鎴戜滑閮借兘瀹堜綇杩欎唤绠€鍗曠殑缇庡ソ锛屽悇鑷畨濂斤紝鍦ㄤ笉鍚岀殑杞ㄨ抗閲岄亣瑙佸睘浜庤嚜宸辩殑骞哥銆?>13. 閫傚悎鏈嬪弸</option>
-                            <option value="鍗佸垎鎰熻阿浣犳効鎰忔妸蹇冨簳鐨勫枩娆㈣缁欐垜鍚紝杩欎唤鍕囨皵涓庣湡璇氳鎴戝緢鎰熷姩銆備絾鐩墠鎴戞殏鏃舵病鏈夊紑鍚竴娈垫亱鎯呯殑鎯虫硶锛屼笉鎯宠€借浣犵殑鏃堕棿涓庣湡蹇冦€傚笇鏈涗綘鑳藉鐞嗚В锛屼篃鎰夸綘淇濇寔鐑勘锛屽璧村睘浜庤嚜宸辩殑缇庡ソ锛屾棭鏃ユ敹鑾峰弻鍚戠殑鍠滄銆?>14. 涓嶆兂鎭嬬埍</option>
-                            <option value="璁ょ湡鐪嬪畬浣犵殑鍛婄櫧锛屾€濋噺鍐嶄笁锛岃繕鏄喅瀹氬潶璇氱浉寰呫€傚緢鎶辨瓑锛屾垜瀵逛綘濮嬬粓娌℃湁蹇冨姩鐨勬劅瑙夛紝涓嶆効鍕夊己鑷繁锛屼篃涓嶆兂娆洪獥浣犵殑鐪熷績銆備綘寰堝ソ锛屽彧鏄垜浠苟涓嶅悎閫傦紝甯屾湜浣犳棭鏃ユ斁涓嬶紝缁х画鍚戝墠锛岄亣瑙侀偅涓兘璁╀綘婊″績娆㈠枩鐨勪汉銆?>15. 娌℃湁蹇冨姩</option>
-                            <option value="寰堥仐鎲炬病鑳藉洖搴斾綘鐨勫績鎰忥紝杩欏苟涓嶆槸鍥犱负浣犱笉澶熶紭绉€锛屽彧鏄汉涓庝汉涔嬮棿璁茬┒缂樺垎涓庡鍚堬紝鎴戜滑鎭板ソ涓嶆槸褰兼鍚堥€傜殑閭ｄ釜浜恒€傛劅璋綘鐨勯潚鐫愪笌鍧﹁瘹锛屾効浣犱笉蹇呯籂缁撹繃寰€锛屽甫鐫€鍠勬剰缁х画鍓嶈锛屽湪寰€鍚庣殑鏃ュ瓙閲岄亣瑙佺伒榄傚鍚堢殑鐩镐即涔嬩汉銆?>16. 鍒氬ソ涓嶅悎閫?/option>
-                            <option value="鎰熻阿浣犻紦璧峰媷姘旇〃杈惧績鎰忥紝鎴戜篃璁ょ湡鎬濊€冧簡寰堜箙銆傛垜鎴栬鍦ㄦ梺浜虹溂涓繕绠椾笉閿欙紝浣嗗苟涓嶆槸浣犲績涓墍鏈熷緟鐨勬ā鏍枫€傚疄鍦ㄦ姳姝夋棤娉曟帴鍙楄繖浠藉枩娆紝甯屾湜浣犺兘閬囪鐪熸濂戝悎銆佽兘涓庝綘鍚岄鍚岃鐨勪汉锛屾嫢鏈夋弧蹇冩鍠滅殑鐢熸椿銆?>17. 涓嶆槸閭ｇ濂?/option>
-                            <option value="浣犵湡璇氬張鐑儓锛屽€煎緱涓栭棿鏈€濂界殑鍋忕埍涓庨櫔浼达紝鑰屾垜娌″姙娉曠粰浣犲悓绛夌殑鍥炲簲锛屾墍浠ヤ笉鎰胯€借浣犲墠琛屻€傜湡蹇冪鎰夸綘鏀句笅杩欎唤鎵у康锛屽幓閬囪閭ｄ釜鎰挎剰涓轰綘濂旇荡銆佷篃鑳芥帴浣忎綘鎵€鏈夋俯鏌旂殑浜猴紝鎰夸綘鐨勬瘡浠藉枩娆紝閮借兘寰楀埌鍦嗘弧鍥炲簲銆?>18. 鍊煎緱鏇村ソ</option>
-                            <option value="璋㈣阿浣犱笉椤句竴鍒囧璧磋€屾潵鐨勫枩娆紝鍙垜缁堢┒涓嶆槸閭ｄ釜鍊煎緱浣犲鍔涘悜鍓嶇殑浜恒€備笉鎯宠浣犵户缁湪鎴戣韩涓婅€楄垂蹇冩€濅笌鎯呯华锛屾墍浠ュ潶鐒惰鍑烘兂娉曘€傛効浣犲強鏃惰浆韬紝鍘诲線灞炰簬鑷繁鐨勮繙鏂癸紝閬囪閭ｄ釜鎰挎剰鍜屼綘鍙屽悜濂旇荡銆佺浉瀹堜竴鐢熺殑浜恒€?>19. 涓嶅€煎緱鐙傚</option>
-                            <option value="鎵胯挋浣犵殑鍘氱埍涓庣湡蹇冿紝鎴戝績鎬€鎰熸縺銆傚彧鏄鍒绘垜鐨勫唴蹇冩殏鏃朵笉鎯虫帴绾虫柊鐨勬劅鎯咃紝蹇冮棬鏆備笖鍏抽棴銆傝繕鏈涗綘鑳藉璋呰В锛屼笉蹇呬负姝ゅ仠鐣欍€傚北姘翠竴绋嬶紝鏈夊垢鐩搁亣锛屾効鎴戜滑寰€鍚庡悇鑷畨濂斤紝鍓嶈矾鍏夋槑锛岄兘鑳藉緱鍋挎墍鎰匡紝鎷ユ姳灞炰簬鑷繁鐨勫垢绂忋€?>20. 蹇冨凡鎵撶儕</option>
+                        <optgroup label="❌ 拒绝 & 认错人（10款）">
+                            <option value="仔细看过你的留言，才发现原来是一场误会，很抱歉，你并不是我想要倾诉心里的那个人。这份真挚的情感十分珍贵，还请你好好留给真正对的人。也祝你早日遇见心意相通的人，拥有一段圆满美好的缘分，不被遗憾打扰，岁岁平安顺遂。">11. 认错人了</option>
+                            <option value="你是一个很优秀、很温柔的人，值得被好好偏爱与珍惜。只是很遗憾，我的心里早已住进了别人，实在无法回应你的心意。希望你不要因为这次的结果感到失落，收拾好心情继续向前，一定会在前路遇见那个满心都是你的人。">12. 心有所属</option>
+                            <option value="感谢你坦诚说出内心的想法，只是斟酌许久，我觉得我们更适合以朋友的身份相处。进一步会显得尴尬，退一步又舍不得这份情谊，维持现状便是最好的选择。愿我们都能守住这份简单的美好，各自安好，在不同的轨迹里遇见属于自己的幸福。">13. 适合朋友</option>
+                            <option value="十分感谢你愿意把心底的喜欢讲给我听，这份勇气与真诚让我很感动。但目前我暂时没有开启一段恋情的想法，不想耽误你的时间与真心。希望你能够理解，也愿你保持热忱，奔赴属于自己的美好，早日收获双向的喜欢。">14. 不想恋爱</option>
+                            <option value="认真看完你的告白，思量再三，还是决定坦诚相待。很抱歉，我对你始终没有心动的感觉，不愿勉强自己，也不想欺骗你的真心。你很好，只是我们并不合适，希望你早日放下，继续向前，遇见那个能让你满心欢喜的人。">15. 没有心动</option>
+                            <option value="很遗憾没能回应你的心意，这并不是因为你不够优秀，只是人与人之间讲究缘分与契合，我们恰好不是彼此合适的那个人。感谢你的青睐与坦诚，愿你不必纠结过往，带着善意继续前行，在往后的日子里遇见灵魂契合的相伴之人。">16. 刚好不合适</option>
+                            <option value="感谢你鼓起勇气表达心意，我也认真思考了很久。我或许在旁人眼中还算不错，但并不是你心中所期待的模样。实在抱歉无法接受这份喜欢，希望你能遇见真正契合、能与你同频同行的人，拥有满心欢喜的生活。">17. 不是那种好</option>
+                            <option value="你真诚又热烈，值得世间最好的偏爱与陪伴，而我没办法给你同等的回应，所以不愿耽误你前行。真心祝愿你放下这份执念，去遇见那个愿意为你奔赴、也能接住你所有温柔的人，愿你的每份喜欢，都能得到圆满回应。">18. 值得更好</option>
+                            <option value="谢谢你不顾一切奔赴而来的喜欢，可我终究不是那个值得你奋力向前的人。不想让你继续在我身上耗费心思与情绪，所以坦然说出想法。愿你及时转身，去往属于自己的远方，遇见那个愿意和你双向奔赴、相守一生的人。">19. 不值得狂奔</option>
+                            <option value="承蒙你的厚爱与真心，我心怀感激。只是此刻我的内心暂时不想接纳新的感情，心门暂且关闭。还望你能够谅解，不必为此停留。山水一程，有幸相遇，愿我们往后各自安好，前路光明，都能得偿所愿，拥抱属于自己的幸福。">20. 心已打烊</option>
                         </optgroup>
                     </select>
-                    <textarea class="reply-input" id="replyContent" placeholder="鍦ㄦ涔﹀啓鍥炰俊..." maxlength="480"></textarea>
+                    <textarea class="reply-input" id="replyContent" placeholder="在此书写回信..." maxlength="480"></textarea>
                     <div class="word-info" id="wordInfo">0 / 1000 (0%)</div>
-                    <button class="btn-send-reply" id="sendReplyBtn">馃拰 瀵勫嚭鍥炰俊</button>
+                    <button class="btn-send-reply" id="sendReplyBtn">💌 寄出回信</button>
                 </div>
             </div>
 
             <div class="chat-container" id="chatContainer" style="display:none;">
                 <div class="chat-messages" id="chatMessages"></div>
                 <div class="chat-input-row">
-                    <input type="text" id="chatInput" placeholder="璇寸偣浠€涔堝惂..." maxlength="500">
-                    <button class="btn-send" id="sendBtn">鍙戦€?/button>
+                    <input type="text" id="chatInput" placeholder="说点什么吧..." maxlength="500">
+                    <button class="btn-send" id="sendBtn">发送</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // 鑳屾櫙鐗规晥锛氶娴埍蹇?
+        // 背景特效：飘浮爱心
         function createFloatHeart() {
             const heart = document.createElement("div");
             heart.className = "float-heart";
-            heart.innerText = "鉂?;
+            heart.innerText = "❤";
             heart.style.left = Math.random() * 100 + "%";
             heart.style.animationDuration = (4 + Math.random() * 4) + "s";
             document.body.appendChild(heart);
@@ -517,14 +517,13 @@
         }
         setInterval(createFloatHeart, 800);
 
-        // ========== 鍚庣 API 浜や簰 ==========
+        // ========== 后端 API 交互 ==========
         const urlParams = new URLSearchParams(window.location.search);
         const token = urlParams.get('token');
 
         if (!token) {
-            document.getElementById('loadingView').innerHTML = '<h3 style="color:var(--danger-red);">💔</h3><p id="errorMsg2" style="margin-top:12px;color:var(--text-light);"></p>';
-                document.getElementById('errorMsg2').innerText = e.message
-            throw new Error('鏃犳晥閾炬帴');
+            document.getElementById('loadingView').innerHTML = '<h3 style="color:var(--danger-red);">❌ 无效链接</h3><p style="margin-top:12px;color:var(--text-light);">链接缺少参数，请检查地址是否正确。</p>';
+            throw new Error('无效链接');
         }
 
         const MAX_WORD = 480;
@@ -553,7 +552,7 @@
         const decisionArea = document.getElementById('decisionArea');
         const confessionText = document.getElementById('confessionText');
 
-        // 璇綍濉厖
+        // 语录填充
         quoteSelect.addEventListener('change', function() {
             const val = this.value;
             if (val) {
@@ -574,7 +573,7 @@
             for (let i = 0; i < 6; i++) {
                 const heart = document.createElement('div');
                 heart.className = 'heart';
-                heart.innerText = '鉂?;
+                heart.innerText = '❤';
                 heart.style.left = e.clientX + 'px';
                 heart.style.top = e.clientY + 'px';
                 document.body.appendChild(heart);
@@ -584,7 +583,7 @@
         function createBreakHeart(e) {
             const heart = document.createElement('div');
             heart.className = 'heart-break';
-            heart.innerText = '馃挃';
+            heart.innerText = '💔';
             heart.style.left = e.clientX + 'px';
             heart.style.top = e.clientY + 'px';
             document.body.appendChild(heart);
@@ -607,7 +606,7 @@
             refuseScale = 1;
         }
 
-        // 鍒濆鍖栭〉闈?
+        // 初始化页面
         async function init() {
             try {
                 const res = await fetch('/api/check-join', {
@@ -616,16 +615,16 @@
                     body: JSON.stringify({ token })
                 });
                 const data = await res.json();
-                if (!res.ok) throw new Error(data.error || '浼氳瘽鏃犳晥');
+                if (!res.ok) throw new Error(data.error || '会话无效');
 
-                confessionText.innerText = data.base || '瀵规柟娌℃湁鐣欎笅鏂囧瓧锛屼絾蹇冩剰宸蹭紶杈俱€?;
+                confessionText.innerText = data.base || '对方没有留下文字，但心意已传达。';
                 document.getElementById('loadingView').style.display = 'none';
                 document.getElementById('contentView').style.display = 'block';
 
-                const agreeMsg = data.agree || '鎴戞効鎰忥紒浠ュ悗璇峰鎸囨暀 馃挄';
-                const refuseMsg = data.refuse || '璋㈣阿浣犲枩娆㈡垜锛屼絾瀵逛笉璧?..';
+                const agreeMsg = data.agree || '我愿意！以后请多指教 💕';
+                const refuseMsg = data.refuse || '谢谢你喜欢我，但对不起...';
 
-                // 鍚屾剰鎸夐挳浜嬩欢
+                // 同意按钮事件
                 agreeBtn.addEventListener('click', function(e) {
                     if (chosen) return;
                     chosen = true;
@@ -639,7 +638,7 @@
                     btnGroup.style.display = 'none';
                 });
 
-                // 鎷掔粷鎸夐挳锛堥渶鐐瑰嚮4娆★級
+                // 拒绝按钮（需点击4次）
                 refuseBtn.addEventListener('click', function(e) {
                     if (chosen) return;
                     refuseClickNum++;
@@ -665,21 +664,21 @@
                     }
                 });
 
-                // 鍙戦€佸洖淇?
+                // 发送回信
                 sendReplyBtn.addEventListener('click', async function(e) {
                     if (sendReplyBtn.disabled) return;
                     const choice = replyBox.dataset.choice;
                     const text = replyContent.value.trim();
                     if (!text) {
-                        alert('璇疯緭鍏ュ洖淇″唴瀹?);
+                        alert('请输入回信内容');
                         return;
                     }
                     sendReplyBtn.disabled = true;
-                    sendReplyBtn.innerHTML = '<span class="loading"></span> 瀵勫嚭涓?..';
+                    sendReplyBtn.innerHTML = '<span class="loading"></span> 寄出中...';
                     createHeart(e);
 
                     try {
-                        const tag = choice === 'agree' ? '鉂わ笍 瀵规柟鎺ュ彈浜嗕綘鐨勫憡鐧斤紒' : '馃挃 瀵规柟濠夋嫆浜嗕綘鐨勫憡鐧姐€?;
+                        const tag = choice === 'agree' ? '❤️ 对方接受了你的告白！' : '💔 对方婉拒了你的告白。';
                         const systemMsg = tag + '\n' + text;
                         await fetch('/api/send-message', {
                             method: 'POST',
@@ -691,16 +690,15 @@
                         lastMessageCount = 0;
                         startPolling();
                     } catch (error) {
-                        alert('鍙戦€佸け璐ワ紝璇烽噸璇?);
+                        alert('发送失败，请重试');
                         sendReplyBtn.disabled = false;
-                        sendReplyBtn.innerHTML = '馃拰 瀵勫嚭鍥炰俊';
+                        sendReplyBtn.innerHTML = '💌 寄出回信';
                     }
                 });
 
                 startPolling();
             } catch (e) {
-                document.getElementById('loadingView').innerHTML = '<h3 style="color:var(--danger-red);">💔</h3><p id="errorMsg3" style="margin-top:12px;color:var(--text-light);"></p>';
-                document.getElementById('errorMsg3').innerText = e.message
+                document.getElementById('loadingView').innerHTML = '<h3 style="color:var(--danger-red);">❌ ' + e.message + '</h3>';
             }
         }
 
@@ -715,7 +713,7 @@
                         lastMessageCount = data.messages.length;
                     }
                 } catch (e) {
-                    console.error('杞澶辫触');
+                    console.error('轮询失败');
                 }
             }, 3000);
         }
@@ -751,7 +749,7 @@
                 chatInput.value = '';
                 lastMessageCount = 0;
             } catch (e) {
-                alert('鍙戦€佸け璐?);
+                alert('发送失败');
             }
         }
 
