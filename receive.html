@@ -35,7 +35,6 @@
             overflow: visible;
         }
 
-        /* 飘浮爱心 */
         .float-heart {
             position: fixed;
             color: #ff87a2;
@@ -220,7 +219,7 @@
             border: 1px solid #ddd !important;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             position: relative;
-            z-index: 50;  /* 高于同意按钮，防止被完全遮挡 */
+            z-index: 50;
         }
         .btn-refuse:hover {
             background: #e8e8e8;
@@ -348,6 +347,15 @@
             background: #f0f0f0;
             float: left;
             color: #444;
+        }
+        .msg.system {
+            background: #fff3e0;
+            color: #e65100;
+            float: none;
+            text-align: center;
+            max-width: 100%;
+            font-size: 13px;
+            margin: 12px 0;
         }
         .chat-input-row {
             display: flex;
@@ -489,7 +497,7 @@
                         </optgroup>
                     </select>
                     <textarea class="reply-input" id="replyContent" placeholder="在此书写回信..." maxlength="480"></textarea>
-                    <div class="word-info" id="wordInfo">0 / 1000 (0%)</div>
+                    <div class="word-info" id="wordInfo">0 / 480 (0%)</div>
                     <button class="btn-send-reply" id="sendReplyBtn">💌 寄出回信</button>
                 </div>
             </div>
@@ -505,56 +513,53 @@
     </div>
 
     <script>
-        // 背景特效：飘浮爱心
         function createFloatHeart() {
-            const heart = document.createElement("div");
+            var heart = document.createElement("div");
             heart.className = "float-heart";
             heart.innerText = "❤";
             heart.style.left = Math.random() * 100 + "%";
             heart.style.animationDuration = (4 + Math.random() * 4) + "s";
             document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 8000);
+            setTimeout(function() { heart.remove(); }, 8000);
         }
         setInterval(createFloatHeart, 800);
 
-        // ========== 后端 API 交互 ==========
-        const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('token');
+        var urlParams = new URLSearchParams(window.location.search);
+        var token = urlParams.get('token');
 
         if (!token) {
             document.getElementById('loadingView').innerHTML = '<h3 style="color:var(--danger-red);">❌ 无效链接</h3><p style="margin-top:12px;color:var(--text-light);">链接缺少参数，请检查地址是否正确。</p>';
             throw new Error('无效链接');
         }
 
-        const MAX_WORD = 480;
-        let lastMessageCount = 0;
-        let pollingTimer = null;
-        let chosen = false;
-        let refuseClickNum = 0;
-        const needClick = 4;
-        let agreeScale = 1;
-        let refuseScale = 1;
-        const AGREE_SCALE_STEP = 0.35;
-        const REFUSE_SCALE_STEP = 0.18;
+        var MAX_WORD = 480;
+        var lastMessageCount = 0;
+        var pollingTimer = null;
+        var chosen = false;
+        var refuseClickNum = 0;
+        var needClick = 4;
+        var agreeScale = 1;
+        var refuseScale = 1;
+        var AGREE_SCALE_STEP = 0.35;
+        var REFUSE_SCALE_STEP = 0.18;
 
-        const agreeBtn = document.getElementById('agreeBtn');
-        const refuseBtn = document.getElementById('refuseBtn');
-        const replyBox = document.getElementById('replyBox');
-        const replyContent = document.getElementById('replyContent');
-        const sendReplyBtn = document.getElementById('sendReplyBtn');
-        const quoteSelect = document.getElementById('quoteSelect');
-        const wordInfo = document.getElementById('wordInfo');
-        const chatContainer = document.getElementById('chatContainer');
-        const chatMessages = document.getElementById('chatMessages');
-        const chatInput = document.getElementById('chatInput');
-        const sendBtn = document.getElementById('sendBtn');
-        const btnGroup = document.getElementById('btnGroup');
-        const decisionArea = document.getElementById('decisionArea');
-        const confessionText = document.getElementById('confessionText');
+        var agreeBtn = document.getElementById('agreeBtn');
+        var refuseBtn = document.getElementById('refuseBtn');
+        var replyBox = document.getElementById('replyBox');
+        var replyContent = document.getElementById('replyContent');
+        var sendReplyBtn = document.getElementById('sendReplyBtn');
+        var quoteSelect = document.getElementById('quoteSelect');
+        var wordInfo = document.getElementById('wordInfo');
+        var chatContainer = document.getElementById('chatContainer');
+        var chatMessages = document.getElementById('chatMessages');
+        var chatInput = document.getElementById('chatInput');
+        var sendBtn = document.getElementById('sendBtn');
+        var btnGroup = document.getElementById('btnGroup');
+        var decisionArea = document.getElementById('decisionArea');
+        var confessionText = document.getElementById('confessionText');
 
-        // 语录填充
         quoteSelect.addEventListener('change', function() {
-            const val = this.value;
+            var val = this.value;
             if (val) {
                 replyContent.value = val;
                 updateWordCount();
@@ -562,40 +567,61 @@
         });
 
         function updateWordCount() {
-            let len = replyContent.value.length;
-            let percent = Math.min(Math.round(len / MAX_WORD * 100), 100);
-            wordInfo.innerText = `${len} / ${MAX_WORD} (${percent}%)`;
-            wordInfo.className = 'word-info' + (len >= 430 ? ' warn' : '');
+            var len = replyContent.value.length;
+            var percent = Math.min(Math.round(len / MAX_WORD * 100), 100);
+            wordInfo.innerText = len + ' / ' + MAX_WORD + ' (' + percent + '%)';
+            if (len >= 430) {
+                wordInfo.className = 'word-info warn';
+            } else {
+                wordInfo.className = 'word-info';
+            }
         }
         replyContent.addEventListener('input', updateWordCount);
 
         function createHeart(e) {
-            for (let i = 0; i < 6; i++) {
-                const heart = document.createElement('div');
+            var x, y;
+            if (e && e.clientX !== undefined) {
+                x = e.clientX;
+                y = e.clientY;
+            } else {
+                x = window.innerWidth / 2;
+                y = window.innerHeight / 2;
+            }
+            for (var i = 0; i < 6; i++) {
+                var heart = document.createElement('div');
                 heart.className = 'heart';
                 heart.innerText = '❤';
-                heart.style.left = e.clientX + 'px';
-                heart.style.top = e.clientY + 'px';
+                heart.style.left = x + 'px';
+                heart.style.top = y + 'px';
                 document.body.appendChild(heart);
-                setTimeout(() => heart.remove(), 1400);
+                setTimeout(function(h) { h.remove(); }, 1400);
             }
         }
+
         function createBreakHeart(e) {
-            const heart = document.createElement('div');
+            var x, y;
+            if (e && e.clientX !== undefined) {
+                x = e.clientX;
+                y = e.clientY;
+            } else {
+                x = window.innerWidth / 2;
+                y = window.innerHeight / 2;
+            }
+            var heart = document.createElement('div');
             heart.className = 'heart-break';
             heart.innerText = '💔';
-            heart.style.left = e.clientX + 'px';
-            heart.style.top = e.clientY + 'px';
+            heart.style.left = x + 'px';
+            heart.style.top = y + 'px';
             document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 1200);
+            setTimeout(function() { heart.remove(); }, 1200);
         }
 
         function getSafeTranslate() {
-            const rangeX = 160;
-            const rangeY = 100;
-            let offsetX = (Math.random() - 0.5) * rangeX;
-            const offsetY = (Math.random() - 0.5) * rangeY;
-            return `translate(${offsetX}px, ${offsetY}px)`;
+            var rangeX = 160;
+            var rangeY = 100;
+            var offsetX = (Math.random() - 0.5) * rangeX;
+            var offsetY = (Math.random() - 0.5) * rangeY;
+            return 'translate(' + offsetX + 'px, ' + offsetY + 'px)';
         }
 
         function resetButtonStates() {
@@ -606,25 +632,23 @@
             refuseScale = 1;
         }
 
-        // 初始化页面
         async function init() {
             try {
-                const res = await fetch('/api/check-join', {
+                var res = await fetch('/api/check-join', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token })
+                    body: JSON.stringify({ token: token })
                 });
-                const data = await res.json();
+                var data = await res.json();
                 if (!res.ok) throw new Error(data.error || '会话无效');
 
                 confessionText.innerText = data.base || '对方没有留下文字，但心意已传达。';
                 document.getElementById('loadingView').style.display = 'none';
                 document.getElementById('contentView').style.display = 'block';
 
-                const agreeMsg = data.agree || '我愿意！以后请多指教 💕';
-                const refuseMsg = data.refuse || '谢谢你喜欢我，但对不起...';
+                var agreeMsg = data.agree || '我愿意！以后请多指教 💕';
+                var refuseMsg = data.refuse || '谢谢你喜欢我，但对不起...';
 
-                // 同意按钮事件
                 agreeBtn.addEventListener('click', function(e) {
                     if (chosen) return;
                     chosen = true;
@@ -638,18 +662,17 @@
                     btnGroup.style.display = 'none';
                 });
 
-                // 拒绝按钮（需点击4次）
                 refuseBtn.addEventListener('click', function(e) {
                     if (chosen) return;
                     refuseClickNum++;
                     refuseScale -= REFUSE_SCALE_STEP;
                     agreeScale += AGREE_SCALE_STEP;
 
-                    const safePos = getSafeTranslate();
-                    refuseBtn.style.transform = `${safePos} scale(${refuseScale})`;
+                    var safePos = getSafeTranslate();
+                    refuseBtn.style.transform = safePos + ' scale(' + refuseScale + ')';
 
                     agreeBtn.classList.add('center-mode');
-                    agreeBtn.style.transform = `translate(-50%, -50%) scale(${agreeScale})`;
+                    agreeBtn.style.transform = 'translate(-50%, -50%) scale(' + agreeScale + ')';
 
                     createBreakHeart(e);
 
@@ -664,22 +687,28 @@
                     }
                 });
 
-                // 发送回信
                 sendReplyBtn.addEventListener('click', async function(e) {
                     if (sendReplyBtn.disabled) return;
-                    const choice = replyBox.dataset.choice;
-                    const text = replyContent.value.trim();
+                    var choice = replyBox.dataset.choice;
+                    var text = replyContent.value.trim();
                     if (!text) {
                         alert('请输入回信内容');
                         return;
                     }
                     sendReplyBtn.disabled = true;
                     sendReplyBtn.innerHTML = '<span class="loading"></span> 寄出中...';
-                    createHeart(e);
+                    
+                    if (e && e.clientX) {
+                        createHeart(e);
+                    } else {
+                        var rect = sendReplyBtn.getBoundingClientRect();
+                        var fakeEvent = { clientX: rect.left + rect.width/2, clientY: rect.top + rect.height/2 };
+                        createHeart(fakeEvent);
+                    }
 
                     try {
-                        const tag = choice === 'agree' ? '❤️ 对方接受了你的告白！' : '💔 对方婉拒了你的告白。';
-                        const systemMsg = tag + '\n' + text;
+                        var tag = choice === 'agree' ? '❤️ 对方接受了你的告白！' : '💔 对方婉拒了你的告白。';
+                        var systemMsg = tag + '\n' + text;
                         await fetch('/api/send-message', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
@@ -704,10 +733,10 @@
 
         function startPolling() {
             if (pollingTimer) return;
-            pollingTimer = setInterval(async () => {
+            pollingTimer = setInterval(async function() {
                 try {
-                    const res = await fetch('/api/get-session?token=' + token);
-                    const data = await res.json();
+                    var res = await fetch('/api/get-session?token=' + token);
+                    var data = await res.json();
                     if (data.messages && data.messages.length > lastMessageCount) {
                         renderMessages(data.messages);
                         lastMessageCount = data.messages.length;
@@ -720,12 +749,17 @@
 
         function renderMessages(messages) {
             chatMessages.innerHTML = '';
-            messages.forEach(function(msg) {
-                const div = document.createElement('div');
-                div.className = 'msg ' + (msg.role === 'sender' ? 'sender' : 'receiver');
+            for (var i = 0; i < messages.length; i++) {
+                var msg = messages[i];
+                var div = document.createElement('div');
+                if (msg.content && (msg.content.indexOf('❤️') !== -1 || msg.content.indexOf('💔') !== -1)) {
+                    div.className = 'msg system';
+                } else {
+                    div.className = 'msg ' + (msg.role === 'sender' ? 'sender' : 'receiver');
+                }
                 div.innerText = msg.content;
                 chatMessages.appendChild(div);
-            });
+            }
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
@@ -738,7 +772,7 @@
         });
 
         async function sendChatMessage() {
-            const content = chatInput.value.trim();
+            var content = chatInput.value.trim();
             if (!content) return;
             try {
                 await fetch('/api/send-message', {
@@ -754,7 +788,7 @@
         }
 
         window.addEventListener('beforeunload', function() {
-            if (pollingTimer) if (pollingTimer) { clearInterval(pollingTimer); pollingTimer = null; }
+            if (pollingTimer) { clearInterval(pollingTimer); pollingTimer = null; }
         });
 
         init();

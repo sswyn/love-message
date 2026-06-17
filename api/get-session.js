@@ -20,9 +20,9 @@ module.exports = async (req, res) => {
     const agree = await redis.hget('session:' + token, 'agree');
     const refuse = await redis.hget('session:' + token, 'refuse');
     const messages = await redis.lrange('messages:' + token, 0, -1);
-    const parsedMessages = messages.map(msg => {
+    const parsedMessages = messages.map(function(msg) {
       try { return JSON.parse(msg); } catch (e) { return null; }
-    }).filter(Boolean);
+    }).filter(function(item) { return item !== null; });
 
     return res.status(200).json({ joined, base, agree, refuse, messages: parsedMessages });
   } catch (err) {

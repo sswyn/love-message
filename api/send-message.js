@@ -27,7 +27,6 @@ module.exports = async (req, res) => {
     const exists = await redis.exists('session:' + token);
     if (!exists) return res.status(404).json({ error: '会话不存在或已过期' });
 
-    // rate limit: 30 messages per session per minute
     const limitKey = 'ratelimit:msg:' + token;
     const msgCount = await redis.incr(limitKey);
     if (msgCount === 1) await redis.expire(limitKey, 60);
@@ -35,7 +34,7 @@ module.exports = async (req, res) => {
       return res.status(429).json({ error: '发送消息过于频繁，请稍后再试' });
     }
 
-    const message = JSON.stringify({ role, content: content.trim(), time: Date.now() });
+    const message = JSON.stringify({ role: role, content: content.trim(), time: Date.now() });
     await redis.rpush('messages:' + token, message);
     await redis.expire('messages:' + token, 86400);
     await redis.expire('session:' + token, 86400);

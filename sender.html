@@ -23,12 +23,7 @@
         .btn { background:linear-gradient(135deg,var(--pink),#ff8da8); color:#fff; border:none; border-radius:14px; padding:12px 24px; cursor:pointer; font-size:14px; font-weight:500; }
         .btn:active { transform:scale(0.96); }
         .btn:disabled { opacity:0.6; cursor:not-allowed; }
-        .btn-secondary { background:#f0f0f0; color:#888; }
         .error-box { text-align:center; color:#ef5350; padding:40px 0; }
-        .link-box { background:#f9f9f9; border-radius:10px; padding:10px; font-size:13px; word-break:break-all; margin:8px 0; }
-        .link-row { margin-bottom:12px; }
-        .link-row label { font-size:13px; color:#888; display:block; margin-bottom:4px; }
-        .copy-btn { font-size:12px; padding:4px 10px; border-radius:8px; margin-left:8px; }
     </style>
 </head>
 <body>
@@ -40,28 +35,28 @@
     </div>
 
     <script>
-        const params = new URLSearchParams(window.location.search);
-        const token = params.get('token');
+        var params = new URLSearchParams(window.location.search);
+        var token = params.get('token');
 
         if (!token) {
             document.getElementById('app').innerHTML = '<div class="error-box"><h3>💔 无效链接</h3><p style="margin-top:12px;color:#888;">缺少会话Token，请从发送页面重新进入。</p><a href="/" style="display:inline-block;margin-top:20px;padding:12px 30px;background:linear-gradient(135deg,#ff6b8b,#ff8da8);color:#fff;border-radius:14px;text-decoration:none;">创建新告白</a></div>';
             throw new Error('no token');
         }
 
-        let lastMsgCount = 0;
-        let pollingTimer = null;
-        let sessionActive = true;
+        var lastMsgCount = 0;
+        var pollingTimer = null;
+        var sessionActive = true;
 
         function escapeHtml(text) {
-            const d = document.createElement('div');
+            var d = document.createElement('div');
             d.innerText = text;
             return d.innerHTML;
         }
 
         async function loadSession() {
             try {
-                const res = await fetch('/api/get-session?token=' + token);
-                const data = await res.json();
+                var res = await fetch('/api/get-session?token=' + token);
+                var data = await res.json();
                 if (!res.ok) throw new Error(data.error || '会话无效');
                 return data;
             } catch (e) {
@@ -71,19 +66,18 @@
 
         async function init() {
             try {
-                const data = await loadSession();
-                const base = data.base || '(对方没有留下文字)';
+                var data = await loadSession();
+                var base = data.base || '(对方没有留下文字)';
 
-                document.getElementById('app').innerHTML = `
-                    <div class="title">💌 暮风藏情 - 聊天室</div>
-                    <div class="confession-box" id="confessionText">${escapeHtml(base)}</div>
-                    <div class="status" id="statusText">${data.joined ? '✅ 对方已加入，开始聊天吧！' : '⏳ 等待对方打开链接...'}</div>
-                    <div class="chat-msgs" id="chatMessages"></div>
-                    <div class="input-row">
-                        <input type="text" id="chatInput" placeholder="说点什么吧..." maxlength="500">
-                        <button class="btn" id="sendBtn">发送</button>
-                    </div>
-                `;
+                document.getElementById('app').innerHTML = 
+                    '<div class="title">💌 暮风藏情 - 聊天室</div>' +
+                    '<div class="confession-box" id="confessionText">' + escapeHtml(base) + '</div>' +
+                    '<div class="status" id="statusText">' + (data.joined ? '✅ 对方已加入，开始聊天吧！' : '⏳ 等待对方打开链接...') + '</div>' +
+                    '<div class="chat-msgs" id="chatMessages"></div>' +
+                    '<div class="input-row">' +
+                        '<input type="text" id="chatInput" placeholder="说点什么吧..." maxlength="500">' +
+                        '<button class="btn" id="sendBtn">发送</button>' +
+                    '</div>';
 
                 if (data.messages) {
                     renderMessages(data.messages);
@@ -99,14 +93,14 @@
 
         function startPolling() {
             if (pollingTimer) return;
-            pollingTimer = setInterval(async () => {
+            pollingTimer = setInterval(async function() {
                 if (!sessionActive) return;
                 try {
-                    const res = await fetch('/api/get-session?token=' + token);
-                    const data = await res.json();
+                    var res = await fetch('/api/get-session?token=' + token);
+                    var data = await res.json();
                     if (!res.ok) throw new Error(data.error);
 
-                    const statusEl = document.getElementById('statusText');
+                    var statusEl = document.getElementById('statusText');
                     if (statusEl) {
                         statusEl.innerText = data.joined ? '✅ 对方已加入，开始聊天吧！' : '⏳ 等待对方打开链接...';
                     }
@@ -118,7 +112,7 @@
                 } catch (e) {
                     clearInterval(pollingTimer);
                     pollingTimer = null;
-                    const statusEl = document.getElementById('statusText');
+                    var statusEl = document.getElementById('statusText');
                     if (statusEl) statusEl.innerText = '💔 会话已断开';
                     sessionActive = false;
                 }
@@ -126,36 +120,37 @@
         }
 
         function renderMessages(messages) {
-            const container = document.getElementById('chatMessages');
+            var container = document.getElementById('chatMessages');
             if (!container) return;
             container.innerHTML = '';
-            messages.forEach(msg => {
-                const div = document.createElement('div');
-                if (msg.content && msg.content.startsWith('💌对方') || msg.content.startsWith('💔对方')) {
+            for (var i = 0; i < messages.length; i++) {
+                var msg = messages[i];
+                var div = document.createElement('div');
+                if (msg.content && (msg.content.indexOf('❤️') !== -1 || msg.content.indexOf('💔') !== -1)) {
                     div.className = 'msg system';
                 } else {
                     div.className = 'msg ' + (msg.role === 'sender' ? 'sender' : 'receiver');
                 }
                 div.innerText = msg.content;
                 container.appendChild(div);
-            });
+            }
             container.scrollTop = container.scrollHeight;
         }
 
         function setupSend() {
-            const input = document.getElementById('chatInput');
-            const btn = document.getElementById('sendBtn');
+            var input = document.getElementById('chatInput');
+            var btn = document.getElementById('sendBtn');
             if (!btn || !input) return;
 
             async function send() {
-                const content = input.value.trim();
+                var content = input.value.trim();
                 if (!content || btn.disabled) return;
                 btn.disabled = true;
                 try {
                     await fetch('/api/send-message', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ token, role: 'sender', content })
+                        body: JSON.stringify({ token: token, role: 'sender', content: content })
                     });
                     input.value = '';
                     lastMsgCount = 0;
@@ -171,7 +166,7 @@
             });
         }
 
-        window.addEventListener('beforeunload', () => { if (pollingTimer) clearInterval(pollingTimer); });
+        window.addEventListener('beforeunload', function() { if (pollingTimer) clearInterval(pollingTimer); });
         init();
     </script>
 </body>

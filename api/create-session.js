@@ -41,7 +41,6 @@ module.exports = async (req, res) => {
     await redis.expire('session:' + token, 86400);
     await redis.expire('messages:' + token, 86400);
 
-    // rate limit: 3 sessions per IP per minute
     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown';
     const limitKey = 'ratelimit:create:' + ip;
     const count = await redis.incr(limitKey);

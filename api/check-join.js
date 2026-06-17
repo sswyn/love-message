@@ -17,7 +17,6 @@ module.exports = async (req, res) => {
     const exists = await redis.exists('session:' + token);
     if (!exists) return res.status(404).json({ error: '会话不存在或已过期' });
 
-    // 标记对方已加入
     await redis.hset('session:' + token, 'joined', 'true');
     await redis.expire('session:' + token, 86400);
 

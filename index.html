@@ -73,7 +73,10 @@
         .hide-text { color: #999; font-size: 12px; }
         .link-row { margin: 8px 0; }
         .link-row label { font-size: 13px; color: #888; display: block; margin-bottom: 4px; }
-        .copy-btn { font-size: 12px; padding: 4px 10px; border-radius: 8px; margin-left: 8px; }
+        .btn-copy { width: auto; padding: 10px 20px; font-size: 14px; margin: 4px 0; }
+        .btn-success { background: #52b788; }
+        .btn-pink { background: #ff8da8; }
+        .mt-8 { margin-top: 8px; }
     </style>
 </head>
 <body>
@@ -148,8 +151,8 @@
             <div class="link-row"><label>📩 接收方链接（发给对方）：</label><span id="receiverLinkDisplay">生成中...</span></div>
             <div class="link-row"><label>💬 发送方链接（你自己进入）：</label><span id="senderLinkDisplay">生成中...</span></div>
         </div>
-        <button class="btn" id="copyReceiverLinkBtn" style="background:#52b788;margin-bottom:8px;">📋 复制接收方链接</button>
-        <button class="btn" id="copySenderLinkBtn" style="background:#ff8da8;">📋 复制发送方链接</button>
+        <button class="btn btn-copy btn-success" id="copyReceiverLinkBtn">📋 复制接收方链接</button>
+        <button class="btn btn-copy btn-pink mt-8" id="copySenderLinkBtn">📋 复制发送方链接</button>
         <div class="status-text" id="joinStatus">⏳ 等待对方加入...</div>
         <div class="chat-container" id="chatContainer">
             <div class="chat-messages" id="chatMessages"></div>
@@ -162,23 +165,23 @@
 </div>
 
 <script>
-    const pages = {
+    var pages = {
         welcome: document.getElementById('welcomePage'),
         write: document.getElementById('page1'),
         preview: document.getElementById('page2'),
         chat: document.getElementById('chatPage')
     };
-    let currentPage = 'welcome';
+    var currentPage = 'welcome';
     history.replaceState({ page: 'welcome' }, '', location.href);
-    function showPage(p) { if(!pages[p]) return; Object.values(pages).forEach(el => el.classList.remove('active')); pages[p].classList.add('active'); currentPage = p; }
+    function showPage(p) { if(!pages[p]) return; for(var key in pages) { pages[key].classList.remove('active'); } pages[p].classList.add('active'); currentPage = p; }
     function navigateTo(p) { if(p === currentPage) return; history.pushState({ page: p }, '', location.href); showPage(p); }
-    window.addEventListener('popstate', e => { const s = e.state; if(s && s.page) showPage(s.page); else showPage('welcome'); });
-    window.addEventListener('load', () => { if(history.state && history.state.page) showPage(history.state.page); else showPage('welcome'); });
+    window.addEventListener('popstate', function(e) { var s = e.state; if(s && s.page) showPage(s.page); else showPage('welcome'); });
+    window.addEventListener('load', function() { if(history.state && history.state.page) showPage(history.state.page); else showPage('welcome'); });
 
-    function createFloatHeart(){ const h = document.createElement("div"); h.className = "float-heart"; h.innerText = "❤"; h.style.left = Math.random()*100+"%"; h.style.animationDuration = (4+Math.random()*4)+"s"; document.body.appendChild(h); setTimeout(()=>h.remove(),8000); }
+    function createFloatHeart(){ var h = document.createElement("div"); h.className = "float-heart"; h.innerText = "❤"; h.style.left = Math.random()*100+"%"; h.style.animationDuration = (4+Math.random()*4)+"s"; document.body.appendChild(h); setTimeout(function(){ h.remove(); },8000); }
     setInterval(createFloatHeart, 800);
 
-    const els = {
+    var els = {
         startBtn: document.getElementById('startBtn'),
         toPage2Btn: document.getElementById('toPage2'),
         baseMsg: document.getElementById('baseMsg'),
@@ -199,16 +202,16 @@
         joinStatus: document.getElementById('joinStatus')
     };
 
-    els.startBtn.addEventListener('click', ()=> navigateTo('write'));
-    els.toPage2Btn.addEventListener('click', () => {
+    els.startBtn.addEventListener('click', function(){ navigateTo('write'); });
+    els.toPage2Btn.addEventListener('click', function() {
         els.tip1.innerText = "";
         if(!els.baseMsg.value.trim()){ els.tip1.style.color = '#ef5350'; els.tip1.innerText = "请填写告白内容"; return; }
         navigateTo('preview');
     });
-    els.previewSwitch.addEventListener('change', ()=> els.phonePreview.classList.toggle('show'));
-    els.baseMsg.addEventListener('input', ()=>{ let t = els.baseMsg.value.trim()||"暂无内容"; els.previewContent.innerText = t; els.msgBubble.innerText = t; });
+    els.previewSwitch.addEventListener('change', function(){ els.phonePreview.classList.toggle('show'); });
+    els.baseMsg.addEventListener('input', function(){ var t = els.baseMsg.value.trim()||"暂无内容"; els.previewContent.innerText = t; els.msgBubble.innerText = t; });
 
-    const baseTemplate = {
+    var baseTemplate = {
         "语录1": "我攒了好久的温柔和爱意，今天一次性全部送给你。人海茫茫，我见过形形色色的人，却唯独对你动了心。每一次目光相遇，我的心跳都会漏掉一拍，那种感觉就像春天的第一场雨，细腻又不可阻挡。我不想再把喜欢藏在心底，也不想留下任何遗憾。我喜欢你，不是一时的新鲜感，是深思熟虑后的笃定。希望你能收下这份心意，给我一个机会，往后余生，我想陪着你，把所有美好都慢慢兑现。我会记得你不爱吃香菜，会陪你熬夜复习，会在你难过时第一个递上纸巾。日子很长，但只要身边是你，每一天都值得期待。请让我成为那个可以光明正大照顾你的人，好吗？",
         "语录2": "其实我喜欢你这件事，身边很多人都看出来了，唯独我一直小心翼翼藏着。每次见到你，心跳都会不由自主加速，你的出现，让平淡的生活多了很多光亮。我总是自觉地模仿你的语气，收藏你听过的歌，甚至你随口提过的电影我都会偷偷看三遍。犹豫了无数个日夜，终于鼓起勇气开口。我不求轰轰烈烈的爱情，只希望能陪在你身边，懂你的情绪，分担你的烦闷，简简单单，岁岁年年都在一起。我们可以一起逛超市，一起煮火锅，一起在沙发上发呆，这些小事因为有你就变成了浪漫。所以，请让我成为你的例外，好吗？",
         "语录3": "有人说，遇见对的人，连风都是甜的。遇见你之后，我才真正明白这句话的含义。我慢慢习惯了身边有你的存在，习惯了目光追随你的身影。这份感情在心底慢慢发酵，从好感变成深爱。今天勇敢告白，只想告诉你，你是我明目张胆的偏爱，也是我众所周知的私心。我想和你正式走到一起，想和你分享同一副耳机，想在雨天撑同一把伞，想把你介绍给我的家人和朋友。我可能不会说太多甜言蜜语，但我会用行动证明，你的选择没有错。希望你能给我一个机会，让我陪你走过春夏秋冬，看遍世间风景。",
@@ -221,7 +224,7 @@
         "语录10": "我向往的爱情很简单，一屋两人，三餐四季，闲时谈心，累时依靠。而我心中那个想要共度一生的人，就是你。你的性格、你的样子、你的一切，都深深吸引着我。我鼓足勇气说出心底的话，希望你能读懂我的真心。往后我会用心呵护这份感情，陪你走过春夏秋冬，相守到老。我们可以一起布置我们的小窝，一起研究新菜谱，一起在周末的早晨赖床。这些平凡的日子，因为有你在而闪闪发光。请让我成为那个能给你幸福的人。"
     };
 
-    const agreeTemplate = {
+    var agreeTemplate = {
         "agree1": "收到你的告白，心里满是惊喜与感动，其实我也早已对你心生好感。原来最好的缘分，就是我喜欢你的时候，恰好你也喜欢我。往后的日子，我们就正式在一起吧。不用轰轰烈烈，只求细水长流，彼此包容，互相理解，把每一个平凡的日子都过得甜甜蜜蜜，携手走向更远的未来。我会珍惜这份来之不易的默契，和你一起经营属于我们的小世界。",
         "agree2": "很开心能够收到你的心意，我愿意接受你的喜欢。人海相遇本就不易，双向心动更是难得。往后我会真心对待这份感情，开心时一起分享，难过时彼此安慰。愿我们初心不改，温柔相待，在往后的时光里慢慢相爱，相互陪伴，把简单的生活过得温暖又幸福。我们可以一起做很多无聊的小事，只要身边是你就好。",
         "agree3": "谢谢你勇敢说出喜欢，我也同样喜欢你。从此我们不再是独自前行，身边多了一个可以依靠的人。未来会有风雨，也会有无数的美好，我愿意和你一起面对、一起经历。珍惜这份来之不易的缘分，认真对待彼此，岁岁年年，不离不弃，做彼此最安稳的归处。我会用行动告诉你，被我喜欢是一件幸福的事。",
@@ -234,7 +237,7 @@
         "agree10": "终于等到你的心意，我欣然接受。从此我们拥有了专属彼此的浪漫与温柔。不求惊艳时光，但愿温柔岁月。在往后的日子里，携手并肩，冷暖相知，风雨相依。认真爱，用心伴，让这份喜欢一直延续，从初见的心动，走到余生的安稳。"
     };
 
-    const refuseTemplate = {
+    var refuseTemplate = {
         "ref1": "当看到拒绝的结果时，我的心一下子沉了下去，失落和难过瞬间包围了我。我鼓起全部勇气告白，抱着满满的期待，最后还是没能如愿。可我对你的喜欢早已深入心底，根本没办法说放下就放下。哪怕现在被拒绝，我依旧舍不得离开，还在默默期待未来能有转机，盼着有一天可以名正言顺陪在你身边。我会继续悄悄关注你，但不会打扰，只愿你偶尔想起有个人曾那么认真地喜欢过你。",
         "ref2": "我尊重你的选择，也不会怪你，只是心底的遗憾久久无法散去。无数个日夜幻想过我们在一起的画面，如今美梦落空，情绪低落到极点。我真的想和你走到一起，成为陪你喜怒哀乐的人。就算此刻没有结果，我也不愿彻底放弃，愿意静静等待，用长久的陪伴，希望终有一天能打动你。我不会打扰你的生活，但请允许我继续默默喜欢你，直到时间给出答案。",
         "ref3": "被你拒绝之后，心里又酸又堵，难过久久无法平复。这份喜欢不是一时兴起，是日积月累的心动与牵挂。你可以不接受我，却阻止不了我继续喜欢你。我不甘心就这样退场，也舍不得斩断所有念想。我会继续留在你身旁，默默守护，哪怕过程漫长煎熬，也想再努力一次，争取和你相守的机会。",
@@ -247,45 +250,56 @@
         "ref10": "这场单向的心动，终究还是暂时画上了休止符，难过填满了整个心房。我遗憾没能成为你喜欢的人，却依旧舍不得结束这份喜欢。我真的想和你朝暮相伴，分享生活里的点点滴滴。所以我选择继续坚持，不吵不闹，默默守候，等待一个不确定的未来，也等待一个可以和你相守的机会。"
     };
 
-    els.templateSelect.addEventListener('change', function(){ let v = this.value; if(v && baseTemplate[v]){ els.baseMsg.value = baseTemplate[v]; els.baseCount.innerText = els.baseMsg.value.length + " / 500"; els.previewContent.innerText = els.baseMsg.value; els.msgBubble.innerText = els.baseMsg.value; } });
-    els.agreeSelect.addEventListener('change', function(){ let v = this.value; if(v && agreeTemplate[v]){ els.agreeMsg.value = agreeTemplate[v]; els.agreeCount.innerText = els.agreeMsg.value.length + " / 500"; } });
-    els.refuseSelect.addEventListener('change', function(){ let v = this.value; if(v && refuseTemplate[v]){ els.refuseMsg.value = refuseTemplate[v]; els.refuseCount.innerText = els.refuseMsg.value.length + " / 500"; } });
+    els.templateSelect.addEventListener('change', function(){ var v = this.value; if(v && baseTemplate[v]){ els.baseMsg.value = baseTemplate[v]; els.baseCount.innerText = els.baseMsg.value.length + " / 500"; els.previewContent.innerText = els.baseMsg.value; els.msgBubble.innerText = els.baseMsg.value; } });
+    els.agreeSelect.addEventListener('change', function(){ var v = this.value; if(v && agreeTemplate[v]){ els.agreeMsg.value = agreeTemplate[v]; els.agreeCount.innerText = els.agreeMsg.value.length + " / 500"; } });
+    els.refuseSelect.addEventListener('change', function(){ var v = this.value; if(v && refuseTemplate[v]){ els.refuseMsg.value = refuseTemplate[v]; els.refuseCount.innerText = els.refuseMsg.value.length + " / 500"; } });
 
-    function countWord(input, countDom){ input.addEventListener('input', function(){ let len = this.value.length; countDom.innerText = len + " / 500"; countDom.classList.toggle('warn', len >= 480); }); }
+    function countWord(input, countDom){ input.addEventListener('input', function(){ var len = this.value.length; countDom.innerText = len + " / 500"; if(len >= 480) { countDom.classList.add('warn'); } else { countDom.classList.remove('warn'); } }); }
     countWord(els.baseMsg, els.baseCount);
     countWord(els.agreeMsg, els.agreeCount);
     countWord(els.refuseMsg, els.refuseCount);
 
-    let sessionToken = null, chatPollingTimer = null;
+    var sessionToken = null;
+    var chatPollingTimer = null;
 
-    els.sendBtn.addEventListener('click', async () => {
+    els.sendBtn.addEventListener('click', async function() {
         if(els.sendBtn.disabled) return;
         els.sendBtn.disabled = true; 
         els.sendBtn.innerText = '生成链接中...';
-        const base = els.baseMsg.value.trim();
-        const agree = els.agreeMsg.value.trim();
-        const refuse = els.refuseMsg.value.trim();
+        var base = els.baseMsg.value.trim();
+        var agree = els.agreeMsg.value.trim();
+        var refuse = els.refuseMsg.value.trim();
         try {
-            const res = await fetch('/api/create-session', { 
+            var res = await fetch('/api/create-session', { 
                 method:'POST',
                 headers:{'Content-Type':'application/json'}, 
-                body: JSON.stringify({ base, agree, refuse }) 
+                body: JSON.stringify({ base: base, agree: agree, refuse: refuse }) 
             });
-            const data = await res.json();
+            var data = await res.json();
             if (res.ok && data.token) {
                 sessionToken = data.token;
-                const receiverLink = `${window.location.origin}/receive.html?token=${sessionToken}`;
-                const senderLink = `${window.location.origin}/sender.html?token=${sessionToken}`;
                 
-                document.getElementById('receiverLinkDisplay').innerText = receiverLink;
-                document.getElementById('senderLinkDisplay').innerText = senderLink;
+                var receiverLink = window.location.origin + '/receive.html?token=' + sessionToken;
+                var senderLink = window.location.origin + '/sender.html?token=' + sessionToken;
                 
-                if (els.joinStatus) {
-                    els.joinStatus.innerText = '⏳ 等待对方加入...';
+                var receiverDisplay = document.getElementById('receiverLinkDisplay');
+                var senderDisplay = document.getElementById('senderLinkDisplay');
+                
+                if (receiverDisplay) {
+                    receiverDisplay.innerText = receiverLink;
+                }
+                if (senderDisplay) {
+                    senderDisplay.innerText = senderLink;
+                }
+                
+                var joinStatus = document.getElementById('joinStatus');
+                if (joinStatus) {
+                    joinStatus.innerText = '⏳ 等待对方加入...';
                 }
                 
                 localStorage.setItem('love_session', data.token);
                 navigateTo('chat');
+                startChatPolling();
             } else {
                 throw new Error(data.error || '创建失败');
             }
@@ -296,60 +310,60 @@
         els.sendBtn.innerText = '匿名发送';
     });
 
-    // 复制接收方链接
     document.getElementById('copyReceiverLinkBtn').addEventListener('click', function() {
-        const text = document.getElementById('receiverLinkDisplay').innerText;
+        var text = document.getElementById('receiverLinkDisplay').innerText;
         if (!text || text === '生成中...') {
             alert('请先生成链接');
             return;
         }
-        navigator.clipboard.writeText(text).then(() => {
+        navigator.clipboard.writeText(text).then(function() {
             this.innerText = '✅ 已复制';
-            setTimeout(() => { this.innerText = '📋 复制接收方链接'; }, 2000);
-        }).catch(() => {
-            const range = document.createRange();
+            setTimeout(function(){ this.innerText = '📋 复制接收方链接'; }.bind(this), 2000);
+        }.bind(this)).catch(function() {
+            var range = document.createRange();
             range.selectNode(document.getElementById('receiverLinkDisplay'));
             window.getSelection().removeAllRanges();
             window.getSelection().addRange(range);
             document.execCommand('copy');
             this.innerText = '✅ 已复制';
-            setTimeout(() => { this.innerText = '📋 复制接收方链接'; }, 2000);
-        });
+            setTimeout(function(){ this.innerText = '📋 复制接收方链接'; }.bind(this), 2000);
+        }.bind(this));
     });
 
-    // 复制发送方链接
     document.getElementById('copySenderLinkBtn').addEventListener('click', function() {
-        const text = document.getElementById('senderLinkDisplay').innerText;
+        var text = document.getElementById('senderLinkDisplay').innerText;
         if (!text || text === '生成中...') {
             alert('请先生成链接');
             return;
         }
-        navigator.clipboard.writeText(text).then(() => {
+        navigator.clipboard.writeText(text).then(function() {
             this.innerText = '✅ 已复制';
-            setTimeout(() => { this.innerText = '📋 复制发送方链接'; }, 2000);
-        }).catch(() => {
-            const range = document.createRange();
+            setTimeout(function(){ this.innerText = '📋 复制发送方链接'; }.bind(this), 2000);
+        }.bind(this)).catch(function() {
+            var range = document.createRange();
             range.selectNode(document.getElementById('senderLinkDisplay'));
             window.getSelection().removeAllRanges();
             window.getSelection().addRange(range);
             document.execCommand('copy');
             this.innerText = '✅ 已复制';
-            setTimeout(() => { this.innerText = '📋 复制发送方链接'; }, 2000);
-        });
+            setTimeout(function(){ this.innerText = '📋 复制发送方链接'; }.bind(this), 2000);
+        }.bind(this));
     });
 
-    // 聊天功能
-    let lastMsgCount = 0;
-    
+    var lastMsgCount = 0;
+
     function startChatPolling() {
         if (chatPollingTimer) return;
-        chatPollingTimer = setInterval(async () => {
+        chatPollingTimer = setInterval(async function() {
             if (!sessionToken) return;
             try {
-                const res = await fetch(`/api/get-session?token=${sessionToken}`);
-                const data = await res.json();
-                if (data.joined && els.joinStatus) {
-                    els.joinStatus.innerText = '✅ 对方已加入，开始聊天吧！';
+                var res = await fetch('/api/get-session?token=' + sessionToken);
+                var data = await res.json();
+                if (data.joined) {
+                    var joinStatus = document.getElementById('joinStatus');
+                    if (joinStatus) {
+                        joinStatus.innerText = '✅ 对方已加入，开始聊天吧！';
+                    }
                     document.getElementById('chatContainer').style.display = 'block';
                 }
                 if (data.messages && data.messages.length > lastMsgCount) {
@@ -363,15 +377,16 @@
     }
 
     function renderChatMessages(messages) {
-        const container = document.getElementById('chatMessages');
+        var container = document.getElementById('chatMessages');
         if (!container) return;
         container.innerHTML = '';
-        messages.forEach(msg => {
-            const div = document.createElement('div');
+        for (var i = 0; i < messages.length; i++) {
+            var msg = messages[i];
+            var div = document.createElement('div');
             div.className = 'msg ' + (msg.role === 'sender' ? 'sender' : 'receiver');
             div.innerText = msg.content;
             container.appendChild(div);
-        });
+        }
         container.scrollTop = container.scrollHeight;
     }
 
@@ -384,8 +399,8 @@
     });
 
     async function sendChatMessage() {
-        const input = document.getElementById('chatInput');
-        const content = input.value.trim();
+        var input = document.getElementById('chatInput');
+        var content = input.value.trim();
         if (!content || !sessionToken) return;
         try {
             await fetch('/api/send-message', {
@@ -400,14 +415,12 @@
         }
     }
 
-    // 检测是否已有会话
-    const savedToken = localStorage.getItem('love_session');
+    var savedToken = localStorage.getItem('love_session');
     if (savedToken) {
         sessionToken = savedToken;
-        // 可以尝试恢复会话
     }
 
-    window.addEventListener('beforeunload', () => { if (chatPollingTimer) clearInterval(chatPollingTimer); });
+    window.addEventListener('beforeunload', function() { if (chatPollingTimer) clearInterval(chatPollingTimer); });
 </script>
 </body>
 </html>
