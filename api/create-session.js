@@ -30,7 +30,7 @@ module.exports = async (req, res) => {
 
     const token = crypto.randomBytes(24).toString('hex');
 
-    await redis.hset(`session:${token}`, {
+    await redis.hset('session:' + token, {
       base: baseText,
       agree: agreeText,
       refuse: refuseText,
@@ -38,12 +38,12 @@ module.exports = async (req, res) => {
       created: String(Date.now()),
     });
 
-    await redis.expire(`session:${token}`, 86400);
-    await redis.expire(`messages:${token}`, 86400);
+    await redis.expire('session:' + token, 86400);
+    await redis.expire('messages:' + token, 86400);
 
     // rate limit: 3 sessions per IP per minute
     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown';
-    const limitKey = `ratelimit:create:${ip}`;
+    const limitKey = 'ratelimit:create:' + ip;
     const count = await redis.incr(limitKey);
     if (count === 1) await redis.expire(limitKey, 60);
     if (count > 3) {

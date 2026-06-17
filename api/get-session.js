@@ -1,4 +1,4 @@
-﻿const Redis = require('ioredis');
+const Redis = require('ioredis');
 
 const redis = new Redis(process.env.REDIS_URL);
 redis.on('error', (err) => console.error('Redis错误:', err));
@@ -12,14 +12,14 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: '无效的会话链接' });
     }
 
-    const exists = await redis.exists(`session:${token}`);
+    const exists = await redis.exists('session:' + token);
     if (!exists) return res.status(404).json({ error: '会话不存在或已过期' });
 
-    const joined = (await redis.hget(`session:${token}`, 'joined')) === 'true';
-    const base = await redis.hget(`session:${token}`, 'base');
-    const agree = await redis.hget(`session:${token}`, 'agree');
-    const refuse = await redis.hget(`session:${token}`, 'refuse');
-    const messages = await redis.lrange(`messages:${token}`, 0, -1);
+    const joined = (await redis.hget('session:' + token, 'joined')) === 'true';
+    const base = await redis.hget('session:' + token, 'base');
+    const agree = await redis.hget('session:' + token, 'agree');
+    const refuse = await redis.hget('session:' + token, 'refuse');
+    const messages = await redis.lrange('messages:' + token, 0, -1);
     const parsedMessages = messages.map(msg => {
       try { return JSON.parse(msg); } catch (e) { return null; }
     }).filter(Boolean);
