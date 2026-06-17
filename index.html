@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -176,9 +176,9 @@
         templateSelect: document.getElementById('templateSelect'), agreeSelect: document.getElementById('agreeSelect'), refuseSelect: document.getElementById('refuseSelect'),
         agreeMsg: document.getElementById('agreeMsg'), refuseMsg: document.getElementById('refuseMsg'),
         baseCount: document.getElementById('baseCount'), agreeCount: document.getElementById('agreeCount'), refuseCount: document.getElementById('refuseCount'),
-        linkBox: document.getElementById('linkBox'), copyChatLinkBtn: document.getElementById('copyChatLinkBtn'),
-        chatContainer: document.getElementById('chatContainer'), chatMessages: document.getElementById('chatMessages'),
-        chatInput: document.getElementById('chatInput'), sendChatBtn: document.getElementById('sendChatBtn'), joinStatus: document.getElementById('joinStatus')
+        
+        
+         joinStatus: document.getElementById('joinStatus')
     };
 
     els.startBtn.addEventListener('click', ()=> navigateTo('write'));
@@ -238,7 +238,7 @@
     countWord(els.agreeMsg, els.agreeCount);
     countWord(els.refuseMsg, els.refuseCount);
 
-    let sessionToken = null, chatPollingTimer = null, lastMessageCount = 0;
+    let sessionToken = null;
 
     els.sendBtn.addEventListener('click', async () => {
         if(els.sendBtn.disabled) return;
@@ -252,61 +252,30 @@
             if (res.ok && data.token) {
                 sessionToken = data.token;
                 const link = `${window.location.origin}/receive.html?token=${sessionToken}`;
-                els.linkBox.innerText = link;
+                document.getElementById('receiverLinkBox').innerText = link;
+                localStorage.setItem('love_session', data.token);
+                const receiverLink = ${window.location.origin}/receive.html?token=;
+                const senderLink = ${window.location.origin}/sender.html?token=;
+                document.getElementById('receiverLinkBox').innerText = receiverLink;
+                document.getElementById('senderLinkBox').innerText = senderLink;
+                document.getElementById('enterChatLink').href = senderLink;
                 navigateTo('chat');
-                startChatPolling();
             } else { throw new Error(data.error || '创建失败'); }
         } catch(e) { alert('创建失败：' + e.message); }
         els.sendBtn.disabled = false; els.sendBtn.innerText = '匿名发送';
     });
 
-    els.copyChatLinkBtn.addEventListener('click', () => {
-        const link = els.linkBox.innerText;
-        navigator.clipboard.writeText(link).then(() => { els.copyChatLinkBtn.innerText = '✅ 已复制'; setTimeout(()=> els.copyChatLinkBtn.innerText = '📋 复制链接', 2000); })
-        .catch(() => { const range = document.createRange(); range.selectNode(els.linkBox); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); els.copyChatLinkBtn.innerText = '✅ 已复制'; setTimeout(()=> els.copyChatLinkBtn.innerText = '📋 复制链接', 2000); });
+    document.getElementById('copyReceiverLinkBtn').addEventListener('click', () => {
+        const link = document.getElementById('receiverLinkBox').innerText;
+        navigator.clipboard.writeText(link).then(() => { document.getElementById('copyReceiverLinkBtn').innerText = '✅ 已复制'; setTimeout(()=> document.getElementById('copyReceiverLinkBtn').innerText = '📋 复制接收方链接', 2000); })
+        .catch(() => { const range = document.createRange(); range.selectNode(document.getElementById('receiverLinkBox')); window.getSelection().removeAllRanges(); window.getSelection().addRange(range); document.execCommand('copy'); document.getElementById('copyReceiverLinkBtn').innerText = '✅ 已复制'; setTimeout(()=> document.getElementById('copyReceiverLinkBtn').innerText = '📋 复制接收方链接', 2000); });
     });
 
-    function startChatPolling() {
-        if (chatPollingTimer) return;
-        chatPollingTimer = setInterval(async () => {
-            if (!sessionToken) return;
-            try {
-                const res = await fetch(`/api/get-session?token=${sessionToken}`);
-                const data = await res.json();
-                if (!res.ok) throw new Error(data.error);
-                els.joinStatus.innerText = data.joined ? '✅ 对方已加入，开始聊天吧！' : '⏳ 等待对方加入...';
-                if (data.messages && data.messages.length > lastMessageCount) {
-                    renderMessages(data.messages);
-                    lastMessageCount = data.messages.length;
-                    els.chatContainer.style.display = 'block';
-                }
-            } catch(e) { clearInterval(chatPollingTimer); chatPollingTimer = null; els.joinStatus.innerText = '❌ 会话已失效'; }
-        }, 3000);
-    }
-
-    function renderMessages(messages) {
-        els.chatMessages.innerHTML = '';
-        messages.forEach(msg => {
-            const div = document.createElement('div');
-            div.className = 'msg ' + (msg.role === 'sender' ? 'sender' : 'receiver');
-            div.innerText = msg.content;
-            els.chatMessages.appendChild(div);
-        });
+    ;
         els.chatMessages.scrollTop = els.chatMessages.scrollHeight;
     }
 
-    els.sendChatBtn.addEventListener('click', async () => {
-        if (els.sendChatBtn.disabled) return;
-        const content = els.chatInput.value.trim();
-        if (!content || !sessionToken) return;
-        els.sendChatBtn.disabled = true;
-        try {
-            await fetch('/api/send-message', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ token: sessionToken, role: 'sender', content }) });
-            els.chatInput.value = '';
-            lastMessageCount = 0;
-        } catch(e) { alert('发送失败'); }
-        els.sendChatBtn.disabled = false;
-    });;
+    
 
     window.addEventListener('beforeunload', () => { if (chatPollingTimer) clearInterval(chatPollingTimer); });
 </script>

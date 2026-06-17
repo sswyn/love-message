@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
       try { return JSON.parse(msg); } catch (e) { return null; }
     }).filter(Boolean);
 
-    return res.status(200).json({ joined, messages: parsedMessages });
+    return res.status(200).json({ joined, messages: parsedMessages, base, agree, refuse });
   } catch (err) {
     console.error('鑾峰彇浼氳瘽澶辫触:', err);
     return res.status(500).json({ error: '鏈嶅姟鍣ㄥ唴閮ㄩ敊璇紝璇风◢鍚庨噸璇? });

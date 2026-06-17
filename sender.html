@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>暮风藏情 - 聊天室</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:"Microsoft YaHei",system-ui,sans-serif; }
+        :root { --pink:#ff6b8b; --light:#ffc2d4; --dark:#d64c6e; --gray:#444; --bg:rgba(255,255,255,0.72); }
+        body { background:linear-gradient(160deg,#ffe8f0,#ffd8e5,#ffc2d4); min-height:100vh; display:flex; justify-content:center; align-items:flex-start; padding:25px 20px 160px; }
+        .card { background:var(--bg); backdrop-filter:blur(20px); border-radius:24px; border:2px solid rgba(255,150,180,0.4); box-shadow:0 8px 30px rgba(255,120,150,0.25); width:100%; max-width:430px; padding:30px; }
+        .title { background:linear-gradient(120deg,var(--dark),var(--pink)); -webkit-background-clip:text; background-clip:text; color:transparent; font-size:24px; text-align:center; font-weight:600; margin-bottom:16px; letter-spacing:2px; }
+        .confession-box { background:#fffdfb; border-radius:16px; padding:16px; border:1px solid rgba(255,180,200,0.5); min-height:80px; max-height:150px; overflow-y:auto; line-height:1.7; white-space:pre-line; font-size:14px; color:var(--gray); margin-bottom:12px; }
+        .status { text-align:center; font-size:14px; color:var(--dark); margin:10px 0; }
+        .chat-msgs { border:1px solid rgba(255,180,200,0.5); border-radius:16px; padding:16px; height:260px; overflow-y:auto; background:#fffdfb; margin-bottom:12px; }
+        .chat-msgs .msg { margin-bottom:10px; padding:8px 14px; border-radius:14px; max-width:80%; clear:both; line-height:1.5; font-size:14px; word-break:break-word; }
+        .msg.sender { background:linear-gradient(135deg,#ff6b8b,#ff8da8); color:#fff; float:right; }
+        .msg.receiver { background:#f0f0f0; float:left; color:#444; }
+        .msg.system { background:#fff3e0; color:#e65100; float:none; text-align:center; max-width:100%; font-size:13px; margin:12px 0; }
+        .input-row { display:flex; gap:10px; }
+        .input-row input { flex:1; padding:12px 16px; border:1px solid rgba(255,180,200,0.5); border-radius:14px; outline:none; font-size:14px; background:#fffdfb; }
+        .input-row input:focus { border-color:var(--pink); box-shadow:0 0 0 3px rgba(255,107,139,0.25); }
+        .btn { background:linear-gradient(135deg,var(--pink),#ff8da8); color:#fff; border:none; border-radius:14px; padding:12px 24px; cursor:pointer; font-size:14px; font-weight:500; }
+        .btn:active { transform:scale(0.96); }
+        .btn:disabled { opacity:0.6; cursor:not-allowed; }
+        .btn-secondary { background:#f0f0f0; color:#888; }
+        .error-box { text-align:center; color:#ef5350; padding:40px 0; }
+        .link-box { background:#f9f9f9; border-radius:10px; padding:10px; font-size:13px; word-break:break-all; margin:8px 0; }
+        .link-row { margin-bottom:12px; }
+        .link-row label { font-size:13px; color:#888; display:block; margin-bottom:4px; }
+        .copy-btn { font-size:12px; padding:4px 10px; border-radius:8px; margin-left:8px; }
+    </style>
+</head>
+<body>
+    <div class="card" id="app">
+        <div id="loadingView" style="text-align:center;padding:40px 0;color:#a05872;">
+            <div style="font-size:36px;margin-bottom:10px;">💌</div>
+            <h2>加载中...</h2>
+        </div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('token');
+
+        if (!token) {
+            document.getElementById('app').innerHTML = '<div class="error-box"><h3>💔 无效链接</h3><p style="margin-top:12px;color:#888;">缺少会话Token，请从发送页面重新进入。</p><a href="/" style="display:inline-block;margin-top:20px;padding:12px 30px;background:linear-gradient(135deg,#ff6b8b,#ff8da8);color:#fff;border-radius:14px;text-decoration:none;">创建新告白</a></div>';
+            throw new Error('no token');
+        }
+
+        let lastMsgCount = 0;
+        let pollingTimer = null;
+        let sessionActive = true;
+
+        function escapeHtml(text) {
+            const d = document.createElement('div');
+            d.innerText = text;
+            return d.innerHTML;
+        }
+
+        async function loadSession() {
+            try {
+                const res = await fetch('/api/get-session?token=' + token);
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || '会话无效');
+                return data;
+            } catch (e) {
+                throw e;
+            }
+        }
+
+        async function init() {
+            try {
+                const data = await loadSession();
+                const base = data.base || '(对方没有留下文字)';
+
+                document.getElementById('app').innerHTML = `
+                    <div class="title">💌 暮风藏情 - 聊天室</div>
+                    <div class="confession-box" id="confessionText">${escapeHtml(base)}</div>
+                    <div class="status" id="statusText">${data.joined ? '✅ 对方已加入，开始聊天吧！' : '⏳ 等待对方打开链接...'}</div>
+                    <div class="chat-msgs" id="chatMessages"></div>
+                    <div class="input-row">
+                        <input type="text" id="chatInput" placeholder="说点什么吧..." maxlength="500">
+                        <button class="btn" id="sendBtn">发送</button>
+                    </div>
+                `;
+
+                if (data.messages) {
+                    renderMessages(data.messages);
+                    lastMsgCount = data.messages.length;
+                }
+
+                startPolling();
+                setupSend();
+            } catch (e) {
+                document.getElementById('app').innerHTML = '<div class="error-box"><h3>💔 加载失败</h3><p style="margin-top:12px;color:#888;">' + escapeHtml(e.message) + '</p></div>';
+            }
+        }
+
+        function startPolling() {
+            if (pollingTimer) return;
+            pollingTimer = setInterval(async () => {
+                if (!sessionActive) return;
+                try {
+                    const res = await fetch('/api/get-session?token=' + token);
+                    const data = await res.json();
+                    if (!res.ok) throw new Error(data.error);
+
+                    const statusEl = document.getElementById('statusText');
+                    if (statusEl) {
+                        statusEl.innerText = data.joined ? '✅ 对方已加入，开始聊天吧！' : '⏳ 等待对方打开链接...';
+                    }
+
+                    if (data.messages && data.messages.length > lastMsgCount) {
+                        renderMessages(data.messages);
+                        lastMsgCount = data.messages.length;
+                    }
+                } catch (e) {
+                    clearInterval(pollingTimer);
+                    pollingTimer = null;
+                    const statusEl = document.getElementById('statusText');
+                    if (statusEl) statusEl.innerText = '💔 会话已断开';
+                    sessionActive = false;
+                }
+            }, 3000);
+        }
+
+        function renderMessages(messages) {
+            const container = document.getElementById('chatMessages');
+            if (!container) return;
+            container.innerHTML = '';
+            messages.forEach(msg => {
+                const div = document.createElement('div');
+                if (msg.content && msg.content.startsWith('💌对方') || msg.content.startsWith('💔对方')) {
+                    div.className = 'msg system';
+                } else {
+                    div.className = 'msg ' + (msg.role === 'sender' ? 'sender' : 'receiver');
+                }
+                div.innerText = msg.content;
+                container.appendChild(div);
+            });
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function setupSend() {
+            const input = document.getElementById('chatInput');
+            const btn = document.getElementById('sendBtn');
+            if (!btn || !input) return;
+
+            async function send() {
+                const content = input.value.trim();
+                if (!content || btn.disabled) return;
+                btn.disabled = true;
+                try {
+                    await fetch('/api/send-message', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ token, role: 'sender', content })
+                    });
+                    input.value = '';
+                    lastMsgCount = 0;
+                } catch (e) {
+                    alert('发送失败');
+                }
+                btn.disabled = false;
+            }
+
+            btn.addEventListener('click', send);
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+            });
+        }
+
+        window.addEventListener('beforeunload', () => { if (pollingTimer) clearInterval(pollingTimer); });
+        init();
+    </script>
+</body>
+</html>
