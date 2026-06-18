@@ -163,6 +163,8 @@ wi.className='wi'+(l>=430?' warn':'')
 // 立即获取消息（不等待第一个轮询周期）
 async function fetchMessages(){
 var res=await fetch('/api/get-session?token='+token);
+var ct=res.headers.get('content-type')||'';
+if(!ct.includes('application/json')){var txt=await res.text();throw new Error('API返回格式异常，请检查路由配置');}
 var data=await res.json();
 if(!res.ok)throw new Error(data.error||'获取会话失败');
 if(data.messages&&data.messages.length>lmc){renderMsgs(data.messages);lmc=data.messages.length}
@@ -308,3 +310,4 @@ init();
 </script>
 </body>
 </html>
+

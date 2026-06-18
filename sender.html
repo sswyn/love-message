@@ -63,6 +63,8 @@ var lmc=0,pt=null,active=true;
 
 async function loadSession(){
 var r=await fetch('/api/get-session?token='+token);
+var ct=r.headers.get('content-type')||'';
+if(!ct.includes('application/json')){var txt=await r.text();throw new Error('API返回格式异常，请检查路由配置');}
 var d=await r.json();
 if(!r.ok)throw new Error(d.error||'会话无效');
 return d
@@ -176,6 +178,7 @@ init();
 </script>
 </body>
 </html>
+
 
 
 

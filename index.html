@@ -264,6 +264,8 @@ loadChatData(t);
 async function fetchMsgsNow(t){
 try{
 var r=await fetch('/api/get-session?token='+(t||token));
+var ct=r.headers.get('content-type')||'';
+if(!ct.includes('application/json'))return;
 var data=await r.json();
 if(!r.ok)throw new Error(data.error);
 if(data.base){e.confessionDisplay.innerText=data.base;e.confessionDisplay.style.display='block'}
@@ -285,6 +287,8 @@ e.sendBtn.disabled=true;e.sendBtn.innerText='生成链接中...';
 var base=e.baseMsg.value.trim(),agree=e.am.value.trim(),refuse=e.rm.value.trim();
 try{
 var r=await fetch('/api/create-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({base:base,agree:agree,refuse:refuse})});
+var ct=r.headers.get('content-type')||'';
+if(!ct.includes('application/json')){var txt=await r.text();throw new Error('API返回格式异常');}
 var d=await r.json();
 if(r.ok&&d.token){
 token=d.token;
@@ -342,6 +346,8 @@ if(pt)return;
 pt=setInterval(async function(){
 try{
 var r=await fetch('/api/get-session?token='+(t||token));
+var ct=r.headers.get('content-type')||'';
+if(!ct.includes('application/json'))continue;
 var d=await r.json();
 if(!r.ok)throw new Error(d.error);
 if(d.joined){e.joinStatus.innerText='✅ 对方已加入，开始聊天吧！';e.chatContainer.style.display='block'}
@@ -384,6 +390,7 @@ window.addEventListener('beforeunload',function(){if(pt){clearInterval(pt);pt=nu
 </script>
 </body>
 </html>
+
 
 
 

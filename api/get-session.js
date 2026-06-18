@@ -1,10 +1,15 @@
-const Redis = require('ioredis');
+﻿const Redis = require('ioredis');
 
 const redis = new Redis(process.env.REDIS_URL);
 redis.on('error', (err) => console.error('Redis错误:', err));
 
 module.exports = async (req, res) => {
+  // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  // Handle OPTIONS preflight
+  if (req.method === 'OPTIONS') return res.status(204).end();
 
   try {
     const { token } = req.query;
