@@ -1,4 +1,4 @@
-﻿const Redis = require('ioredis');
+const Redis = require('ioredis');
 const crypto = require('crypto');
 
 const redis = new Redis(process.env.REDIS_URL);
