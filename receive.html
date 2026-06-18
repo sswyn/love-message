@@ -1,797 +1,310 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>匿名藏情 - 收到告白</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Microsoft YaHei", system-ui, sans-serif;
-        }
-
-        :root {
-            --main-pink: #ff6b8b;
-            --light-pink: #ffc2d4;
-            --dark-pink: #d64c6e;
-            --success-green: #52b788;
-            --danger-red: #ef5350;
-            --text-gray: #444;
-            --text-light: #a05872;
-            --bg-blur: rgba(255, 255, 255, 0.72);
-        }
-
-        body {
-            background: linear-gradient(160deg, #ffe8f0, #ffd8e5, #ffc2d4);
-            background-attachment: fixed;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 25px 20px 160px;
-            position: relative;
-            overflow: visible;
-        }
-
-        .float-heart {
-            position: fixed;
-            color: #ff87a2;
-            font-size: 20px;
-            pointer-events: none;
-            z-index: 1;
-            animation: floatUp 6s linear infinite;
-            opacity: 0.7;
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.8; }
-            80% { opacity: 0.7; }
-            100% { transform: translateY(-20px) rotate(360deg); opacity: 0; }
-        }
-
-        .petal {
-            position: fixed;
-            width: 12px;
-            height: 12px;
-            background: #ffc8d8;
-            border-radius: 50%;
-            opacity: 0.5;
-            pointer-events: none;
-            animation: petalFall 12s linear infinite;
-            z-index: 1;
-        }
-        @keyframes petalFall {
-            0% { transform: translateY(-10px) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.6; }
-            90% { opacity: 0.5; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-        }
-
-        .light-dot {
-            position: fixed;
-            width: 6px;
-            height: 6px;
-            background: #fff;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #ffb8cc;
-            pointer-events: none;
-            animation: twinkle 3s ease-in-out infinite;
-            z-index: 1;
-        }
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.2; transform: scale(0.8); }
-            50% { opacity: 0.8; transform: scale(1.2); }
-        }
-
-        .receive-card {
-            background: var(--bg-blur);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 40px 30px;
-            border-radius: 24px;
-            border: 2px solid rgba(255, 150, 180, 0.4);
-            box-shadow: 0 8px 30px rgba(255, 120, 150, 0.25);
-            width: 100%;
-            max-width: 430px;
-            position: relative;
-            z-index: 10;
-            animation: cardFadeIn 1s ease-out forwards;
-        }
-        @keyframes cardFadeIn {
-            from { opacity: 0; transform: translateY(30px) scale(0.96); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        .envelope-icon {
-            text-align: center;
-            font-size: 36px;
-            color: var(--main-pink);
-            margin-bottom: 10px;
-            animation: beat 1.5s ease-in-out infinite;
-        }
-        @keyframes beat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .title {
-            background: linear-gradient(120deg, var(--dark-pink), var(--main-pink));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-align: center;
-            font-size: 28px;
-            letter-spacing: 4px;
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-
-        .msg-box {
-            background: #fffdfb;
-            border-radius: 18px;
-            padding: 22px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 180, 200, 0.5);
-            min-height: 120px;
-            max-height: 300px;
-            overflow-y: auto;
-            line-height: 1.8;
-            white-space: pre-line;
-            box-shadow: 0 4px 16px rgba(255, 180, 200, 0.18);
-            transition: transform 0.3s ease;
-            background-image: linear-gradient(#ffd6e0 1px, transparent 1px);
-            background-size: 100% 30px;
-            background-position: 0 bottom;
-            padding-bottom: 40px;
-        }
-        .msg-box:hover {
-            transform: translateY(-3px);
-        }
-        .msg-box::-webkit-scrollbar {
-            width: 4px;
-        }
-        .msg-box::-webkit-scrollbar-thumb {
-            background: #ff6b8b;
-            border-radius: 2px;
-        }
-
-        .decision-btns {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-            position: relative;
-            min-height: 60px;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-        .btn {
-            padding: 14px;
-            border: none;
-            border-radius: 16px;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            letter-spacing: 1px;
-            position: relative;
-            overflow: hidden;
-            flex: 1;
-        }
-        .btn:active {
-            transform: scale(0.96);
-        }
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-            transition: left 0.6s ease;
-        }
-        .btn:hover::after {
-            left: 100%;
-        }
-
-        .btn-agree {
-            background: linear-gradient(135deg, var(--main-pink), #ff8da8);
-            color: #fff;
-            box-shadow: 0 4px 12px rgba(255, 107, 139, 0.3);
-            position: relative;
-            z-index: 20;
-        }
-        .btn-agree.center-mode {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: 45%;
-            max-width: 160px;
-            z-index: 20;
-        }
-
-        .btn-refuse {
-            background: #f0f0f0;
-            color: #888;
-            border: 1px solid #ddd !important;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            position: relative;
-            z-index: 50;
-        }
-        .btn-refuse:hover {
-            background: #e8e8e8;
-        }
-
-        .reply-wrap {
-            margin-bottom: 20px;
-        }
-        .quote-select {
-            width: 100%;
-            padding: 12px 14px;
-            border: 1px solid rgba(255, 180, 200, 0.6);
-            border-radius: 14px;
-            font-size: 14px;
-            color: var(--text-gray);
-            background: #fffdfb;
-            outline: none;
-            margin-bottom: 12px;
-        }
-        .reply-input {
-            width: 100%;
-            min-height: 120px;
-            max-height: 200px;
-            padding: 16px 18px;
-            border: 1px solid rgba(255, 180, 200, 0.6);
-            border-radius: 16px;
-            font-size: 15px;
-            background: #fffdfb;
-            outline: none;
-            resize: none;
-            overflow-y: auto;
-            transition: all 0.3s ease;
-            line-height: 30px;
-            background-image: linear-gradient(#ffd6e0 1px, transparent 1px);
-            background-size: 100% 30px;
-            background-position: 0 bottom;
-            padding-bottom: 40px;
-        }
-        .reply-input::-webkit-scrollbar {
-            width: 4px;
-        }
-        .reply-input::-webkit-scrollbar-thumb {
-            background: #ff6b8b;
-            border-radius: 2px;
-        }
-        .reply-input:focus {
-            border-color: var(--main-pink);
-            box-shadow: 0 0 0 3px rgba(255, 107, 139, 0.25);
-        }
-        .word-info {
-            text-align: right;
-            font-size: 12px;
-            color: #888;
-            margin-top: 8px;
-        }
-        .word-info.warn {
-            color: var(--danger-red);
-        }
-
-        .btn-send-reply {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 16px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            letter-spacing: 1px;
-            background: linear-gradient(135deg, var(--main-pink), #ff8da8);
-            color: #fff;
-            box-shadow: 0 4px 12px rgba(255, 107, 139, 0.3);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-send-reply:active {
-            transform: scale(0.96);
-        }
-        .btn-send-reply:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-        .btn-send-reply::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-            transition: left 0.6s ease;
-        }
-        .btn-send-reply:hover::after {
-            left: 100%;
-        }
-
-        .chat-container {
-            margin-top: 20px;
-        }
-        .chat-messages {
-            border: 1px solid rgba(255, 180, 200, 0.5);
-            border-radius: 16px;
-            padding: 16px;
-            height: 220px;
-            overflow-y: auto;
-            background: #fffdfb;
-            margin-bottom: 12px;
-            box-shadow: 0 4px 16px rgba(255, 180, 200, 0.15);
-        }
-        .chat-messages .msg {
-            margin-bottom: 10px;
-            padding: 8px 14px;
-            border-radius: 14px;
-            max-width: 80%;
-            clear: both;
-            line-height: 1.5;
-            font-size: 14px;
-        }
-        .msg.sender {
-            background: linear-gradient(135deg, #ff6b8b, #ff8da8);
-            color: #fff;
-            float: right;
-        }
-        .msg.receiver {
-            background: #f0f0f0;
-            float: left;
-            color: #444;
-        }
-        .msg.system {
-            background: #fff3e0;
-            color: #e65100;
-            float: none;
-            text-align: center;
-            max-width: 100%;
-            font-size: 13px;
-            margin: 12px 0;
-        }
-        .chat-input-row {
-            display: flex;
-            gap: 10px;
-        }
-        .chat-input-row input {
-            flex: 1;
-            padding: 12px 16px;
-            border: 1px solid rgba(255, 180, 200, 0.5);
-            border-radius: 14px;
-            outline: none;
-            font-size: 14px;
-            background: #fffdfb;
-            transition: all 0.3s ease;
-        }
-        .chat-input-row input:focus {
-            border-color: var(--main-pink);
-            box-shadow: 0 0 0 3px rgba(255, 107, 139, 0.25);
-        }
-        .btn-send {
-            background: linear-gradient(135deg, var(--main-pink), #ff8da8);
-            color: #fff;
-            border: none;
-            border-radius: 14px;
-            padding: 12px 24px;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-send:active {
-            transform: scale(0.96);
-        }
-        .btn-send::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-            transition: left 0.6s ease;
-        }
-        .btn-send:hover::after {
-            left: 100%;
-        }
-
-        .heart {
-            position: fixed;
-            pointer-events: none;
-            color: var(--main-pink);
-            font-size: 24px;
-            animation: heartFly 1.4s ease-out forwards;
-            z-index: 999;
-        }
-        @keyframes heartFly {
-            0% { opacity: 1; transform: translateY(0) scale(1); }
-            100% { opacity: 0; transform: translateY(-140px) scale(1.6); }
-        }
-        .heart-break {
-            position: fixed;
-            pointer-events: none;
-            color: var(--danger-red);
-            font-size: 24px;
-            animation: heartBreak 1.2s ease-out forwards;
-            z-index: 999;
-        }
-        @keyframes heartBreak {
-            0% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
-            50% { opacity: 0.8; transform: translateY(-60px) rotate(15deg) scale(1.2); }
-            100% { opacity: 0; transform: translateY(-120px) rotate(30deg) scale(0.6); }
-        }
-        .loading {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid #fff;
-            border-radius: 50%;
-            border-top-color: transparent;
-            animation: rotate 0.8s linear infinite;
-        }
-        @keyframes rotate {
-            to { transform: rotate(360deg); }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>暮风藏情 - 收到告白</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft YaHei",system-ui,sans-serif}
+:root{--pink:#ff6b8b;--light:#ffc2d4;--dark:#d64c6e;--green:#52b788;--red:#ef5350;--gray:#444;--tlight:#a05872;--bg:rgba(255,255,255,0.72)}
+body{background:linear-gradient(160deg,#ffe8f0,#ffd8e5,#ffc2d4);background-attachment:fixed;min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:25px 20px 160px;position:relative;overflow:visible}
+.float-heart{position:fixed;color:#ff87a2;font-size:20px;pointer-events:none;z-index:1;animation:floatUp 6s linear infinite;opacity:.7}
+@keyframes floatUp{0%{transform:translateY(100vh)rotate(0);opacity:0}20%{opacity:.8}80%{opacity:.7}100%{transform:translateY(-20px)rotate(360deg);opacity:0}}
+.card{background:var(--bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:30px;border-radius:24px;border:2px solid rgba(255,150,180,.4);box-shadow:0 8px 30px rgba(255,120,150,.25);width:100%;max-width:430px;position:relative;z-index:10;animation:fadeIn 1s ease-out forwards}
+@keyframes fadeIn{from{opacity:0;transform:translateY(30px)scale(.96)}to{opacity:1;transform:translateY(0)scale(1)}}
+.icon{text-align:center;font-size:36px;color:var(--pink);margin-bottom:10px;animation:beat 1.5s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.title{background:linear-gradient(120deg,var(--dark),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent;text-align:center;font-size:26px;letter-spacing:4px;margin-bottom:12px;font-weight:600}
+.mbox{background:#fffdfb;border-radius:18px;padding:22px;margin-bottom:20px;border:1px solid rgba(255,180,200,.5);min-height:120px;max-height:300px;overflow-y:auto;line-height:1.8;white-space:pre-line;box-shadow:0 4px 16px rgba(255,180,200,.18);background-image:linear-gradient(#ffd6e0 1px,transparent 1px);background-size:100% 30px;background-position:0 bottom;padding-bottom:40px}
+.mbox::-webkit-scrollbar{width:4px}
+.mbox::-webkit-scrollbar-thumb{background:#ff6b8b;border-radius:2px}
+.db{display:flex;gap:12px;margin-bottom:20px;position:relative;min-height:60px;align-items:center;transition:all .3s}
+.dbtn{padding:14px;border:none;border-radius:16px;font-size:15px;font-weight:500;cursor:pointer;transition:all .3s;letter-spacing:1px;position:relative;overflow:hidden;flex:1}
+.dbtn:active{transform:scale(.96)}
+.dbtn::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transition:left .6s}
+.dbtn:hover::after{left:100%}
+.btn-agree{background:linear-gradient(135deg,var(--pink),#ff8da8);color:#fff;box-shadow:0 4px 12px rgba(255,107,139,.3);position:relative;z-index:20}
+.btn-agree.cm{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:45%;max-width:160px;z-index:20}
+.btn-refuse{background:#f0f0f0;color:#888;border:1px solid #ddd!important;box-shadow:0 4px 12px rgba(0,0,0,.05);position:relative;z-index:50}
+.btn-refuse:hover{background:#e8e8e8}
+.rw{margin-bottom:20px}
+.qs{width:100%;padding:12px 14px;border:1px solid rgba(255,180,200,.6);border-radius:14px;font-size:14px;color:var(--gray);background:#fffdfb;outline:none;margin-bottom:12px}
+.ri{width:100%;min-height:120px;max-height:200px;padding:16px 18px;border:1px solid rgba(255,180,200,.6);border-radius:16px;font-size:15px;background:#fffdfb;outline:none;resize:none;transition:all .3s;line-height:30px;background-image:linear-gradient(#ffd6e0 1px,transparent 1px);background-size:100% 30px;background-position:0 bottom;padding-bottom:40px}
+.ri::-webkit-scrollbar{width:4px}
+.ri::-webkit-scrollbar-thumb{background:#ff6b8b;border-radius:2px}
+.ri:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(255,107,139,.25)}
+.wi{text-align:right;font-size:12px;color:#888;margin-top:8px}
+.wi.warn{color:var(--red)}
+.sr{width:100%;padding:16px;border:none;border-radius:16px;font-size:16px;font-weight:500;cursor:pointer;letter-spacing:1px;background:linear-gradient(135deg,var(--pink),#ff8da8);color:#fff;box-shadow:0 4px 12px rgba(255,107,139,.3);transition:all .3s;position:relative;overflow:hidden}
+.sr:active{transform:scale(.96)}
+.sr:disabled{opacity:.7;cursor:not-allowed}
+.sr::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transition:left .6s}
+.sr:hover::after{left:100%}
+.cc{margin-top:20px}
+.cm{border:1px solid rgba(255,180,200,.5);border-radius:16px;padding:16px;height:220px;overflow-y:auto;background:#fffdfb;margin-bottom:12px;box-shadow:0 4px 16px rgba(255,180,200,.15)}
+.cm .msg{margin-bottom:10px;padding:8px 14px;border-radius:14px;max-width:80%;clear:both;line-height:1.5;font-size:14px}
+.msg.s{background:linear-gradient(135deg,#ff6b8b,#ff8da8);color:#fff;float:right}
+.msg.r{background:#f0f0f0;float:left;color:#444}
+.msg.sys{background:#fff3e0;color:#e65100;float:none;text-align:center;max-width:100%;font-size:13px;margin:12px 0}
+.ci{display:flex;gap:10px;margin-top:10px}
+.ci input{flex:1;padding:12px 16px;border:1px solid rgba(255,180,200,.5);border-radius:14px;outline:none;font-size:14px;background:#fffdfb;transition:all .3s}
+.ci input:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(255,107,139,.25)}
+.bs{background:linear-gradient(135deg,var(--pink),#ff8da8);color:#fff;border:none;border-radius:14px;padding:12px 24px;cursor:pointer;font-size:15px;font-weight:500;transition:all .3s;position:relative;overflow:hidden}
+.bs:active{transform:scale(.96)}
+.bs::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transition:left .6s}
+.bs:hover::after{left:100%}
+.heart{position:fixed;pointer-events:none;color:var(--pink);font-size:24px;animation:hf 1.4s ease-out forwards;z-index:999}
+@keyframes hf{0%{opacity:1;transform:translateY(0)scale(1)}100%{opacity:0;transform:translateY(-140px)scale(1.6)}}
+.hb{position:fixed;pointer-events:none;color:var(--red);font-size:24px;animation:hbr 1.2s ease-out forwards;z-index:999}
+@keyframes hbr{0%{opacity:1;transform:translateY(0)rotate(0)scale(1)}50%{opacity:.8;transform:translateY(-60px)rotate(15deg)scale(1.2)}100%{opacity:0;transform:translateY(-120px)rotate(30deg)scale(.6)}}
+.loading{display:inline-block;width:16px;height:16px;border:2px solid #fff;border-radius:50%;border-top-color:transparent;animation:rot .8s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+</style>
 </head>
 <body>
-    <div class="petal" style="left:12%;animation-delay:0s;"></div>
-    <div class="petal" style="left:60%;animation-delay:5s;"></div>
-    <div class="light-dot" style="top:25%;left:18%;"></div>
-    <div class="light-dot" style="top:60%;right:12%;animation-delay:1.5s;"></div>
+<div class="card">
+<div id="loadingView" style="text-align:center;color:#a05872;padding:30px 0;">
+<div class="icon">💌</div>
+<h2 class="title">加载中...</h2>
+<p style="margin-top:12px;color:var(--tlight);">正在读取你的信件...</p>
+</div>
 
-    <div class="receive-card">
-        <div id="loadingView" style="text-align:center; color: #a05872; padding: 30px 0;">
-            <div class="envelope-icon">💌</div>
-            <h2 class="title">加载中...</h2>
-            <p style="margin-top:12px; color:var(--text-light);">正在读取你的信件...</p>
-        </div>
+<div id="contentView" style="display:none;">
+<div class="icon">💌</div>
+<h2 class="title">有人向你告白</h2>
+<div class="mbox" id="confessionText"></div>
+<div id="decisionArea">
+<div class="db" id="btnGroup">
+<button class="dbtn btn-agree" id="agreeBtn">💍 接受告白</button>
+<button class="dbtn btn-refuse" id="refuseBtn">❌ 婉拒</button>
+</div>
+<div class="rw" id="replyBox" style="display:none;">
+<select id="quoteSelect" class="qs">
+<option value="">—— 选择一句回信语 ——</option>
+<optgroup label="💕 同意心情（10款）">
+<option value="1">双向心动，恰逢其时</option>
+<option value="2">蓦然心动</option>
+<option value="3">山野浪漫</option>
+</optgroup>
+<optgroup label="💔 拒绝 & 认错人（10款）">
+<option value="11">认错人了</option>
+<option value="12">心有所属</option>
+<option value="13">适合朋友</option>
+</optgroup>
+</select>
+<textarea class="ri" id="replyContent" placeholder="在此书写回信..." maxlength="480"></textarea>
+<div class="wi" id="wordInfo">0 / 480 (0%)</div>
+<button class="sr" id="sendReplyBtn">💌 寄出回信</button>
+</div>
+</div>
+<div class="cc" id="chatContainer" style="display:none;">
+<div class="cm" id="chatMessages"></div>
+<div class="ci">
+<input type="text" id="chatInput" placeholder="说点什么吧..." maxlength="500">
+<button class="bs" id="sendBtn">发送</button>
+</div>
+</div>
+</div>
+</div>
 
-        <div id="contentView" style="display:none;">
-            <div class="envelope-icon">💌</div>
-            <h2 class="title">有人向你表白</h2>
-            <div class="msg-box" id="confessionText"></div>
+<script>
+var agreeReplies={
+"1":"收到你的告白，心里满是惊喜与感动，其实我也早已对你心生好感。原来最好的缘分，就是我喜欢你的时候，恰好你也喜欢我。往后的日子，我们就正式在一起吧。不用轰轰烈烈，只求细水长流，彼此包容，互相理解，把每一个平凡的日子都过得甜甜蜜蜜。",
+"2":"你从来不是我权衡利弊之后做出的选择，而是初见时蓦然心动，深思熟虑后依旧想要珍惜的人。这份心意我坦然收下，往后的路希望能与你并肩同行。只要身边是你，风雨也好，晴天也罢，我都满心欢喜。",
+"3":"山野万里，星河漫漫，世间风景千千万万，而你是我藏在心底最温柔的浪漫。很开心能够收到你的告白，也恰好我对你有着同样的心意。往后的日子，愿我们彼此陪伴，彼此包容，一起奔赴更远的远方。"
+};
+var refuseReplies={
+"11":"仔细看过你的留言，才发现原来是一场误会，很抱歉，你并不是我想要倾诉心里的那个人。这份真挚的情感十分珍贵，还请你好好留给真正对的人。也祝你早日遇见心意相通的人，拥有圆满美好的缘分。",
+"12":"你是一个很优秀、很温柔的人，值得被好好偏爱与珍惜。只是很遗憾，我的心里早已住进了别人，实在无法回应你的心意。希望你调整好心情继续向前，一定会遇见那个满心都是你的人。",
+"13":"感谢你坦诚说出内心的想法，只是斟酌许久，我觉得我们更适合以朋友的身份相处。进一步会显得尴尬，退一步又舍不得这份情谊，维持现状便是最好的选择。愿我们都能守住这份美好，各自安好。"
+};
 
-            <div id="decisionArea">
-                <div class="decision-btns" id="btnGroup">
-                    <button class="btn btn-agree" id="agreeBtn">❤️ 接受表白</button>
-                    <button class="btn btn-refuse" id="refuseBtn">💔 婉拒</button>
-                </div>
+function createHeart(e){
+for(var i=0;i<6;i++){
+var h=document.createElement('div');h.className='heart';h.innerText='💖';
+h.style.left=e.clientX+'px';h.style.top=e.clientY+'px';
+document.body.appendChild(h);setTimeout(function(){h.remove()},1400)}
+}
+function createBreakHeart(e){
+var h=document.createElement('div');h.className='hb';h.innerText='💔';
+h.style.left=e.clientX+'px';h.style.top=e.clientY+'px';
+document.body.appendChild(h);setTimeout(function(){h.remove()},1200)}
+function getSafeTranslate(){
+var ox=(Math.random()-.5)*160,oy=(Math.random()-.5)*100;
+return 'translate('+ox+'px,'+oy+'px)'
+}
 
-                <div class="reply-wrap" id="replyBox" style="display:none;">
-                    <select id="quoteSelect" class="quote-select">
-                        <option value="">—— 选择一句回信语录 ——</option>
-                        <optgroup label="✅ 同意心情（10款）">
-                            <option value="落日沉溺于橘色的海，晚风沦陷于赤诚的爱。当我看到这份心意时，内心满是欢喜与悸动，原来双向奔赴的感觉如此美好。漫长岁月里，能遇见彼此是难得的缘分，往后我愿意和你一起感受四季流转，分享生活里所有细碎的美好，把每一段平凡时光都过得温柔又浪漫。">1. 落日晚风</option>
-                            <option value="你从不是我权衡利弊之后做出的选择，而是初见时怦然心动，深思熟虑后依旧想要珍惜的人。这份心意我坦然收下，往后的路希望能与你并肩同行。不用纠结前路如何，只要身边是你，风雨也好，晴天也罢，我都满心欢喜，认真对待这份来之不易的情愫。">2. 怦然心动</option>
-                            <option value="山野万里，星河漫漫，世间风景千千万，而你是我藏在心底最温柔的浪漫。很开心能够收到你的告白，也恰好我对你有着同样的心意。往后的日子，愿我们彼此陪伴，彼此包容，一起奔赴更远的远方，让温柔与偏爱，一直停留在彼此身旁。">3. 山野浪漫</option>
-                            <option value="往后朝夕，三餐四季，细水长流的日常是你，柴米油盐的烟火也是你。我愿意接受这份真挚的喜欢，从此生活多了一份期待与甜蜜。不必轰轰烈烈，只愿岁岁年年相守相伴，把简单的日子过得温馨踏实，让爱意在朝夕相处中慢慢沉淀、愈发浓厚。">4. 余生是你</option>
-                            <option value="从前总觉得人生旅途平淡无奇，直到遇见你才明白，原来快乐可以如此简单。你的出现照亮了我的生活，也让平凡的日子充满甜度。我很开心回应你的心意，希望我们能珍惜这份相遇，在往后时光里互相温暖，把所有美好与温柔，尽数赠予对方。">5. 甜的很长</option>
-                            <option value="心脏天生偏向左侧，就像我对你的偏爱从来都自然而然，毫无缘由。收到你的告白，我心里满是欣喜，决定坦然接受这份喜欢。往后我会明目张胆地偏向你，认真守护这份感情，一起走过朝朝暮暮，让爱意贯穿生活的每一个角落。">6. 对你偏心</option>
-                            <option value="遇见你的每一天都格外温柔，哪怕只是迎面吹来的微风，都像是将一整个明媚的春天拥入怀中。我十分珍惜这份心意，也愿意和你携手同行。愿我们带着这份热忱与欢喜，慢慢相处、慢慢了解，在岁月里相守，让美好一直延续下去。">7. 拥入春天</option>
-                            <option value="平日里总有忙不完的琐事，可只要想到你，就忍不住停下脚步想多聊几句。你的心意我完全收下，能够被你喜欢是一件很幸福的事。往后闲暇之时我们可以畅谈心事，分享喜怒哀乐，让彼此成为生活里最贴心的陪伴，温暖漫长岁月。">8. 只想聊你</option>
-                            <option value="爱意不必时时挂在嘴边，却会藏在日常的一点一滴里，思念也会伴随朝暮岁岁不息。如今我回应你的心意，满心满眼皆是对你的期许与温柔。愿我们带着真诚与真心相处，彼此理解、彼此体谅，让这份感情安稳长久，不负相遇，不负真心。">9. 满心是你</option>
-                            <option value="被人认真喜欢的感觉格外温暖，仿佛世间所有的温柔与善意，都纷纷落在了自己身上。我欣然接受你的告白，感恩这场美好的相遇。未来的路，希望我们携手相伴，用心对待彼此，在平淡生活里制造惊喜，在漫长时光里守护这份纯粹的爱意。">10. 温柔落我</option>
-                        </optgroup>
-                        <optgroup label="❌ 拒绝 & 认错人（10款）">
-                            <option value="仔细看过你的留言，才发现原来是一场误会，很抱歉，你并不是我想要倾诉心里的那个人。这份真挚的情感十分珍贵，还请你好好留给真正对的人。也祝你早日遇见心意相通的人，拥有一段圆满美好的缘分，不被遗憾打扰，岁岁平安顺遂。">11. 认错人了</option>
-                            <option value="你是一个很优秀、很温柔的人，值得被好好偏爱与珍惜。只是很遗憾，我的心里早已住进了别人，实在无法回应你的心意。希望你不要因为这次的结果感到失落，收拾好心情继续向前，一定会在前路遇见那个满心都是你的人。">12. 心有所属</option>
-                            <option value="感谢你坦诚说出内心的想法，只是斟酌许久，我觉得我们更适合以朋友的身份相处。进一步会显得尴尬，退一步又舍不得这份情谊，维持现状便是最好的选择。愿我们都能守住这份简单的美好，各自安好，在不同的轨迹里遇见属于自己的幸福。">13. 适合朋友</option>
-                            <option value="十分感谢你愿意把心底的喜欢讲给我听，这份勇气与真诚让我很感动。但目前我暂时没有开启一段恋情的想法，不想耽误你的时间与真心。希望你能够理解，也愿你保持热忱，奔赴属于自己的美好，早日收获双向的喜欢。">14. 不想恋爱</option>
-                            <option value="认真看完你的告白，思量再三，还是决定坦诚相待。很抱歉，我对你始终没有心动的感觉，不愿勉强自己，也不想欺骗你的真心。你很好，只是我们并不合适，希望你早日放下，继续向前，遇见那个能让你满心欢喜的人。">15. 没有心动</option>
-                            <option value="很遗憾没能回应你的心意，这并不是因为你不够优秀，只是人与人之间讲究缘分与契合，我们恰好不是彼此合适的那个人。感谢你的青睐与坦诚，愿你不必纠结过往，带着善意继续前行，在往后的日子里遇见灵魂契合的相伴之人。">16. 刚好不合适</option>
-                            <option value="感谢你鼓起勇气表达心意，我也认真思考了很久。我或许在旁人眼中还算不错，但并不是你心中所期待的模样。实在抱歉无法接受这份喜欢，希望你能遇见真正契合、能与你同频同行的人，拥有满心欢喜的生活。">17. 不是那种好</option>
-                            <option value="你真诚又热烈，值得世间最好的偏爱与陪伴，而我没办法给你同等的回应，所以不愿耽误你前行。真心祝愿你放下这份执念，去遇见那个愿意为你奔赴、也能接住你所有温柔的人，愿你的每份喜欢，都能得到圆满回应。">18. 值得更好</option>
-                            <option value="谢谢你不顾一切奔赴而来的喜欢，可我终究不是那个值得你奋力向前的人。不想让你继续在我身上耗费心思与情绪，所以坦然说出想法。愿你及时转身，去往属于自己的远方，遇见那个愿意和你双向奔赴、相守一生的人。">19. 不值得狂奔</option>
-                            <option value="承蒙你的厚爱与真心，我心怀感激。只是此刻我的内心暂时不想接纳新的感情，心门暂且关闭。还望你能够谅解，不必为此停留。山水一程，有幸相遇，愿我们往后各自安好，前路光明，都能得偿所愿，拥抱属于自己的幸福。">20. 心已打烊</option>
-                        </optgroup>
-                    </select>
-                    <textarea class="reply-input" id="replyContent" placeholder="在此书写回信..." maxlength="480"></textarea>
-                    <div class="word-info" id="wordInfo">0 / 480 (0%)</div>
-                    <button class="btn-send-reply" id="sendReplyBtn">💌 寄出回信</button>
-                </div>
-            </div>
+var params=new URLSearchParams(window.location.search);
+var token=params.get('token');
 
-            <div class="chat-container" id="chatContainer" style="display:none;">
-                <div class="chat-messages" id="chatMessages"></div>
-                <div class="chat-input-row">
-                    <input type="text" id="chatInput" placeholder="说点什么吧..." maxlength="500">
-                    <button class="btn-send" id="sendBtn">发送</button>
-                </div>
-            </div>
-        </div>
-    </div>
+if(!token){
+token=localStorage.getItem('love_receiver_token');
+if(!token){
+document.getElementById('loadingView').innerHTML='<h3 style="color:var(--red);">❌ 无效链接</h3><p style="margin-top:12px;color:var(--tlight);">链接缺少参数，请检查地址是否正确。</p>';
+throw new Error('无效链接')}
+}
+localStorage.setItem('love_receiver_token',token);
 
-    <script>
-        function createFloatHeart() {
-            var heart = document.createElement("div");
-            heart.className = "float-heart";
-            heart.innerText = "❤";
-            heart.style.left = Math.random() * 100 + "%";
-            heart.style.animationDuration = (4 + Math.random() * 4) + "s";
-            document.body.appendChild(heart);
-            setTimeout(function() { heart.remove(); }, 8000);
-        }
-        setInterval(createFloatHeart, 800);
+var MAX=480,lmc=0,pt=null,chosen=false,rcn=0,nc=4,as=1,rs=1,AS=0.35,RS=0.18;
+var ab=document.getElementById('agreeBtn'),rb=document.getElementById('refuseBtn');
+var rbx=document.getElementById('replyBox'),rc=document.getElementById('replyContent');
+var srb=document.getElementById('sendReplyBtn'),qs=document.getElementById('quoteSelect');
+var wi=document.getElementById('wordInfo'),cc=document.getElementById('chatContainer');
+var cm=document.getElementById('chatMessages'),ci=document.getElementById('chatInput');
+var sb=document.getElementById('sendBtn'),bg=document.getElementById('btnGroup');
+var da=document.getElementById('decisionArea'),ct=document.getElementById('confessionText');
 
-        var urlParams = new URLSearchParams(window.location.search);
-        var token = urlParams.get('token');
+function uwc(){
+var l=rc.value.length,p=Math.min(Math.round(l/MAX*100),100);
+wi.innerText=l+' / '+MAX+' ('+p+'%)';
+wi.className='wi'+(l>=430?' warn':'')
+}
 
-        if (!token) {
-            document.getElementById('loadingView').innerHTML = '<h3 style="color:var(--danger-red);">❌ 无效链接</h3><p style="margin-top:12px;color:var(--text-light);">链接缺少参数，请检查地址是否正确。</p>';
-            throw new Error('无效链接');
-        }
+// 立即获取消息（不等待第一个轮询周期）
+async function fetchMessages(){
+var res=await fetch('/api/get-session?token='+token);
+var data=await res.json();
+if(!res.ok)throw new Error(data.error||'获取会话失败');
+if(data.messages&&data.messages.length>lmc){renderMsgs(data.messages);lmc=data.messages.length}
+return data
+}
 
-        var MAX_WORD = 480;
-        var lastMessageCount = 0;
-        var pollingTimer = null;
-        var chosen = false;
-        var refuseClickNum = 0;
-        var needClick = 4;
-        var agreeScale = 1;
-        var refuseScale = 1;
-        var AGREE_SCALE_STEP = 0.35;
-        var REFUSE_SCALE_STEP = 0.18;
+function startPolling(){
+if(pt)return;
+pt=setInterval(async function(){
+try{await fetchMessages()}catch(e){console.error('轮询失败',e)}
+},2000)
+}
 
-        var agreeBtn = document.getElementById('agreeBtn');
-        var refuseBtn = document.getElementById('refuseBtn');
-        var replyBox = document.getElementById('replyBox');
-        var replyContent = document.getElementById('replyContent');
-        var sendReplyBtn = document.getElementById('sendReplyBtn');
-        var quoteSelect = document.getElementById('quoteSelect');
-        var wordInfo = document.getElementById('wordInfo');
-        var chatContainer = document.getElementById('chatContainer');
-        var chatMessages = document.getElementById('chatMessages');
-        var chatInput = document.getElementById('chatInput');
-        var sendBtn = document.getElementById('sendBtn');
-        var btnGroup = document.getElementById('btnGroup');
-        var decisionArea = document.getElementById('decisionArea');
-        var confessionText = document.getElementById('confessionText');
+function renderMsgs(msgs){
+cm.innerHTML='';
+for(var i=0;i<msgs.length;i++){
+var m=msgs[i];
+var div=document.createElement('div');
+// 系统消息：包含接受/婉拒/告白等关键词
+if((m.content&&m.content.indexOf('接受')!==-1&&m.content.indexOf('告白')!==-1)||(m.content&&m.content.indexOf('婉拒')!==-1)){
+div.className='msg sys'
+}else{
+// 接收方视角：自己的消息（receiver）在右侧，对方消息（sender）在左侧
+div.className='msg '+(m.role==='receiver'?'s':'r')
+}
+div.innerText=m.content;
+cm.appendChild(div)}
+cm.scrollTop=cm.scrollHeight
+}
 
-        quoteSelect.addEventListener('change', function() {
-            var val = this.value;
-            if (val) {
-                replyContent.value = val;
-                updateWordCount();
-            }
-        });
+function saveState(decision,txt){
+localStorage.setItem('love_recv_decided_'+token,JSON.stringify({decision:decision,text:txt}))
+}
 
-        function updateWordCount() {
-            var len = replyContent.value.length;
-            var percent = Math.min(Math.round(len / MAX_WORD * 100), 100);
-            wordInfo.innerText = len + ' / ' + MAX_WORD + ' (' + percent + '%)';
-            if (len >= 430) {
-                wordInfo.className = 'word-info warn';
-            } else {
-                wordInfo.className = 'word-info';
-            }
-        }
-        replyContent.addEventListener('input', updateWordCount);
+function loadState(){
+try{var s=localStorage.getItem('love_recv_decided_'+token);return s?JSON.parse(s):null}catch(e){return null}
+}
 
-        function createHeart(e) {
-            var x, y;
-            if (e && e.clientX !== undefined) {
-                x = e.clientX;
-                y = e.clientY;
-            } else {
-                x = window.innerWidth / 2;
-                y = window.innerHeight / 2;
-            }
-            for (var i = 0; i < 6; i++) {
-                var heart = document.createElement('div');
-                heart.className = 'heart';
-                heart.innerText = '❤';
-                heart.style.left = x + 'px';
-                heart.style.top = y + 'px';
-                document.body.appendChild(heart);
-                setTimeout(function(h) { h.remove(); }, 1400);
-            }
-        }
+async function init(){
+try{
+// 第一步：先读取会话数据（base + 已有消息），不标记 joined（避免 check-join 超时导致白屏）
+var sessionData=await fetchMessages();
+if(!sessionData||!sessionData.base)throw new Error('会话不存在或已过期');
+ct.innerText=sessionData.base;
+document.getElementById('loadingView').style.display='none';
+document.getElementById('contentView').style.display='block';
 
-        function createBreakHeart(e) {
-            var x, y;
-            if (e && e.clientX !== undefined) {
-                x = e.clientX;
-                y = e.clientY;
-            } else {
-                x = window.innerWidth / 2;
-                y = window.innerHeight / 2;
-            }
-            var heart = document.createElement('div');
-            heart.className = 'heart-break';
-            heart.innerText = '💔';
-            heart.style.left = x + 'px';
-            heart.style.top = y + 'px';
-            document.body.appendChild(heart);
-            setTimeout(function() { heart.remove(); }, 1200);
-        }
+var agreeMsg=sessionData.agree||'我愿意！以后请多指教';
+var refuseMsg=sessionData.refuse||'谢谢你喜欢我，但对不起..';
 
-        function getSafeTranslate() {
-            var rangeX = 160;
-            var rangeY = 100;
-            var offsetX = (Math.random() - 0.5) * rangeX;
-            var offsetY = (Math.random() - 0.5) * rangeY;
-            return 'translate(' + offsetX + 'px, ' + offsetY + 'px)';
-        }
+// 检查之前是否已回复过
+var savedState=loadState();
+if(savedState&&savedState.decision){
+chosen=true;
+rc.value=savedState.text;uwc();
+rbx.style.display='block';
+rbx.dataset.choice=savedState.decision;
+bg.style.display='none';
+da.style.display='none';
+cc.style.display='block';
+return // 已回复过，不需要标记 joined
+}
 
-        function resetButtonStates() {
-            agreeBtn.classList.remove('center-mode');
-            agreeBtn.style.transform = '';
-            refuseBtn.style.transform = '';
-            agreeScale = 1;
-            refuseScale = 1;
-        }
+// 第二步：标记 joined（接收方打开了链接）—— 不阻塞 UI
+setTimeout(function(){
+fetch('/api/check-join',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:token})}).catch(function(e){console.error('check-join 失败',e)})
+},500);
 
-        async function init() {
-            try {
-                var res = await fetch('/api/check-join', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token: token })
-                });
-                var data = await res.json();
-                if (!res.ok) throw new Error(data.error || '会话无效');
+qs.addEventListener('change',function(){
+var v=this.value;
+if(v&&agreeReplies[v]){rc.value=agreeReplies[v];uwc()}
+else if(v&&refuseReplies[v]){rc.value=refuseReplies[v];uwc()}
+});
+rc.addEventListener('input',uwc);
 
-                confessionText.innerText = data.base || '对方没有留下文字，但心意已传达。';
-                document.getElementById('loadingView').style.display = 'none';
-                document.getElementById('contentView').style.display = 'block';
+ab.addEventListener('click',function(e){
+if(chosen)return;
+chosen=true;rcn=0;
+ab.style.transform='';rb.style.transform='';as=1;rs=1;ab.classList.remove('cm');
+createHeart(e);
+rc.value=agreeMsg;uwc();
+rbx.style.display='block';rbx.dataset.choice='agree';
+bg.style.display='none';
+});
 
-                var agreeMsg = data.agree || '我愿意！以后请多指教 💕';
-                var refuseMsg = data.refuse || '谢谢你喜欢我，但对不起...';
+rb.addEventListener('click',function(e){
+if(chosen)return;
+rcn++;rs-=RS;as+=AS;
+var sp=getSafeTranslate();
+rb.style.transform=sp+' scale('+rs+')';
+ab.classList.add('cm');
+ab.style.transform='translate(-50%,-50%) scale('+as+')';
+createBreakHeart(e);
+if(rcn>=nc){
+chosen=true;
+ab.style.transform='';rb.style.transform='';as=1;rs=1;ab.classList.remove('cm');
+rc.value=refuseMsg;uwc();
+rbx.style.display='block';rbx.dataset.choice='refuse';
+bg.style.display='none'}
+});
 
-                agreeBtn.addEventListener('click', function(e) {
-                    if (chosen) return;
-                    chosen = true;
-                    refuseClickNum = 0;
-                    resetButtonStates();
-                    createHeart(e);
-                    replyContent.value = agreeMsg;
-                    updateWordCount();
-                    replyBox.style.display = 'block';
-                    replyBox.dataset.choice = 'agree';
-                    btnGroup.style.display = 'none';
-                });
+srb.addEventListener('click',async function(e){
+if(srb.disabled)return;
+var choice=rbx.dataset.choice;
+var text=rc.value.trim();
+if(!text){alert('请输入回信内容');return}
+srb.disabled=true;srb.innerHTML='<span class="loading"></span> 寄出中...';
+createHeart(e);
+try{
+var tag=choice==='agree'?'💍 对方接受了你的告白！\n':'对方婉拒了你的告白。\n';
+var systemMsg=tag+text;
+await fetch('/api/send-message',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:token,role:'receiver',content:systemMsg})});
+saveState(choice,text);
+da.style.display='none';
+cc.style.display='block';
+lmc=0;await fetchMessages()
+}catch(err){alert('发送失败，请重试');srb.disabled=false;srb.innerHTML='💌 寄出回信'}
+});
 
-                refuseBtn.addEventListener('click', function(e) {
-                    if (chosen) return;
-                    refuseClickNum++;
-                    refuseScale -= REFUSE_SCALE_STEP;
-                    agreeScale += AGREE_SCALE_STEP;
+startPolling()
+}catch(e){
+document.getElementById('loadingView').innerHTML='<h3 style="color:var(--red);">❌ '+e.message+'</h3>'}
+}
 
-                    var safePos = getSafeTranslate();
-                    refuseBtn.style.transform = safePos + ' scale(' + refuseScale + ')';
+sb.addEventListener('click',async function(){if(sb.disabled)return;sb.disabled=true;await sendChat();sb.disabled=false});
+ci.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat()}});
 
-                    agreeBtn.classList.add('center-mode');
-                    agreeBtn.style.transform = 'translate(-50%, -50%) scale(' + agreeScale + ')';
+async function sendChat(){
+var content=ci.value.trim();
+if(!content)return;
+try{
+await fetch('/api/send-message',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:token,role:'receiver',content:content})});
+ci.value='';lmc=0
+}catch(e){console.error('发送失败',e)}
+}
 
-                    createBreakHeart(e);
+window.addEventListener('beforeunload',function(){if(pt){clearInterval(pt);pt=null}});
 
-                    if (refuseClickNum >= needClick) {
-                        chosen = true;
-                        resetButtonStates();
-                        replyContent.value = refuseMsg;
-                        updateWordCount();
-                        replyBox.style.display = 'block';
-                        replyBox.dataset.choice = 'refuse';
-                        btnGroup.style.display = 'none';
-                    }
-                });
+function fh(){var h=document.createElement('div');h.className='float-heart';h.innerText='❤';h.style.left=Math.random()*100+'%';h.style.animationDuration=(4+Math.random()*4)+'s';document.body.appendChild(h);setTimeout(function(){h.remove()},8000)}
+setInterval(fh,800);
 
-                sendReplyBtn.addEventListener('click', async function(e) {
-                    if (sendReplyBtn.disabled) return;
-                    var choice = replyBox.dataset.choice;
-                    var text = replyContent.value.trim();
-                    if (!text) {
-                        alert('请输入回信内容');
-                        return;
-                    }
-                    sendReplyBtn.disabled = true;
-                    sendReplyBtn.innerHTML = '<span class="loading"></span> 寄出中...';
-                    
-                    if (e && e.clientX) {
-                        createHeart(e);
-                    } else {
-                        var rect = sendReplyBtn.getBoundingClientRect();
-                        var fakeEvent = { clientX: rect.left + rect.width/2, clientY: rect.top + rect.height/2 };
-                        createHeart(fakeEvent);
-                    }
-
-                    try {
-                        var tag = choice === 'agree' ? '❤️ 对方接受了你的告白！' : '💔 对方婉拒了你的告白。';
-                        var systemMsg = tag + '\n' + text;
-                        await fetch('/api/send-message', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ token: token, role: 'receiver', content: systemMsg })
-                        });
-                        decisionArea.style.display = 'none';
-                        chatContainer.style.display = 'block';
-                        lastMessageCount = 0;
-                        startPolling();
-                    } catch (error) {
-                        alert('发送失败，请重试');
-                        sendReplyBtn.disabled = false;
-                        sendReplyBtn.innerHTML = '💌 寄出回信';
-                    }
-                });
-
-                startPolling();
-            } catch (e) {
-                document.getElementById('loadingView').innerHTML = '<h3 style="color:var(--danger-red);">❌ ' + e.message + '</h3>';
-            }
-        }
-
-        function startPolling() {
-            if (pollingTimer) return;
-            pollingTimer = setInterval(async function() {
-                try {
-                    var res = await fetch('/api/get-session?token=' + token);
-                    var data = await res.json();
-                    if (data.messages && data.messages.length > lastMessageCount) {
-                        renderMessages(data.messages);
-                        lastMessageCount = data.messages.length;
-                    }
-                } catch (e) {
-                    console.error('轮询失败');
-                }
-            }, 3000);
-        }
-
-        function renderMessages(messages) {
-            chatMessages.innerHTML = '';
-            for (var i = 0; i < messages.length; i++) {
-                var msg = messages[i];
-                var div = document.createElement('div');
-                if (msg.content && (msg.content.indexOf('❤️') !== -1 || msg.content.indexOf('💔') !== -1)) {
-                    div.className = 'msg system';
-                } else {
-                    div.className = 'msg ' + (msg.role === 'sender' ? 'sender' : 'receiver');
-                }
-                div.innerText = msg.content;
-                chatMessages.appendChild(div);
-            }
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        sendBtn.addEventListener('click', async function() { if (sendBtn.disabled) return; sendBtn.disabled = true; await sendChatMessage(); sendBtn.disabled = false; });
-        chatInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendChatMessage();
-            }
-        });
-
-        async function sendChatMessage() {
-            var content = chatInput.value.trim();
-            if (!content) return;
-            try {
-                await fetch('/api/send-message', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token: token, role: 'receiver', content: content })
-                });
-                chatInput.value = '';
-                lastMessageCount = 0;
-            } catch (e) {
-                alert('发送失败');
-            }
-        }
-
-        window.addEventListener('beforeunload', function() {
-            if (pollingTimer) { clearInterval(pollingTimer); pollingTimer = null; }
-        });
-
-        init();
-    </script>
+init();
+</script>
 </body>
 </html>
